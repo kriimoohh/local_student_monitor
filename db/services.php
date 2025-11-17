@@ -66,6 +66,16 @@ $functions = [
         'type' => 'read',
         'ajax' => true,
         'capabilities' => 'local/student_monitor:managesettings'
+    ],
+
+    'local_student_monitor_search_users' => [
+        'classname' => 'local_student_monitor\external\search_users',
+        'methodname' => 'execute',
+        'classpath' => '',
+        'description' => 'Search for users to add as alert recipients',
+        'type' => 'read',
+        'ajax' => true,
+        'capabilities' => 'local/student_monitor:sendmanual'
     ]
 ];
 

@@ -76,25 +76,47 @@ class manual_alert_form extends \moodleform {
         // Recipient type.
         $mform->addElement('select', 'recipients', get_string('recipients', 'local_student_monitor'), [
             'all_students' => get_string('allstudents', 'local_student_monitor'),
+            'category' => get_string('recipients_category', 'local_student_monitor'),
             'all_course' => get_string('recipients_all_course', 'local_student_monitor'),
             'group' => get_string('recipients_group', 'local_student_monitor'),
             'manual' => get_string('recipients_manual', 'local_student_monitor'),
         ]);
         $mform->addRule('recipients', null, 'required');
 
+        // Category selection (for category recipients).
+        $categories = $this->get_categories();
+        $mform->addElement('select', 'categoryid', get_string('category'), $categories);
+        $mform->hideIf('categoryid', 'recipients', 'neq', 'category');
+
         // Course selection (for all_course and group recipients).
         $courses = $this->get_courses();
         $mform->addElement('select', 'courseid', get_string('course'), $courses);
         $mform->hideIf('courseid', 'recipients', 'eq', 'all_students');
         $mform->hideIf('courseid', 'recipients', 'eq', 'manual');
+        $mform->hideIf('courseid', 'recipients', 'eq', 'category');
 
         // Group selection.
         $mform->addElement('select', 'groupid', get_string('group'), []);
         $mform->hideIf('groupid', 'recipients', 'neq', 'group');
 
-        // Manual user selection (hidden field, populated by JavaScript).
-        $mform->addElement('hidden', 'selectedusers');
-        $mform->setType('selectedusers', PARAM_TEXT);
+        // Manual user selection with autocomplete.
+        $options = [
+            'multiple' => true,
+            'ajax' => 'local_student_monitor/search_users',
+            'valuehtmlcallback' => function($value) {
+                global $DB;
+                if (!$value) {
+                    return '';
+                }
+                $user = $DB->get_record('user', ['id' => $value], 'id, firstname, lastname, email');
+                if ($user) {
+                    return fullname($user) . ' (' . $user->email . ')';
+                }
+                return '';
+            }
+        ];
+        $mform->addElement('autocomplete', 'selectedusers', get_string('selectusersfield', 'local_student_monitor'), [], $options);
+        $mform->hideIf('selectedusers', 'recipients', 'neq', 'manual');
 
         // Channels section.
         $mform->addElement('header', 'channelshdr', get_string('channels', 'local_student_monitor'));
@@ -141,6 +163,10 @@ class manual_alert_form extends \moodleform {
         $errors = parent::validation($data, $files);
 
         // Validate recipients.
+        if ($data['recipients'] == 'category' && empty($data['categoryid'])) {
+            $errors['categoryid'] = get_string('required');
+        }
+
         if ($data['recipients'] == 'all_course' && empty($data['courseid'])) {
             $errors['courseid'] = get_string('required');
         }
@@ -189,5 +215,24 @@ class manual_alert_form extends \moodleform {
         }
 
         return $courses;
+    }
+
+    /**
+     * Get available course categories.
+     *
+     * @return array Array of categories
+     */
+    protected function get_categories() {
+        global $DB;
+
+        $categories = [0 => get_string('choosedots')];
+
+        // Get all visible categories.
+        $allcategories = $DB->get_records('course_categories', ['visible' => 1], 'name', 'id, name, path');
+        foreach ($allcategories as $category) {
+            $categories[$category->id] = $category->name;
+        }
+
+        return $categories;
     }
 }

@@ -37,7 +37,7 @@ class alert_manager {
      * Create a manual alert.
      *
      * @param \stdClass $data Alert data from form
-     * @return int Alert ID (notification ID)
+     * @return array Array with 'count', 'success', and 'failed' keys
      */
     public function create_manual_alert($data) {
         global $DB, $USER;
@@ -85,8 +85,12 @@ class alert_manager {
             $channels = ['email'];
         }
 
-        // Create notifications for each recipient.
+        // Create and immediately send notifications for each recipient.
+        $channelmanager = new channel_manager();
         $notificationids = [];
+        $successcount = 0;
+        $failcount = 0;
+
         foreach ($recipients as $recipient) {
             $metadata = [
                 'alerttype' => $data->alerttype,
@@ -106,6 +110,42 @@ class alert_manager {
 
             if ($notificationid) {
                 $notificationids[] = $notificationid;
+
+                // Send immediately for manual alerts.
+                $notification = $DB->get_record('local_sm_notifications', ['id' => $notificationid]);
+                if ($notification) {
+                    $results = $channelmanager->send_notification($notification, $recipient);
+
+                    // Check if at least one channel succeeded.
+                    $success = false;
+                    foreach ($results as $result) {
+                        if ($result) {
+                            $success = true;
+                            break;
+                        }
+                    }
+
+                    // Update notification status.
+                    if ($success) {
+                        $notificationmanager->update_notification_status($notificationid, 'sent');
+                        $successcount++;
+                    } else {
+                        $notificationmanager->update_notification_status($notificationid, 'failed');
+                        $failcount++;
+                    }
+
+                    // Trigger notification sent event.
+                    $event = \local_student_monitor\event\notification_sent::create([
+                        'objectid' => $notificationid,
+                        'context' => \context_system::instance(),
+                        'userid' => $recipient->id,
+                        'other' => [
+                            'type' => 'manual_alert',
+                            'success' => $success,
+                        ],
+                    ]);
+                    $event->trigger();
+                }
             }
         }
 
@@ -122,11 +162,17 @@ class alert_manager {
             'other' => [
                 'alerttype' => $data->alerttype,
                 'recipients' => count($recipients),
+                'success' => $successcount,
+                'failed' => $failcount,
             ],
         ]);
         $event->trigger();
 
-        return count($notificationids);
+        return [
+            'count' => count($notificationids),
+            'success' => $successcount,
+            'failed' => $failcount,
+        ];
     }
 
     /**
@@ -141,6 +187,40 @@ class alert_manager {
         $recipients = [];
 
         switch ($data->recipients) {
+            case 'category':
+                if (empty($data->categoryid)) {
+                    return [];
+                }
+                // Get all courses in the category and its subcategories.
+                $category = $DB->get_record('course_categories', ['id' => $data->categoryid]);
+                if (!$category) {
+                    return [];
+                }
+
+                // Get all courses in this category and subcategories.
+                $categorypath = $category->path . '/%';
+                $sql = "SELECT DISTINCT u.id, u.firstname, u.lastname, u.email
+                          FROM {user} u
+                          JOIN {user_enrolments} ue ON ue.userid = u.id
+                          JOIN {enrol} e ON e.id = ue.enrolid
+                          JOIN {course} c ON c.id = e.courseid
+                          JOIN {course_categories} cc ON cc.id = c.category
+                         WHERE (cc.id = :categoryid OR " . $DB->sql_like('cc.path', ':categorypath') . ")
+                           AND u.deleted = 0
+                           AND u.suspended = 0
+                           AND ue.status = 0
+                           AND e.status = 0
+                           AND c.id != :siteid";
+
+                $params = [
+                    'categoryid' => $data->categoryid,
+                    'categorypath' => $categorypath,
+                    'siteid' => SITEID
+                ];
+
+                $recipients = $DB->get_records_sql($sql, $params);
+                break;
+
             case 'all_course':
                 if (empty($data->courseid)) {
                     return [];
@@ -161,8 +241,13 @@ class alert_manager {
                 if (empty($data->selectedusers)) {
                     return [];
                 }
-                $userids = explode(',', $data->selectedusers);
+                // Handle both array (from autocomplete) and comma-separated string formats.
+                $userids = is_array($data->selectedusers) ? $data->selectedusers : explode(',', $data->selectedusers);
                 foreach ($userids as $userid) {
+                    $userid = trim($userid);
+                    if (empty($userid)) {
+                        continue;
+                    }
                     $user = $DB->get_record('user', ['id' => $userid], 'id, firstname, lastname, email');
                     if ($user) {
                         $recipients[] = $user;

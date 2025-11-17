@@ -45,14 +45,25 @@ if ($mform->is_cancelled()) {
 } else if ($data = $mform->get_data()) {
     // Create alert.
     $alertmanager = new \local_student_monitor\manager\alert_manager();
-    $count = $alertmanager->create_manual_alert($data);
+    $result = $alertmanager->create_manual_alert($data);
 
-    if ($count > 0) {
+    if ($result['count'] > 0) {
+        // Build success message with send statistics.
+        $message = get_string('alertcreated', 'local_student_monitor') . ' ';
+        if ($result['success'] > 0) {
+            $message .= get_string('alertssent', 'local_student_monitor', $result['success']);
+        }
+        if ($result['failed'] > 0) {
+            $message .= ' - ' . get_string('alertsfailed', 'local_student_monitor', $result['failed']);
+        }
+
+        $notifytype = ($result['failed'] > 0) ? \core\output\notification::NOTIFY_WARNING : \core\output\notification::NOTIFY_SUCCESS;
+
         redirect(
             new moodle_url('/local/student_monitor/dashboard.php'),
-            get_string('alertcreated', 'local_student_monitor') . ' (' . $count . ' ' . get_string('recipients', 'local_student_monitor') . ')',
+            $message,
             null,
-            \core\output\notification::NOTIFY_SUCCESS
+            $notifytype
         );
     } else {
         redirect(
