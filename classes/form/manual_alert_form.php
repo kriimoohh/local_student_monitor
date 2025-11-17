@@ -197,42 +197,106 @@ class manual_alert_form extends \moodleform {
     }
 
     /**
-     * Get available courses.
+     * Get available courses with category hierarchy.
      *
-     * @return array Array of courses
+     * @return array Array of courses with category path
      */
     protected function get_courses() {
         global $DB;
 
         $courses = [0 => get_string('choosedots')];
 
-        $allcourses = $DB->get_records('course', null, 'fullname', 'id, fullname');
+        // Get all courses with their category information.
+        $allcourses = $DB->get_records_sql(
+            "SELECT c.id, c.fullname, c.category, cc.name as categoryname, cc.path
+               FROM {course} c
+               LEFT JOIN {course_categories} cc ON cc.id = c.category
+              WHERE c.id != :siteid
+              ORDER BY cc.path, c.fullname",
+            ['siteid' => SITEID]
+        );
+
+        // Build category path cache.
+        $categorypaths = $this->build_category_paths();
+
         foreach ($allcourses as $course) {
-            if ($course->id == SITEID) {
-                continue;
+            $displayname = $course->fullname;
+
+            // Add category hierarchy if available.
+            if ($course->category && isset($categorypaths[$course->category])) {
+                $displayname = $categorypaths[$course->category] . ' > ' . $course->fullname;
             }
-            $courses[$course->id] = $course->fullname;
+
+            $courses[$course->id] = $displayname;
         }
 
         return $courses;
     }
 
     /**
-     * Get available course categories.
+     * Get available course categories with hierarchy.
      *
-     * @return array Array of categories
+     * @return array Array of categories with full path
      */
     protected function get_categories() {
-        global $DB;
-
         $categories = [0 => get_string('choosedots')];
 
-        // Get all visible categories.
-        $allcategories = $DB->get_records('course_categories', ['visible' => 1], 'name', 'id, name, path');
-        foreach ($allcategories as $category) {
-            $categories[$category->id] = $category->name;
+        // Build category paths.
+        $categorypaths = $this->build_category_paths();
+
+        // Sort by path to maintain hierarchy order.
+        asort($categorypaths);
+
+        foreach ($categorypaths as $id => $path) {
+            $categories[$id] = $path;
         }
 
         return $categories;
+    }
+
+    /**
+     * Build category paths for all visible categories.
+     *
+     * @return array Array of category ID => full path
+     */
+    protected function build_category_paths() {
+        global $DB;
+
+        $categorypaths = [];
+
+        // Get all visible categories.
+        $allcategories = $DB->get_records('course_categories', ['visible' => 1], 'path', 'id, name, path, parent, depth');
+
+        // Build a map of category names.
+        $categorynames = [];
+        foreach ($allcategories as $category) {
+            $categorynames[$category->id] = $category->name;
+        }
+
+        // Build full paths for each category.
+        foreach ($allcategories as $category) {
+            $pathparts = [];
+
+            if ($category->path) {
+                // Path format: /1/2/3 where numbers are category IDs.
+                $pathids = explode('/', trim($category->path, '/'));
+
+                foreach ($pathids as $pathid) {
+                    if ($pathid && isset($categorynames[$pathid])) {
+                        $pathparts[] = $categorynames[$pathid];
+                    }
+                }
+            }
+
+            if (empty($pathparts)) {
+                // Fallback to just the category name.
+                $pathparts[] = $category->name;
+            }
+
+            // Join with > to show hierarchy.
+            $categorypaths[$category->id] = implode(' > ', $pathparts);
+        }
+
+        return $categorypaths;
     }
 }
