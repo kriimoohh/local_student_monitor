@@ -1,6 +1,6 @@
 # Student Monitor - Plugin Moodle
 
-**Version:** 1.2.0
+**Version:** 1.3.0
 **Compatible Moodle:** 4.0+
 **PHP:** 8.0+
 **Licence:** GNU GPL v3
@@ -129,6 +129,63 @@ Le tableau de bord affiche :
 - **Ajouter des notes** : Documenter les interventions
 - **Voir l'historique** : Consulter toutes les notifications envoyées
 - **Exporter CSV** : Export des données pour analyse
+- **Actions en masse** : Effectuer des actions sur plusieurs étudiants simultanément
+
+#### Filtres avancés (v1.3.0)
+
+Le dashboard inclut maintenant des filtres avancés pour affiner la liste des étudiants :
+
+1. **Recherche** - Chercher par nom ou email
+2. **Niveau de risque** - Filtrer par FAIBLE, MOYEN, ÉLEVÉ, CRITIQUE
+3. **Jours d'inactivité** - Seuil minimum de jours
+4. **Devoirs manquants** - Nombre minimum de devoirs
+5. **Assignation** - Filtrer assignés/non assignés
+
+#### Rapports avancés (v1.3.0)
+
+Accédez à la page **Rapports avancés** pour visualiser :
+
+1. **Graphiques Chart.js** :
+   - Répartition des risques (donut chart)
+   - Tendances des notifications (line chart)
+   - Types de notifications (bar chart)
+   - Interventions par risque (horizontal bar)
+
+2. **KPI visuels** :
+   - Total étudiants
+   - Notifications (30 derniers jours)
+   - Étudiants à risque
+   - Taux de lecture
+
+3. **Export de données** :
+   - Export CSV étudiants
+   - Export CSV notifications
+
+#### Actions en masse (v1.3.0)
+
+La page **Actions en masse** permet de :
+
+1. **Assigner à un superviseur** - Affecter plusieurs étudiants à un superviseur
+2. **Retirer l'assignation** - Désassigner plusieurs étudiants
+3. **Ajouter une note** - Ajouter la même note à plusieurs étudiants
+4. **Envoyer une notification** - Notifier plusieurs étudiants simultanément
+
+Avec confirmation avant exécution et rapport de succès/échec.
+
+#### Éditeur de templates (v1.3.0)
+
+Personnalisez les templates de notification :
+
+1. Dashboard > **Éditeur de templates**
+2. Modifiez le sujet et le corps des messages
+3. Utilisez les placeholders pour personnalisation
+4. Réinitialisez aux valeurs par défaut si nécessaire
+
+Templates disponibles :
+- Inactivité niveau 1, 2, 3
+- Nouveau contenu
+- Rappel de devoir
+- Annonce institutionnelle
 
 ### Pour les enseignants
 
@@ -351,6 +408,24 @@ Pour toute question ou problème :
 ---
 
 ## 📝 Changelog
+
+### Version 1.3.0 (2025-11-17)
+
+**Phase 4 - Visualisation & Reporting avancé**
+
+- ✅ Intégration Chart.js pour graphiques interactifs
+- ✅ Filtres avancés dans la liste des étudiants
+- ✅ Actions en masse (bulk actions)
+- ✅ Page de rapports avancés avec 4 graphiques
+- ✅ Éditeur de templates de notification
+- ✅ 60+ nouvelles chaînes de langue (FR/EN)
+
+**Nouvelles fonctionnalités :**
+- **Graphiques Chart.js** : Répartition des risques, tendances des notifications, types de notifications, interventions par risque
+- **Filtres avancés** : Recherche par nom/email, filtres par risque, inactivité, devoirs, assignation
+- **Actions en masse** : Assigner/désassigner, ajouter notes, notifier plusieurs étudiants simultanément
+- **Rapports avancés** : Page dédiée avec KPI visuels et graphiques interactifs
+- **Éditeur de templates** : Personnaliser les messages avec réinitialisation aux valeurs par défaut
 
 ### Version 1.2.0 (2025-11-17)
 

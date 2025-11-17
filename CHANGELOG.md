@@ -147,6 +147,68 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.3.0] - 2025-11-17
+
+### Added
+- **Chart.js Integration (amd/src/charts.js)**
+  - Interactive data visualization module
+  - 4 chart types: Donut (risk distribution), Line (notification trends), Bar (notification types), Horizontal bar (interventions)
+  - Responsive and customizable charts
+  - CDN-based Chart.js loading (v4.4.0)
+  - Color-coded risk levels matching badge colors
+- **Advanced Reports Page (reports.php)**
+  - Dedicated reporting page with comprehensive analytics
+  - 4 interactive Chart.js visualizations
+  - KPI summary cards (total students, notifications, at-risk, read rate)
+  - Last 30 days notification trends
+  - Export buttons for students and notifications
+  - Professional layout with responsive grid
+- **Bulk Actions System (bulk_actions.php)**
+  - Multi-student action processing
+  - 4 bulk actions: Assign to supervisor, Unassign, Add note, Send notification
+  - Confirmation page before execution
+  - Dynamic form fields based on action selection
+  - Success/failure reporting
+  - Session key validation for security
+- **Template Editor (template_editor.php)**
+  - Visual interface for editing notification templates
+  - Edit subject and body for all template types
+  - Available placeholders display with template-specific context
+  - Reset to default functionality
+  - Language support (FR templates)
+  - Last modified tracking
+- **Advanced Filtering (amd/src/advanced_filters.js)**
+  - Real-time client-side filtering
+  - 5 filter types: Search (name/email), Risk level, Inactivity days, Missing assignments, Assignment status
+  - Clear filters button
+  - Visible student count display
+  - Bulk selection for visible students
+  - Combined filter logic (AND operation)
+
+### Technical Improvements
+- AMD JavaScript modules for charts and filters
+- Chart.js v4.4.0 integration via CDN
+- Dynamic form field visibility with JavaScript
+- Client-side filtering for instant results
+- Responsive chart containers with fixed heights
+- SQL queries optimized for trend data
+- Color consistency across charts and badges
+
+### Files Added (5)
+1. amd/src/charts.js - Chart.js integration module
+2. amd/src/advanced_filters.js - Advanced filtering module
+3. reports.php - Advanced reports page
+4. bulk_actions.php - Bulk actions page
+5. template_editor.php - Template editor page
+
+### Files Modified
+- version.php (updated to v1.3.0, version 2025111703)
+- lang/en/local_student_monitor.php (+60 strings)
+- lang/fr/local_student_monitor.php (+60 strings)
+- README.md (updated with Phase 4 features)
+
+---
+
 ## [1.2.0] - 2025-11-17
 
 ### Added
@@ -245,6 +307,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Version History
 
+- **v1.3.0** (2025-11-17) - Visualization & Advanced Reporting
 - **v1.2.0** (2025-11-17) - Configuration & Testing
 - **v1.1.0** (2025-11-17) - UI, Dashboard & Manual Alerts
 - **v1.0.0** (2025-11-17) - Initial release

@@ -285,3 +285,67 @@ $string['subject'] = 'Objet';
 $string['timesent'] = 'Date d\'envoi';
 $string['preferencessaved'] = 'Préférences enregistrées avec succès';
 $string['recipients_all_students'] = 'Tous les étudiants';
+
+// Advanced reports (Phase 4).
+$string['advancedreports'] = 'Rapports avancés';
+$string['riskdistribution'] = 'Répartition des risques';
+$string['notificationtrends'] = 'Tendances des notifications';
+$string['notificationtypes'] = 'Types de notifications';
+$string['interventionsbyrisk'] = 'Interventions par risque';
+$string['totalstudents'] = 'Total étudiants';
+$string['totalnotifications'] = 'Total notifications';
+$string['last30days'] = 'Derniers 30 jours';
+$string['criticalandhigh'] = 'Critique et Élevé';
+$string['notificationsread'] = 'Notifications lues';
+$string['notifications'] = 'Notifications';
+$string['interventions'] = 'Interventions';
+$string['backtodashboard'] = 'Retour au tableau de bord';
+$string['exportstudents'] = 'Exporter étudiants';
+$string['exportnotifications'] = 'Exporter notifications';
+
+// Bulk actions (Phase 4).
+$string['bulkactions'] = 'Actions en masse';
+$string['bulkactionsdesc'] = 'Effectuez des actions sur plusieurs étudiants simultanément';
+$string['selectaction'] = 'Sélectionner une action';
+$string['bulkaction_assign'] = 'Assigner à un superviseur';
+$string['bulkaction_unassign'] = 'Retirer l\'assignation';
+$string['bulkaction_addnote'] = 'Ajouter une note';
+$string['bulkaction_notify'] = 'Envoyer une notification';
+$string['selectsupervisor'] = 'Sélectionner un superviseur';
+$string['noteormessage'] = 'Note ou message';
+$string['selectstudents'] = 'Sélectionner des étudiants';
+$string['executeaction'] = 'Exécuter l\'action';
+$string['confirmaction'] = 'Confirmer l\'action';
+$string['confirmactionmsg'] = 'Vous êtes sur le point d\'exécuter "{action}" pour {count} étudiant(s). Continuer ?';
+$string['bulkactionsuccess'] = '{success} action(s) réussie(s), {failed} échec(s)';
+$string['bulknotificationsubject'] = 'Message groupé - Student Monitor';
+$string['bulknotificationmessage'] = 'Ce message vous a été envoyé par votre superviseur pédagogique via Student Monitor.';
+
+// Template editor (Phase 4).
+$string['templateeditor'] = 'Éditeur de templates';
+$string['templateeditordesc'] = 'Personnalisez les templates de notification envoyés aux étudiants';
+$string['edittemplate'] = 'Modifier le template';
+$string['body'] = 'Corps du message';
+$string['availableplaceholders'] = 'Placeholders disponibles';
+$string['placeholdersdesc'] = 'Vous pouvez utiliser ces placeholders dans le sujet et le corps du message. Ils seront remplacés automatiquement.';
+$string['templatesaved'] = 'Template enregistré avec succès';
+$string['templatedeleted'] = 'Template supprimé';
+$string['templateresettodefault'] = 'Template réinitialisé aux valeurs par défaut';
+$string['resettodefault'] = 'Réinitialiser';
+$string['notemplates'] = 'Aucun template trouvé';
+$string['templatetype'] = 'Type de template';
+$string['lastmodified'] = 'Dernière modification';
+
+// Advanced filters (Phase 4).
+$string['advancedfilters'] = 'Filtres avancés';
+$string['searchstudents'] = 'Rechercher des étudiants';
+$string['searchplaceholder'] = 'Nom ou email...';
+$string['filterbyinactivity'] = 'Filtrer par inactivité';
+$string['filterbymissingassignments'] = 'Filtrer par devoirs manquants';
+$string['filterbyassigned'] = 'Filtrer par assignation';
+$string['assigned'] = 'Assigné';
+$string['unassigned'] = 'Non assigné';
+$string['clearfilters'] = 'Effacer les filtres';
+$string['visiblestudents'] = 'Étudiants visibles';
+$string['selectallvisible'] = 'Tout sélectionner (visibles)';
+$string['email'] = 'Email';

@@ -285,3 +285,67 @@ $string['subject'] = 'Subject';
 $string['timesent'] = 'Sent on';
 $string['preferencessaved'] = 'Preferences saved successfully';
 $string['recipients_all_students'] = 'All students';
+
+// Advanced reports (Phase 4).
+$string['advancedreports'] = 'Advanced reports';
+$string['riskdistribution'] = 'Risk distribution';
+$string['notificationtrends'] = 'Notification trends';
+$string['notificationtypes'] = 'Notification types';
+$string['interventionsbyrisk'] = 'Interventions by risk';
+$string['totalstudents'] = 'Total students';
+$string['totalnotifications'] = 'Total notifications';
+$string['last30days'] = 'Last 30 days';
+$string['criticalandhigh'] = 'Critical and High';
+$string['notificationsread'] = 'Notifications read';
+$string['notifications'] = 'Notifications';
+$string['interventions'] = 'Interventions';
+$string['backtodashboard'] = 'Back to dashboard';
+$string['exportstudents'] = 'Export students';
+$string['exportnotifications'] = 'Export notifications';
+
+// Bulk actions (Phase 4).
+$string['bulkactions'] = 'Bulk actions';
+$string['bulkactionsdesc'] = 'Perform actions on multiple students simultaneously';
+$string['selectaction'] = 'Select action';
+$string['bulkaction_assign'] = 'Assign to supervisor';
+$string['bulkaction_unassign'] = 'Remove assignment';
+$string['bulkaction_addnote'] = 'Add note';
+$string['bulkaction_notify'] = 'Send notification';
+$string['selectsupervisor'] = 'Select supervisor';
+$string['noteormessage'] = 'Note or message';
+$string['selectstudents'] = 'Select students';
+$string['executeaction'] = 'Execute action';
+$string['confirmaction'] = 'Confirm action';
+$string['confirmactionmsg'] = 'You are about to execute "{action}" for {count} student(s). Continue?';
+$string['bulkactionsuccess'] = '{success} action(s) successful, {failed} failed';
+$string['bulknotificationsubject'] = 'Bulk message - Student Monitor';
+$string['bulknotificationmessage'] = 'This message was sent to you by your academic supervisor via Student Monitor.';
+
+// Template editor (Phase 4).
+$string['templateeditor'] = 'Template editor';
+$string['templateeditordesc'] = 'Customize notification templates sent to students';
+$string['edittemplate'] = 'Edit template';
+$string['body'] = 'Message body';
+$string['availableplaceholders'] = 'Available placeholders';
+$string['placeholdersdesc'] = 'You can use these placeholders in the subject and body. They will be automatically replaced.';
+$string['templatesaved'] = 'Template saved successfully';
+$string['templatedeleted'] = 'Template deleted';
+$string['templateresettodefault'] = 'Template reset to default values';
+$string['resettodefault'] = 'Reset to default';
+$string['notemplates'] = 'No templates found';
+$string['templatetype'] = 'Template type';
+$string['lastmodified'] = 'Last modified';
+
+// Advanced filters (Phase 4).
+$string['advancedfilters'] = 'Advanced filters';
+$string['searchstudents'] = 'Search students';
+$string['searchplaceholder'] = 'Name or email...';
+$string['filterbyinactivity'] = 'Filter by inactivity';
+$string['filterbymissingassignments'] = 'Filter by missing assignments';
+$string['filterbyassigned'] = 'Filter by assignment';
+$string['assigned'] = 'Assigned';
+$string['unassigned'] = 'Unassigned';
+$string['clearfilters'] = 'Clear filters';
+$string['visiblestudents'] = 'Visible students';
+$string['selectallvisible'] = 'Select all (visible)';
+$string['email'] = 'Email';
