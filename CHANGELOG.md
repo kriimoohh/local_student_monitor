@@ -5,6 +5,82 @@ All notable changes to the Student Monitor plugin will be documented in this fil
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.7.0] - 2025-11-17
+
+### Added
+- **Email Campaign Management:**
+  - Create and manage email campaigns with customizable content
+  - Target audience selection (all students, at-risk, by risk level)
+  - Schedule campaigns for future sending
+  - Campaign status tracking (draft, scheduled, sending, sent)
+  - Campaign statistics dashboard with detailed metrics
+  - A/B testing system for email optimization
+  - Automatic recipient splitting for A/B tests
+  - Performance tracking (open rate, click rate, conversion rate)
+  - Variant comparison and winner determination
+  - Conversion funnel visualization
+  - Campaign recipient breakdown with individual tracking
+  - CSV export of campaign results
+- **Student Engagement Gamification:**
+  - Points system for student activities
+  - Level progression with increasing thresholds
+  - Daily streak tracking with bonus rewards
+  - 8 predefined achievements:
+    - First login (10 points)
+    - Week streak (50 points)
+    - Month streak (200 points)
+    - All assignments completed (300 points)
+    - Early submitter (100 points)
+    - Helper (150 points)
+    - Improvement (200 points)
+    - Risk recovery (250 points)
+  - Automatic achievement detection and awarding
+  - Public leaderboard with rankings
+  - Student gamification statistics
+  - Progress tracking to next level
+  - Period-based filtering (all time, month, week)
+- **Mobile API Integration:**
+  - RESTful API endpoints for mobile apps
+  - Get student statistics (risk level, inactivity, assignments)
+  - Get gamification data (points, level, achievements, streak)
+  - Get leaderboard rankings
+  - Get campaign statistics (admin only)
+  - Web service definitions for Moodle Mobile
+  - JSON-based data exchange
+  - Capability-based access control
+- **Campaign Analytics:**
+  - Detailed campaign statistics page
+  - Overall metrics (sent, opened, clicked, converted)
+  - A/B test comparison charts
+  - Winner determination with performance difference
+  - Individual recipient tracking
+  - Time-based analytics
+  - Interactive Chart.js visualizations
+- **Enhanced User Experience:**
+  - Leaderboard page with medals for top 3
+  - User stats card with progress bars
+  - Achievement notifications
+  - Recent achievements feed
+  - Period selector for leaderboard filtering
+  - Responsive design for mobile devices
+  - Real-time campaign tracking
+- **Internationalization:**
+  - 130 new language strings in French and English
+  - Campaign-related terminology
+  - Gamification vocabulary
+  - Achievement names and descriptions
+  - API endpoint labels
+  - Statistics and metrics labels
+
+### Technical Improvements
+- Email campaign manager class with A/B testing logic
+- Gamification manager with achievement system
+- 4 new external API functions for mobile integration
+- Campaign charts JavaScript module (Chart.js)
+- Database schema for campaigns, recipients, and achievements
+- Service definitions for web services
+- Enhanced reporting capabilities
+
 ## [1.0.0] - 2025-11-17
 
 ### Added
