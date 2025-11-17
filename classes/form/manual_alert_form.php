@@ -80,6 +80,7 @@ class manual_alert_form extends \moodleform {
             'all_course' => get_string('recipients_all_course', 'local_student_monitor'),
             'group' => get_string('recipients_group', 'local_student_monitor'),
             'manual' => get_string('recipients_manual', 'local_student_monitor'),
+            'csv' => get_string('recipients_csv', 'local_student_monitor'),
         ]);
         $mform->addRule('recipients', null, 'required');
 
@@ -117,6 +118,13 @@ class manual_alert_form extends \moodleform {
         ];
         $mform->addElement('autocomplete', 'selectedusers', get_string('selectusersfield', 'local_student_monitor'), [], $options);
         $mform->hideIf('selectedusers', 'recipients', 'neq', 'manual');
+
+        // CSV file upload.
+        $mform->addElement('filepicker', 'csvfile', get_string('csvfile', 'local_student_monitor'), null, [
+            'accepted_types' => ['.csv'],
+        ]);
+        $mform->addHelpButton('csvfile', 'csvfile', 'local_student_monitor');
+        $mform->hideIf('csvfile', 'recipients', 'neq', 'csv');
 
         // Channels section.
         $mform->addElement('header', 'channelshdr', get_string('channels', 'local_student_monitor'));
@@ -177,6 +185,10 @@ class manual_alert_form extends \moodleform {
 
         if ($data['recipients'] == 'manual' && empty($data['selectedusers'])) {
             $errors['selectedusers'] = get_string('selectusers', 'local_student_monitor');
+        }
+
+        if ($data['recipients'] == 'csv' && empty($data['csvfile'])) {
+            $errors['csvfile'] = get_string('csvfilerequired', 'local_student_monitor');
         }
 
         // Validate at least one channel is selected.

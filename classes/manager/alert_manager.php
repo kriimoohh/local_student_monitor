@@ -268,6 +268,86 @@ class alert_manager {
                     $recipients = $DB->get_records_sql($sql, ['roleid' => $studentrole->id]);
                 }
                 break;
+
+            case 'csv':
+                // Get recipients from CSV file.
+                if (isset($data->csvfile) && !empty($data->csvfile)) {
+                    $recipients = $this->process_csv_file($data->csvfile);
+                }
+                break;
+        }
+
+        return $recipients;
+    }
+
+    /**
+     * Process CSV file and extract recipients.
+     *
+     * @param int $draftitemid Draft file area item ID
+     * @return array Array of user objects
+     */
+    protected function process_csv_file($draftitemid) {
+        global $DB, $USER;
+
+        $recipients = [];
+        $fs = get_file_storage();
+        $context = \context_user::instance($USER->id);
+
+        // Get the file from the draft area.
+        $files = $fs->get_area_files($context->id, 'user', 'draft', $draftitemid, 'id DESC', false);
+
+        if (empty($files)) {
+            return $recipients;
+        }
+
+        $file = reset($files);
+        $content = $file->get_content();
+
+        // Parse CSV content.
+        $lines = str_getcsv($content, "\n");
+        $processedusers = [];
+
+        foreach ($lines as $line) {
+            // Skip empty lines.
+            if (empty(trim($line))) {
+                continue;
+            }
+
+            // Parse CSV line.
+            $data = str_getcsv($line, ',');
+
+            if (empty($data[0])) {
+                continue;
+            }
+
+            $identifier = trim($data[0]);
+
+            // Skip if already processed.
+            if (in_array($identifier, $processedusers)) {
+                continue;
+            }
+
+            // Try to find user by email, username, or ID.
+            $user = null;
+
+            // Check if it's an email.
+            if (filter_var($identifier, FILTER_VALIDATE_EMAIL)) {
+                $user = $DB->get_record('user', ['email' => $identifier, 'deleted' => 0],
+                    'id, firstname, lastname, email');
+            } else if (is_numeric($identifier)) {
+                // Check if it's a user ID.
+                $user = $DB->get_record('user', ['id' => $identifier, 'deleted' => 0],
+                    'id, firstname, lastname, email');
+            } else {
+                // Try as username.
+                $user = $DB->get_record('user', ['username' => $identifier, 'deleted' => 0],
+                    'id, firstname, lastname, email');
+            }
+
+            if ($user) {
+                $recipients[] = $user;
+                $processedusers[] = $identifier;
+            }
         }
 
         return $recipients;
