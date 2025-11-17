@@ -187,6 +187,40 @@ class alert_manager {
         $recipients = [];
 
         switch ($data->recipients) {
+            case 'category':
+                if (empty($data->categoryid)) {
+                    return [];
+                }
+                // Get all courses in the category and its subcategories.
+                $category = $DB->get_record('course_categories', ['id' => $data->categoryid]);
+                if (!$category) {
+                    return [];
+                }
+
+                // Get all courses in this category and subcategories.
+                $categorypath = $category->path . '/%';
+                $sql = "SELECT DISTINCT u.id, u.firstname, u.lastname, u.email
+                          FROM {user} u
+                          JOIN {user_enrolments} ue ON ue.userid = u.id
+                          JOIN {enrol} e ON e.id = ue.enrolid
+                          JOIN {course} c ON c.id = e.courseid
+                          JOIN {course_categories} cc ON cc.id = c.category
+                         WHERE (cc.id = :categoryid OR " . $DB->sql_like('cc.path', ':categorypath') . ")
+                           AND u.deleted = 0
+                           AND u.suspended = 0
+                           AND ue.status = 0
+                           AND e.status = 0
+                           AND c.id != :siteid";
+
+                $params = [
+                    'categoryid' => $data->categoryid,
+                    'categorypath' => $categorypath,
+                    'siteid' => SITEID
+                ];
+
+                $recipients = $DB->get_records_sql($sql, $params);
+                break;
+
             case 'all_course':
                 if (empty($data->courseid)) {
                     return [];

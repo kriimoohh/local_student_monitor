@@ -142,6 +142,7 @@ $string['eventdate'] = 'Date de l\'événement';
 $string['description'] = 'Description';
 $string['channels'] = 'Canaux';
 $string['recipients'] = 'Destinataires';
+$string['recipients_category'] = 'Tous les étudiants d\'une catégorie';
 $string['recipients_all_course'] = 'Tout le cours';
 $string['recipients_group'] = 'Groupe spécifique';
 $string['recipients_manual'] = 'Sélection manuelle';
