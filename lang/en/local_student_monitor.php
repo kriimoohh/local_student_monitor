@@ -715,3 +715,123 @@ $string['pointsawarded'] = '{$a} points awarded';
 $string['levelup'] = 'Level up! New level: {$a}';
 $string['streakbonus'] = 'Streak bonus: +{$a} points';
 $string['achievementunlocked'] = 'Achievement unlocked: {$a}';
+
+// Student Self-Service Portal & AI Recommendations (Phase 9).
+$string['studentdashboard'] = 'Student Dashboard';
+$string['welcomeback'] = 'Welcome back {$a}!';
+$string['yourrisk'] = 'Your risk level';
+$string['yourpoints'] = 'Your points';
+$string['yourstreak'] = 'Your streak';
+$string['noriskdata'] = 'No risk data available';
+$string['personalizedrecommendations'] = 'Personalized Recommendations';
+$string['norecommendations'] = 'No recommendations at this time';
+$string['keepupgoodwork'] = 'Keep up the good work!';
+$string['impact'] = 'Impact';
+$string['takeaction'] = 'Take action';
+$string['yourprogress'] = 'Your Progress';
+$string['activitythisweek'] = 'Activity this week';
+$string['performancetrend'] = 'Performance trend';
+$string['quickactions'] = 'Quick Actions';
+$string['viewleaderboard'] = 'View Leaderboard';
+$string['viewcalendar'] = 'View Calendar';
+$string['viewcourses'] = 'View My Courses';
+$string['goto'] = 'Go to';
+$string['noachievementsyet'] = 'No achievements yet. Start learning!';
+$string['tipsandmotivation'] = 'Tips & Motivation';
+$string['missing'] = 'missing';
+
+// AI Recommendations.
+$string['rec_increase_login'] = 'Increase your login frequency';
+$string['rec_increase_login_desc'] = 'You logged in {$a->current} times this month. Try to reach {$a->target} logins to stay engaged.';
+$string['rec_study_consistency'] = 'Improve study consistency';
+$string['rec_study_consistency_desc'] = 'Try to log in more regularly (at least every 2 days) to maintain a consistent learning pace.';
+$string['rec_optimal_study_time'] = 'Optimize your study schedule';
+$string['rec_optimal_study_time_desc'] = 'Consider studying during daytime hours (8am-10pm) for better concentration.';
+$string['rec_urgent_assignment'] = 'Urgent assignment due';
+$string['rec_urgent_assignment_desc'] = '{$a->name} in {$a->course} is due on {$a->duedate}. Don\'t miss this deadline!';
+$string['rec_explore_resources'] = 'Explore unviewed resources';
+$string['rec_explore_resources_desc'] = 'You have {$a->count} unviewed resources. Exploring these could improve your understanding.';
+$string['rec_forum_participation'] = 'Participate in forum discussions';
+$string['rec_forum_participation_desc'] = 'Join discussions to learn from peers and share your knowledge.';
+$string['rec_help_peers'] = 'Help your peers';
+$string['rec_help_peers_desc'] = 'With your strong performance, you could help other students in forums. It\'s great for learning!';
+$string['rec_catch_up_plan'] = 'Catch-up plan needed';
+$string['rec_catch_up_plan_desc'] = 'You have {$a->count} overdue assignments. Create a plan to catch up gradually.';
+$string['rec_use_calendar'] = 'Use the Moodle calendar';
+$string['rec_use_calendar_desc'] = 'The calendar helps you stay organized and never miss a deadline.';
+$string['rec_increase_engagement'] = 'Increase your engagement';
+$string['rec_increase_engagement_desc'] = 'Your weekly activity is {$a->current}. Try to reach {$a->target} activities per week.';
+$string['rec_check_leaderboard'] = 'Check the leaderboard';
+$string['rec_check_leaderboard_desc'] = 'You\'re active! Check your position on the leaderboard and earn more points.';
+
+// Peer comparison.
+$string['peercomparison'] = 'Peer Comparison';
+$string['peercomparison_desc'] = 'Anonymously compare your performance with other students in your courses.';
+$string['yourperformance'] = 'Your Performance';
+$string['percentile'] = 'th percentile';
+$string['comparedto'] = 'Compared to {$a} other students in your courses';
+$string['performanceradar'] = 'Performance Radar';
+$string['detailedmetrics'] = 'Detailed Metrics';
+$string['loginfrequency'] = 'Login Frequency';
+$string['assignmentcompletion'] = 'Assignment Completion';
+$string['engagement'] = 'Engagement';
+$string['gradeperformance'] = 'Grade Performance';
+$string['yourvalue'] = 'Your value';
+$string['peeraverage'] = 'Peer average';
+$string['percentileposition'] = 'Percentile position';
+$string['logins'] = 'logins';
+$string['activities'] = 'activities';
+$string['insights'] = 'Insights';
+$string['category_top'] = 'Exceptional Performance';
+$string['category_above_average'] = 'Above Average';
+$string['category_average'] = 'Average Performance';
+$string['category_below_average'] = 'Below Average';
+$string['category_needs_improvement'] = 'Needs Improvement';
+$string['insight_top_performer'] = 'Congratulations! You\'re in the top 25% of your peers. Excellent work!';
+$string['insight_above_average'] = 'You\'re above average. Keep it up!';
+$string['insight_room_for_improvement'] = 'You have room for improvement. Check out the personalized recommendations.';
+$string['insight_needs_boost'] = 'Time to boost your studies! Start with the recommendations above.';
+$string['improvement_suggestion_login'] = 'Tip: Log in more regularly to stay up-to-date with your courses.';
+$string['improvement_suggestion_assignment'] = 'Tip: Focus on completing assignments on time.';
+$string['improvement_suggestion_engagement'] = 'Tip: Participate more actively in course activities.';
+$string['improvement_suggestion_grade'] = 'Tip: Ask teachers or peers for help to improve your grades.';
+$string['privacy_note'] = 'All comparisons are anonymous. Your peers cannot see your individual data.';
+
+// Goals and progress tracking.
+$string['mygoals'] = 'My Goals';
+$string['totalgoals'] = 'Total Goals';
+$string['activegoals'] = 'Active Goals';
+$string['completedgoals'] = 'Completed Goals';
+$string['completionrate'] = 'Completion Rate';
+$string['suggestedgoals'] = 'Suggested Goals';
+$string['createthisgoal'] = 'Create this goal';
+$string['noactivegoals'] = 'No active goals. Create one to track your progress!';
+$string['daysremaining'] = 'days remaining';
+$string['progress'] = 'Progress';
+$string['completedon'] = 'Completed on {$a}';
+$string['createcustomgoal'] = 'Create Custom Goal';
+$string['customgoal_desc'] = 'Define your own goals to stay motivated and track your progress.';
+$string['goaltitle'] = 'Goal Title';
+$string['goaldescription'] = 'Description';
+$string['targetvalue'] = 'Target Value';
+$string['deadline'] = 'Deadline';
+$string['creategoal'] = 'Create Goal';
+$string['goalcreated'] = 'Goal created successfully!';
+$string['goal_complete_assignments'] = 'Catch up on overdue assignments';
+$string['goal_complete_assignments_desc'] = 'Complete all your missing assignments to improve your performance.';
+$string['goal_increase_logins'] = 'Increase login frequency';
+$string['goal_increase_logins_desc'] = 'Log in more regularly to stay engaged with your courses.';
+$string['goal_completed'] = 'Goal completed: {$a}';
+
+// Risk explanations.
+$string['riskexplanation_faible'] = 'You\'re on track! Keep up the good work.';
+$string['riskexplanation_moyen'] = 'Be careful to maintain your engagement.';
+$string['riskexplanation_élevé'] = 'Need improvement. Check recommendations.';
+$string['riskexplanation_critique'] = 'Immediate action required. Contact your supervisor.';
+
+// Tips for students.
+$string['tip1'] = '💡 Tip: Log in daily for 15 minutes to stay up-to-date.';
+$string['tip2'] = '📚 Tip: Create a weekly study schedule and stick to it.';
+$string['tip3'] = '🎯 Motivation: Every bit of progress counts. Celebrate your wins!';
+$string['tip4'] = '🤝 Tip: Don\'t hesitate to ask classmates or teachers for help.';
+$string['tip5'] = '⏰ Reminder: Manage your time effectively by prioritizing important tasks.';

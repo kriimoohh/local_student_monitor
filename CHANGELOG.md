@@ -5,6 +5,116 @@ All notable changes to the Student Monitor plugin will be documented in this fil
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.8.0] - 2025-11-17
+
+### Added
+- **Student Self-Service Dashboard:**
+  - Personalized dashboard for students (student_dashboard.php)
+  - Risk level display with color-coded badges
+  - Gamification stats integration (points, level, streak)
+  - AI-powered personalized recommendations section
+  - Quick actions panel (leaderboard, calendar, courses)
+  - Recent achievements showcase
+  - Progress overview with interactive Chart.js visualizations
+  - Daily tips and motivational messages
+- **AI-Powered Recommendation Engine:**
+  - Intelligent recommendation generation based on multi-factor analysis
+  - 7 recommendation types:
+    - Study habit improvements
+    - Assignment deadlines and priorities
+    - Course activity suggestions
+    - Peer learning opportunities
+    - Time management strategies
+    - Engagement optimization
+    - Resource exploration
+  - Priority-based ranking (critical, high, medium, low)
+  - Impact score calculation (0-100% effectiveness)
+  - Actionable recommendations with direct navigation links
+  - Context-aware suggestions analyzing:
+    - Login frequency and temporal patterns
+    - Assignment completion rates and timing
+    - Course engagement levels
+    - Forum participation metrics
+    - Grade performance trends
+    - Peak activity hour analysis
+- **Anonymous Peer Comparison:**
+  - Performance comparison with course peers (peer_comparison.php)
+  - 4 key metrics with percentile calculations:
+    - Login frequency (monthly tracking)
+    - Assignment completion rate (%)
+    - Engagement score (weekly activities)
+    - Grade performance (average)
+  - Performance categories: top (90+), above average (75-89), average (50-74), below average (25-49), needs improvement (<25)
+  - Interactive radar chart visualization
+  - Detailed metric comparisons with peer averages
+  - Privacy-focused anonymous aggregation
+  - Personalized improvement suggestions per metric
+  - Peer count display for context
+- **Student Progress Tracking & Goals:**
+  - Personal goal creation and management (my_goals.php)
+  - 5 goal types: grade, attendance, assignment, engagement, custom
+  - Goal progress tracking with visual progress bars
+  - Automatic completion detection with gamification rewards
+  - AI-suggested goals based on performance gaps
+  - Goal statistics dashboard (total, active, completed, completion rate)
+  - Deadline tracking with color-coded warnings
+  - Goal creation form with deadline picker
+  - Completion bonus points for early achievement
+- **Progress History & Analytics:**
+  - Daily progress snapshots with comprehensive metrics
+  - 30-day historical data tracking
+  - Trend analysis algorithms (improving, declining, stable)
+  - Linear regression-based slope calculations
+  - Metrics tracked:
+    - Risk level progression
+    - Points and level advancement
+    - Grade average trends
+    - Weekly login frequency
+    - Streak maintenance
+    - Missing assignments count
+  - Period comparison analytics (first half vs second half)
+  - Improvement percentage calculations
+  - Average completion time statistics
+- **Interactive Data Visualizations:**
+  - Weekly activity bar chart (7-day view)
+  - Performance trend line chart (30-day)
+  - Peer comparison radar chart (4 metrics)
+  - Goal progress bars with percentages
+  - Achievement cards with badges
+  - KPI cards with real-time data updates
+  - Responsive Chart.js implementations
+- **Internationalization:**
+  - 120+ new language strings (French/English)
+  - AI recommendation messages with context
+  - Peer comparison terminology
+  - Goal management vocabulary
+  - Progress tracking labels
+  - Student tips and motivational content
+  - Risk level explanations
+  - Performance category descriptions
+
+### Technical Improvements
+- AI recommendation engine with multi-factor scoring algorithm
+- Peer comparison manager with optimized SQL queries
+- Progress tracker with snapshot system
+- Linear regression implementation for trend analysis
+- Percentile calculation with standard deviation
+- Goal lifecycle state management
+- Achievement auto-detection for goal completion
+- Performance data aggregation pipelines
+- Anonymous comparison data protection mechanisms
+- Chart.js integration for student dashboard
+
+### User Experience Enhancements
+- Student-facing self-service interfaces
+- Privacy-respecting anonymous comparisons
+- Actionable insights with clear next steps
+- Motivational elements and gamification
+- Mobile-responsive design
+- Intuitive navigation and quick actions
+- Visual progress indicators
+- Personalized content based on user data
+
 ## [1.7.0] - 2025-11-17
 
 ### Added

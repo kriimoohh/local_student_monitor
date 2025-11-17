@@ -715,3 +715,124 @@ $string['pointsawarded'] = '{$a} points attribués';
 $string['levelup'] = 'Niveau augmenté! Nouveau niveau: {$a}';
 $string['streakbonus'] = 'Bonus de série: +{$a} points';
 $string['achievementunlocked'] = 'Succès débloqué: {$a}';
+
+// Student Self-Service Portal & AI Recommendations (Phase 9).
+$string['studentdashboard'] = 'Tableau de bord étudiant';
+$string['welcomeback'] = 'Bienvenue {$a}!';
+$string['yourrisk'] = 'Votre niveau de risque';
+$string['yourpoints'] = 'Vos points';
+$string['yourstreak'] = 'Votre série';
+$string['noriskdata'] = 'Aucune donnée de risque disponible';
+$string['personalizedrecommendations'] = 'Recommandations personnalisées';
+$string['norecommendations'] = 'Aucune recommandation pour le moment';
+$string['keepupgoodwork'] = 'Continuez votre excellent travail!';
+$string['impact'] = 'Impact';
+$string['takeaction'] = 'Passer à l\'action';
+$string['yourprogress'] = 'Votre progression';
+$string['activitythisweek'] = 'Activité cette semaine';
+$string['performancetrend'] = 'Tendance de performance';
+$string['quickactions'] = 'Actions rapides';
+$string['viewleaderboard'] = 'Voir le classement';
+$string['viewcalendar'] = 'Voir le calendrier';
+$string['viewcourses'] = 'Voir mes cours';
+$string['goto'] = 'Accéder';
+$string['noachievementsyet'] = 'Pas encore de succès. Commencez à apprendre!';
+$string['tipsandmotivation'] = 'Conseils et motivation';
+$string['missing'] = 'manquant(s)';
+
+// AI Recommendations.
+$string['rec_increase_login'] = 'Augmentez votre fréquence de connexion';
+$string['rec_increase_login_desc'] = 'Vous vous êtes connecté {$a->current} fois ce mois. Essayez d\'atteindre {$a->target} connexions pour rester engagé.';
+$string['rec_study_consistency'] = 'Améliorez la régularité de vos études';
+$string['rec_study_consistency_desc'] = 'Essayez de vous connecter plus régulièrement (au moins tous les 2 jours) pour maintenir un rythme d\'apprentissage constant.';
+$string['rec_optimal_study_time'] = 'Optimisez votre horaire d\'étude';
+$string['rec_optimal_study_time_desc'] = 'Envisagez d\'étudier pendant les heures de jour (8h-22h) pour une meilleure concentration.';
+$string['rec_urgent_assignment'] = 'Devoir urgent à soumettre';
+$string['rec_urgent_assignment_desc'] = '{$a->name} dans {$a->course} est dû le {$a->duedate}. Ne manquez pas cette échéance!';
+$string['rec_explore_resources'] = 'Explorez les ressources non consultées';
+$string['rec_explore_resources_desc'] = 'Vous avez {$a->count} ressources non consultées. Explorer ces contenus pourrait améliorer votre compréhension.';
+$string['rec_forum_participation'] = 'Participez aux discussions de forum';
+$string['rec_forum_participation_desc'] = 'Rejoignez les discussions pour apprendre de vos pairs et partager vos connaissances.';
+$string['rec_help_peers'] = 'Aidez vos camarades';
+$string['rec_help_peers_desc'] = 'Avec votre bonne performance, vous pouvez aider d\'autres étudiants dans les forums. C\'est bon pour l\'apprentissage!';
+$string['rec_catch_up_plan'] = 'Plan de rattrapage nécessaire';
+$string['rec_catch_up_plan_desc'] = 'Vous avez {$a->count} devoirs en retard. Créez un plan pour les rattraper progressivement.';
+$string['rec_use_calendar'] = 'Utilisez le calendrier Moodle';
+$string['rec_use_calendar_desc'] = 'Le calendrier vous aide à rester organisé et à ne manquer aucune échéance.';
+$string['rec_increase_engagement'] = 'Augmentez votre engagement';
+$string['rec_increase_engagement_desc'] = 'Votre activité hebdomadaire est de {$a->current}. Essayez d\'atteindre {$a->target} activités par semaine.';
+$string['rec_check_leaderboard'] = 'Consultez le classement';
+$string['rec_check_leaderboard_desc'] = 'Vous êtes actif! Vérifiez votre position dans le classement et gagnez plus de points.';
+
+// Peer comparison.
+$string['peercomparison'] = 'Comparaison avec les pairs';
+$string['peercomparison_desc'] = 'Comparez anonymement vos performances avec d\'autres étudiants de vos cours.';
+$string['yourperformance'] = 'Votre performance';
+$string['percentile'] = 'e percentile';
+$string['comparedto'] = 'Comparé à {$a} autres étudiants de vos cours';
+$string['performanceradar'] = 'Radar de performance';
+$string['detailedmetrics'] = 'Métriques détaillées';
+$string['loginfrequency'] = 'Fréquence de connexion';
+$string['assignmentcompletion'] = 'Completion des devoirs';
+$string['engagement'] = 'Engagement';
+$string['gradeperformance'] = 'Performance notes';
+$string['yourvalue'] = 'Votre valeur';
+$string['peeraverage'] = 'Moyenne des pairs';
+$string['percentileposition'] = 'Position percentile';
+$string['logins'] = 'connexions';
+$string['activities'] = 'activités';
+$string['insights'] = 'Analyses';
+$string['category_top'] = 'Performance exceptionnelle';
+$string['category_above_average'] = 'Au-dessus de la moyenne';
+$string['category_average'] = 'Performance moyenne';
+$string['category_below_average'] = 'En dessous de la moyenne';
+$string['category_needs_improvement'] = 'Nécessite amélioration';
+$string['insight_top_performer'] = 'Félicitations! Vous êtes dans le top 25% de vos pairs. Excellent travail!';
+$string['insight_above_average'] = 'Vous êtes au-dessus de la moyenne. Continuez comme ça!';
+$string['insight_room_for_improvement'] = 'Vous avez de la marge pour progresser. Consultez les recommandations personnalisées.';
+$string['insight_needs_boost'] = 'Il est temps de donner un coup de fouet à vos études! Commencez par les recommandations ci-dessus.';
+$string['improvement_suggestion_login'] = 'Conseil: Connectez-vous plus régulièrement pour rester à jour avec vos cours.';
+$string['improvement_suggestion_assignment'] = 'Conseil: Concentrez-vous sur la completion de vos devoirs à temps.';
+$string['improvement_suggestion_engagement'] = 'Conseil: Participez plus activement aux activités de cours.';
+$string['improvement_suggestion_grade'] = 'Conseil: Demandez de l\'aide à vos enseignants ou pairs pour améliorer vos notes.';
+$string['privacy_note'] = 'Toutes les comparaisons sont anonymes. Vos pairs ne peuvent pas voir vos données individuelles.';
+
+// Goals and progress tracking.
+$string['mygoals'] = 'Mes objectifs';
+$string['totalgoals'] = 'Total objectifs';
+$string['activegoals'] = 'Objectifs actifs';
+$string['completedgoals'] = 'Objectifs completés';
+$string['completionrate'] = 'Taux de completion';
+$string['suggestedgoals'] = 'Objectifs suggérés';
+$string['createthisgoal'] = 'Créer cet objectif';
+$string['noactivegoals'] = 'Aucun objectif actif. Créez-en un pour suivre votre progression!';
+$string['daysremaining'] = 'jours restants';
+$string['progress'] = 'Progression';
+$string['completedon'] = 'Completé le {$a}';
+$string['createcustomgoal'] = 'Créer un objectif personnalisé';
+$string['customgoal_desc'] = 'Définissez vos propres objectifs pour rester motivé et suivre votre progression.';
+$string['goaltitle'] = 'Titre de l\'objectif';
+$string['goaldescription'] = 'Description';
+$string['targetvalue'] = 'Valeur cible';
+$string['deadline'] = 'Échéance';
+$string['creategoal'] = 'Créer l\'objectif';
+$string['goalcreated'] = 'Objectif créé avec succès!';
+$string['goal_complete_assignments'] = 'Rattraper les devoirs en retard';
+$string['goal_complete_assignments_desc'] = 'Completez tous vos devoirs manquants pour améliorer votre performance.';
+$string['goal_increase_logins'] = 'Augmenter la fréquence de connexion';
+$string['goal_increase_logins_desc'] = 'Connectez-vous plus régulièrement pour rester engagé dans vos cours.';
+$string['goal_completed'] = 'Objectif completé: {$a}';
+
+// Risk explanations.
+$string['riskexplanation_faible'] = 'Vous êtes sur la bonne voie! Continuez ainsi.';
+$string['riskexplanation_moyen'] = 'Attention à maintenir votre engagement.';
+$string['riskexplanation_élevé'] = 'Besoin d\'amélioration. Consultez les recommandations.';
+$string['riskexplanation_critique'] = 'Action immédiate requise. Contactez votre superviseur.';
+
+// Tips for students.
+$string['tip1'] = '💡 Conseil: Connectez-vous quotidiennement pendant 15 minutes pour rester à jour.';
+$string['tip2'] = '📚 Astuce: Créez un planning d\'étude hebdomadaire et respectez-le.';
+$string['tip3'] = '🎯 Motivation: Chaque petit progrès compte. Célébrez vos victoires!';
+$string['tip4'] = '🤝 Conseil: N\'hésitez pas à demander de l\'aide à vos camarades ou enseignants.';
+$string['tip5'] = '⏰ Rappel: Gérez votre temps efficacement en priorisant les tâches importantes.';
+
