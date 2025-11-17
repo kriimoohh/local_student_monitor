@@ -79,10 +79,10 @@ $notificationtrends = [
 
 // Get activity by notification type.
 $activitydata = $DB->get_records_sql("
-    SELECT notification_type, COUNT(*) as count
+    SELECT type, COUNT(*) as count
     FROM {local_sm_notifications}
     WHERE timecreated >= :timestart
-    GROUP BY notification_type
+    GROUP BY type
     ORDER BY count DESC
 ", ['timestart' => time() - (30 * 24 * 60 * 60)]);
 
@@ -90,7 +90,7 @@ $activitylabels = [];
 $activityvalues = [];
 
 foreach ($activitydata as $activity) {
-    $activitylabels[] = get_string($activity->notification_type, 'local_student_monitor');
+    $activitylabels[] = get_string($activity->type, 'local_student_monitor');
     $activityvalues[] = $activity->count;
 }
 
