@@ -37,7 +37,7 @@ class alert_manager {
      * Create a manual alert.
      *
      * @param \stdClass $data Alert data from form
-     * @return int Alert ID (notification ID)
+     * @return array Array with 'count', 'success', and 'failed' keys
      */
     public function create_manual_alert($data) {
         global $DB, $USER;
@@ -85,8 +85,12 @@ class alert_manager {
             $channels = ['email'];
         }
 
-        // Create notifications for each recipient.
+        // Create and immediately send notifications for each recipient.
+        $channelmanager = new channel_manager();
         $notificationids = [];
+        $successcount = 0;
+        $failcount = 0;
+
         foreach ($recipients as $recipient) {
             $metadata = [
                 'alerttype' => $data->alerttype,
@@ -106,6 +110,42 @@ class alert_manager {
 
             if ($notificationid) {
                 $notificationids[] = $notificationid;
+
+                // Send immediately for manual alerts.
+                $notification = $DB->get_record('local_sm_notifications', ['id' => $notificationid]);
+                if ($notification) {
+                    $results = $channelmanager->send_notification($notification, $recipient);
+
+                    // Check if at least one channel succeeded.
+                    $success = false;
+                    foreach ($results as $result) {
+                        if ($result) {
+                            $success = true;
+                            break;
+                        }
+                    }
+
+                    // Update notification status.
+                    if ($success) {
+                        $notificationmanager->update_notification_status($notificationid, 'sent');
+                        $successcount++;
+                    } else {
+                        $notificationmanager->update_notification_status($notificationid, 'failed');
+                        $failcount++;
+                    }
+
+                    // Trigger notification sent event.
+                    $event = \local_student_monitor\event\notification_sent::create([
+                        'objectid' => $notificationid,
+                        'context' => \context_system::instance(),
+                        'userid' => $recipient->id,
+                        'other' => [
+                            'type' => 'manual_alert',
+                            'success' => $success,
+                        ],
+                    ]);
+                    $event->trigger();
+                }
             }
         }
 
@@ -122,11 +162,17 @@ class alert_manager {
             'other' => [
                 'alerttype' => $data->alerttype,
                 'recipients' => count($recipients),
+                'success' => $successcount,
+                'failed' => $failcount,
             ],
         ]);
         $event->trigger();
 
-        return count($notificationids);
+        return [
+            'count' => count($notificationids),
+            'success' => $successcount,
+            'failed' => $failcount,
+        ];
     }
 
     /**
