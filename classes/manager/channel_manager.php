@@ -135,9 +135,10 @@ class channel_manager {
      *
      * @param string $phone Phone number
      * @param string $message Message text
+     * @param int $notificationid Notification ID for cost tracking
      * @return bool Success
      */
-    public function send_sms($phone, $message) {
+    public function send_sms($phone, $message, $notificationid = 0) {
         $apiurl = get_config('local_student_monitor', 'sms_api_url');
         $apikey = get_config('local_student_monitor', 'sms_api_key');
 
@@ -146,11 +147,18 @@ class channel_manager {
             return false;
         }
 
+        // Check if budget limit is reached.
+        $smstracker = new sms_cost_tracker();
+        if ($smstracker->is_budget_limit_reached()) {
+            debugging('SMS budget limit reached for this month', DEBUG_DEVELOPER);
+            return false;
+        }
+
         // Clean phone number (remove spaces, dashes, etc.).
         $phone = preg_replace('/[^0-9+]/', '', $phone);
 
-        // Truncate message to 160 characters for SMS.
-        $message = substr($message, 0, 160);
+        // Don't truncate - allow multiple SMS parts.
+        $originalmessage = $message;
 
         // Prepare POST data.
         $postdata = [
@@ -173,6 +181,11 @@ class channel_manager {
 
             // Log the SMS send attempt.
             $this->log_sms_send($phone, $message, $httpcode, $response);
+
+            // Track SMS cost if successful.
+            if ($httpcode == 200 && $notificationid > 0) {
+                $smstracker->track_sms($notificationid, $phone, $originalmessage);
+            }
 
             return $httpcode == 200;
         } catch (\Exception $e) {
@@ -234,6 +247,82 @@ class channel_manager {
             return $httpcode == 200;
         } catch (\Exception $e) {
             debugging('Error sending WhatsApp: ' . $e->getMessage(), DEBUG_DEVELOPER);
+            return false;
+        }
+    }
+
+    /**
+     * Send WhatsApp template message.
+     *
+     * @param string $phone Phone number
+     * @param string $templatename Template name (pre-approved in WhatsApp)
+     * @param array $parameters Template parameters
+     * @return bool Success
+     */
+    public function send_whatsapp_template($phone, $templatename, $parameters = []) {
+        $phoneid = get_config('local_student_monitor', 'whatsapp_phone_id');
+        $token = get_config('local_student_monitor', 'whatsapp_token');
+
+        if (empty($phoneid) || empty($token)) {
+            debugging('WhatsApp API not configured', DEBUG_DEVELOPER);
+            return false;
+        }
+
+        // Clean phone number.
+        $phone = preg_replace('/[^0-9]/', '', $phone);
+
+        // WhatsApp Business API endpoint.
+        $apiurl = "https://graph.facebook.com/v18.0/{$phoneid}/messages";
+
+        // Prepare template parameters.
+        $templateparams = [];
+        foreach ($parameters as $param) {
+            $templateparams[] = [
+                'type' => 'text',
+                'text' => $param
+            ];
+        }
+
+        // Prepare template message data.
+        $data = [
+            'messaging_product' => 'whatsapp',
+            'to' => $phone,
+            'type' => 'template',
+            'template' => [
+                'name' => $templatename,
+                'language' => [
+                    'code' => 'fr' // French for UNCHK Senegal
+                ],
+                'components' => [
+                    [
+                        'type' => 'body',
+                        'parameters' => $templateparams
+                    ]
+                ]
+            ],
+        ];
+
+        try {
+            $ch = curl_init($apiurl);
+            curl_setopt($ch, CURLOPT_POST, 1);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_TIMEOUT, 30);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, [
+                'Content-Type: application/json',
+                'Authorization: Bearer ' . $token,
+            ]);
+
+            $response = curl_exec($ch);
+            $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            curl_close($ch);
+
+            // Log the WhatsApp send attempt.
+            $this->log_whatsapp_send($phone, 'Template: ' . $templatename, $httpcode, $response);
+
+            return $httpcode == 200;
+        } catch (\Exception $e) {
+            debugging('Error sending WhatsApp template: ' . $e->getMessage(), DEBUG_DEVELOPER);
             return false;
         }
     }

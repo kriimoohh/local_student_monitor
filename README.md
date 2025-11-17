@@ -1,6 +1,6 @@
 # Student Monitor - Plugin Moodle
 
-**Version:** 1.3.0
+**Version:** 1.4.0
 **Compatible Moodle:** 4.0+
 **PHP:** 8.0+
 **Licence:** GNU GPL v3
@@ -408,6 +408,26 @@ Pour toute question ou problème :
 ---
 
 ## 📝 Changelog
+
+### Version 1.4.0 (2025-11-17)
+
+**Phase 5 - Export PDF & Gestion des communications**
+
+- ✅ Export PDF des rapports (étudiants, détaillé, notifications)
+- ✅ Tracking des coûts SMS avec statistiques
+- ✅ Support des templates WhatsApp Business
+- ✅ Page de statistiques de communication
+- ✅ Graphique des coûts SMS quotidiens
+- ✅ Gestion du budget mensuel SMS
+- ✅ 35+ nouvelles chaînes de langue (FR/EN)
+
+**Nouvelles fonctionnalités :**
+- **Export PDF** : Rapports professionnels en PDF (liste étudiants, rapport détaillé, historique notifications)
+- **Tracking SMS** : Suivi automatique des coûts SMS, calcul des parties, budget mensuel
+- **WhatsApp Templates** : Support des messages pré-approuvés WhatsApp Business API
+- **Statistiques communication** : Page dédiée aux stats SMS/WhatsApp avec graphiques
+- **Gestion budget** : Alertes de dépassement de budget SMS, blocage automatique si limite atteinte
+- **Coûts par type** : Répartition des coûts SMS par type de notification
 
 ### Version 1.3.0 (2025-11-17)
 

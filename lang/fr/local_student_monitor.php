@@ -349,3 +349,40 @@ $string['clearfilters'] = 'Effacer les filtres';
 $string['visiblestudents'] = 'Étudiants visibles';
 $string['selectallvisible'] = 'Tout sélectionner (visibles)';
 $string['email'] = 'Email';
+
+// PDF Export & Communication (Phase 5).
+$string['studentreport'] = 'Rapport des étudiants';
+$string['studentmonitorreport'] = 'Rapport Student Monitor';
+$string['generatedon'] = 'Généré le';
+$string['summary'] = 'Résumé';
+$string['detailedreport'] = 'Rapport détaillé';
+$string['studentmonitordetailedreport'] = 'Rapport détaillé Student Monitor';
+$string['overview'] = 'Vue d\'ensemble';
+$string['generatedby'] = 'Généré par';
+$string['total'] = 'Total';
+$string['student'] = 'Étudiant';
+
+// Communication statistics (Phase 5).
+$string['communicationstats'] = 'Statistiques de communication';
+$string['period'] = 'Période';
+$string['thisweek'] = 'Cette semaine';
+$string['thismonth'] = 'Ce mois';
+$string['thisyear'] = 'Cette année';
+$string['totalsmssent'] = 'Total SMS envoyés';
+$string['parts'] = 'parties';
+$string['totalcost'] = 'Coût total';
+$string['currentperiod'] = 'Période actuelle';
+$string['avgcostpersms'] = 'Coût moyen par SMS';
+$string['monthlybudget'] = 'Budget mensuel';
+$string['dailysmscosts'] = 'Coûts SMS quotidiens';
+$string['costbytype'] = 'Coûts par type';
+$string['channeldistribution'] = 'Répartition par canal';
+$string['channel'] = 'Canal';
+$string['count'] = 'Nombre';
+$string['nodata'] = 'Aucune donnée disponible';
+
+// PDF export actions.
+$string['exportstudentspdf'] = 'Exporter étudiants (PDF)';
+$string['exportnotificationspdf'] = 'Exporter notifications (PDF)';
+$string['exportdetailedpdf'] = 'Exporter rapport détaillé (PDF)';
+$string['invalidexporttype'] = 'Type d\'export invalide';

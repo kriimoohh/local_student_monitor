@@ -147,6 +147,74 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.4.0] - 2025-11-17
+
+### Added
+- **PDF Export Manager (classes/manager/pdf_manager.php)**
+  - Export students list to PDF with risk level filtering
+  - Export detailed report with statistics and charts
+  - Export notification history to PDF
+  - Professional PDF formatting using TCPDF
+  - Automatic file naming with timestamps
+  - Color-coded risk levels in PDF tables
+- **SMS Cost Tracker (classes/manager/sms_cost_tracker.php)**
+  - Automatic cost tracking per SMS sent
+  - Multi-part SMS calculation (160 char limit)
+  - Monthly budget management and alerts
+  - Cost statistics by period (week, month, year)
+  - Daily cost trends for last 30 days
+  - Cost breakdown by notification type
+  - Budget limit enforcement (blocks SMS if exceeded)
+  - Currency configuration (default: XOF for Senegal)
+- **WhatsApp Template Support**
+  - Send pre-approved WhatsApp Business templates
+  - Template parameter substitution
+  - French language support for UNCHK
+  - Error handling and logging
+- **Communication Statistics Page (communication_stats.php)**
+  - Dedicated communication analytics dashboard
+  - 4 KPI cards: Total SMS, Total cost, Avg cost, Budget status
+  - Daily SMS costs chart (Chart.js)
+  - Cost breakdown by notification type table
+  - Channel distribution analysis
+  - Period selector (week, month, year)
+  - Budget percentage visual indicator
+- **Communication Charts Module (amd/src/communication_charts.js)**
+  - Daily SMS costs line chart
+  - Responsive and interactive visualizations
+  - Currency display in tooltips
+  - Chart.js v4.4.0 integration
+- **PDF Export Handler (export_pdf.php)**
+  - Unified PDF export endpoint
+  - Support for 3 export types: students, detailed, notifications
+  - Parameter handling for filters and date ranges
+  - Capability checking for security
+
+### Technical Improvements
+- Enhanced SMS sending with cost tracking integration
+- Budget limit checking before SMS send
+- WhatsApp template message API implementation
+- TCPDF library integration for PDF generation
+- Multi-part SMS calculation algorithm
+- SQL queries for cost analytics
+- Daily cost aggregation and trends
+
+### Files Added (5)
+1. classes/manager/pdf_manager.php - PDF export manager
+2. classes/manager/sms_cost_tracker.php - SMS cost tracking
+3. communication_stats.php - Communication statistics page
+4. amd/src/communication_charts.js - Communication charts module
+5. export_pdf.php - PDF export handler
+
+### Files Modified
+- version.php (updated to v1.4.0, version 2025111704)
+- classes/manager/channel_manager.php (added SMS cost tracking and WhatsApp templates)
+- lang/en/local_student_monitor.php (+35 strings)
+- lang/fr/local_student_monitor.php (+35 strings)
+- README.md (updated with Phase 5 features)
+
+---
+
 ## [1.3.0] - 2025-11-17
 
 ### Added
@@ -307,6 +375,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Version History
 
+- **v1.4.0** (2025-11-17) - PDF Export & Communication Management
 - **v1.3.0** (2025-11-17) - Visualization & Advanced Reporting
 - **v1.2.0** (2025-11-17) - Configuration & Testing
 - **v1.1.0** (2025-11-17) - UI, Dashboard & Manual Alerts
