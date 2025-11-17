@@ -75,23 +75,90 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.1.0] - 2025-11-17
+
+### Added
+- **Interactive Dashboard (dashboard.php)**
+  - KPI cards: Students at risk, Notifications sent, Interventions needed, Read rate
+  - Critical alerts section highlighting top 5 urgent cases
+  - Filterable student list table with risk level badges
+  - Quick action buttons for common tasks
+  - Responsive Bootstrap-based design
+- **Manual Alerts System**
+  - Complete alert manager (alert_manager.php) for creating custom alerts
+  - Alert form (manual_alert_form.php) with full validation
+  - Alert types: Exam, Assignment, Announcement, Event
+  - Target selection: All students, Course, Group, Manual selection
+  - Multi-channel delivery configuration
+  - Automatic reminder scheduling (D-7, D-3, D-1)
+  - Alert statistics and tracking
+- **Reporting & Export (reporting_manager.php)**
+  - CSV export for students data with risk filtering
+  - CSV export for notifications history
+  - Weekly report generation with comprehensive stats
+  - Notification trends data (for future charts)
+  - Risk distribution data (for future visualization)
+- **New Pages**
+  - create_alert.php - Manual alert creation interface
+  - view_alerts.php - Alert history viewer
+  - export.php - Data export handler (CSV with UTF-8 BOM)
+  - index.php - Entry point redirecting to dashboard
+- **UI Enhancements**
+  - Complete CSS stylesheet (styles/styles.css) with:
+    - KPI card styling with hover effects
+    - Risk level color coding
+    - Responsive table and form styles
+    - Mobile-responsive design
+    - Print styles
+  - JavaScript AMD module (amd/src/dashboard.js)
+  - Bootstrap integration
+- **Moodle Integration**
+  - Message providers (db/messages.php)
+  - Popup and email notification configuration
+- **Localization**
+  - 24 new language strings (French & English)
+  - Form validation messages
+  - UI element labels
+
+### Technical Improvements
+- Proper permission checks on all new pages
+- Session key validation for forms
+- Clean URL parameter handling
+- Bootstrap-compatible HTML structure
+- AMD module pattern for JavaScript
+- CSV export with UTF-8 BOM for Excel compatibility
+
+### Files Added (13)
+1. dashboard.php
+2. create_alert.php
+3. view_alerts.php
+4. export.php
+5. index.php
+6. classes/manager/alert_manager.php
+7. classes/manager/reporting_manager.php
+8. classes/form/manual_alert_form.php
+9. db/messages.php
+10. amd/src/dashboard.js
+11. styles/styles.css
+
+### Files Modified
+- lang/en/local_student_monitor.php (+24 strings)
+- lang/fr/local_student_monitor.php (+24 strings)
+
+---
+
 ## [Unreleased]
 
-### Planned for v1.1.0
-- [ ] Dashboard UI implementation with Mustache templates
+### Planned for v1.2.0
+- [ ] Course-specific settings page (course_settings.php)
+- [ ] Student preferences page
 - [ ] JavaScript charts integration (Chart.js)
 - [ ] Advanced filtering and search in student list
 - [ ] Bulk actions for students
 - [ ] Email template editor in admin interface
+- [ ] PDF export
 - [ ] SMS cost tracking
 - [ ] WhatsApp template messages support
-- [ ] Mobile app notifications (via Firebase)
-- [ ] Predictive analytics for at-risk detection
-- [ ] Integration with external learning analytics
-- [ ] Automated intervention workflows
-- [ ] Parent/guardian notifications
-- [ ] Multi-language template support
-- [ ] Advanced reporting with PDF export
 
 ### Ideas for Future Releases
 - Chatbot integration for student support
@@ -109,6 +176,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Version History
 
+- **v1.1.0** (2025-11-17) - UI, Dashboard & Manual Alerts
 - **v1.0.0** (2025-11-17) - Initial release
 
 ---
