@@ -1,0 +1,271 @@
+/**
+ * Student Monitor Plugin Styles
+ *
+ * @package    local_student_monitor
+ * @copyright  2025 UNCHK
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+
+/* Dashboard Container */
+.student-monitor-dashboard {
+    margin: 20px 0;
+}
+
+/* KPI Cards */
+.kpi-card {
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s, box-shadow 0.2s;
+    min-height: 150px;
+}
+
+.kpi-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.kpi-card .card-body {
+    padding: 20px;
+}
+
+.kpi-card .card-title {
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: uppercase;
+    margin-bottom: 15px;
+    opacity: 0.9;
+}
+
+.kpi-number {
+    font-size: 48px;
+    font-weight: bold;
+    line-height: 1;
+    margin-bottom: 10px;
+}
+
+.kpi-card small {
+    opacity: 0.8;
+    font-size: 12px;
+}
+
+/* Risk Level Badges */
+.badge-danger {
+    background-color: #dc3545 !important;
+}
+
+.badge-warning {
+    background-color: #ffc107 !important;
+    color: #000 !important;
+}
+
+.badge-info {
+    background-color: #17a2b8 !important;
+}
+
+.badge-success {
+    background-color: #28a745 !important;
+}
+
+/* Risk Class Colors */
+.risk-low {
+    color: #28a745;
+}
+
+.risk-medium {
+    color: #ffc107;
+}
+
+.risk-high {
+    color: #fd7e14;
+}
+
+.risk-critical {
+    color: #dc3545;
+}
+
+/* Student Table */
+.student-monitor-dashboard .table {
+    background: white;
+    border-radius: 4px;
+}
+
+.student-monitor-dashboard .table th {
+    background-color: #f8f9fa;
+    font-weight: 600;
+    border-top: none;
+    padding: 12px;
+}
+
+.student-monitor-dashboard .table td {
+    vertical-align: middle;
+    padding: 12px;
+}
+
+.student-monitor-dashboard .table tr:hover {
+    background-color: #f8f9fa;
+}
+
+/* Alert Boxes */
+.student-monitor-dashboard .alert-danger {
+    border-left: 4px solid #dc3545;
+}
+
+.student-monitor-dashboard .alert-info {
+    border-left: 4px solid #17a2b8;
+}
+
+.student-monitor-dashboard .alert-warning {
+    border-left: 4px solid #ffc107;
+}
+
+/* Cards */
+.student-monitor-dashboard .card {
+    border-radius: 8px;
+    border: 1px solid #e0e0e0;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.student-monitor-dashboard .card-header {
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #e0e0e0;
+    font-weight: 600;
+}
+
+/* Buttons */
+.student-monitor-dashboard .btn {
+    border-radius: 4px;
+    padding: 8px 16px;
+    font-weight: 500;
+    transition: all 0.2s;
+}
+
+.student-monitor-dashboard .btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.student-monitor-dashboard .btn-sm {
+    padding: 4px 8px;
+    font-size: 12px;
+}
+
+/* Form Elements */
+.student-monitor-dashboard .form-inline .custom-select {
+    margin-right: 10px;
+    min-width: 200px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .kpi-number {
+        font-size: 36px;
+    }
+
+    .student-monitor-dashboard .col-md-3 {
+        margin-bottom: 15px;
+    }
+
+    .student-monitor-dashboard .table {
+        font-size: 14px;
+    }
+
+    .student-monitor-dashboard .form-inline {
+        display: block;
+    }
+
+    .student-monitor-dashboard .form-inline .custom-select {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+}
+
+/* Loading Spinner */
+.student-monitor-loading {
+    text-align: center;
+    padding: 40px;
+}
+
+.student-monitor-loading::after {
+    content: '';
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #3498db;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Empty State */
+.student-monitor-empty {
+    text-align: center;
+    padding: 60px 20px;
+    color: #999;
+}
+
+.student-monitor-empty i {
+    font-size: 64px;
+    margin-bottom: 20px;
+}
+
+/* Statistics Section */
+.student-monitor-stats {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+    margin: 20px 0;
+}
+
+.student-monitor-stats h4 {
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+
+.stat-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.stat-item:last-child {
+    border-bottom: none;
+}
+
+.stat-label {
+    font-weight: 500;
+    color: #666;
+}
+
+.stat-value {
+    font-weight: bold;
+    color: #333;
+}
+
+/* Charts Container */
+.student-monitor-charts {
+    margin: 30px 0;
+}
+
+.chart-container {
+    position: relative;
+    height: 300px;
+    margin-bottom: 30px;
+}
+
+/* Print Styles */
+@media print {
+    .student-monitor-dashboard .btn,
+    .student-monitor-dashboard .form-inline {
+        display: none;
+    }
+
+    .kpi-card {
+        page-break-inside: avoid;
+    }
+}

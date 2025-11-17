@@ -213,3 +213,24 @@ $string['event_alert_created'] = 'Alert created';
 $string['privacy:notifications'] = 'Notifications';
 $string['privacy:tracking'] = 'Student tracking';
 $string['privacy:logs'] = 'Activity logs';
+
+// Additional strings.
+$string['nostudents'] = 'No students found';
+$string['all'] = 'All';
+$string['filter'] = 'Filter';
+$string['allstudents'] = 'All students';
+$string['location'] = 'Location';
+$string['reminders'] = 'Automatic reminders';
+$string['reminders_help'] = 'Create automatic reminders before the event';
+$string['eventdate_help'] = 'Date and time of the event or deadline';
+$string['selectusers'] = 'Please select at least one user';
+$string['selectatleastonechannel'] = 'Please select at least one communication channel';
+$string['createalertdesc'] = 'Create a manual alert to inform students about an exam, assignment, or important event.';
+$string['viewalerts'] = 'Alert history';
+$string['recentalerts'] = 'Recent alerts';
+$string['noalerts'] = 'No alerts found';
+$string['sentby'] = 'Sent by';
+$string['timecreated'] = 'Created on';
+$string['back'] = 'Back';
+$string['view'] = 'View';
+$string['choosedots'] = 'Choose...';

@@ -213,3 +213,24 @@ $string['event_alert_created'] = 'Alerte créée';
 $string['privacy:notifications'] = 'Notifications';
 $string['privacy:tracking'] = 'Suivi étudiant';
 $string['privacy:logs'] = 'Journaux d\'activité';
+
+// Additional strings.
+$string['nostudents'] = 'Aucun étudiant trouvé';
+$string['all'] = 'Tous';
+$string['filter'] = 'Filtrer';
+$string['allstudents'] = 'Tous les étudiants';
+$string['location'] = 'Lieu';
+$string['reminders'] = 'Rappels automatiques';
+$string['reminders_help'] = 'Créer des rappels automatiques avant l\'événement';
+$string['eventdate_help'] = 'Date et heure de l\'événement ou de l\'échéance';
+$string['selectusers'] = 'Veuillez sélectionner au moins un utilisateur';
+$string['selectatleastonechannel'] = 'Veuillez sélectionner au moins un canal de communication';
+$string['createalertdesc'] = 'Créez une alerte manuelle pour informer les étudiants d\'un examen, devoir, ou événement important.';
+$string['viewalerts'] = 'Historique des alertes';
+$string['recentalerts'] = 'Alertes récentes';
+$string['noalerts'] = 'Aucune alerte trouvée';
+$string['sentby'] = 'Envoyé par';
+$string['timecreated'] = 'Date de création';
+$string['back'] = 'Retour';
+$string['view'] = 'Voir';
+$string['choosedots'] = 'Choisir...';
