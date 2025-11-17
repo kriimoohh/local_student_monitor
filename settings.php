@@ -215,4 +215,15 @@ if ($hassiteconfig) {
     ));
 
     $ADMIN->add('localplugins', $settings);
+
+    // Add dashboard link to Site Administration -> General section.
+    $ADMIN->add(
+        'root',
+        new admin_externalpage(
+            'local_student_monitor_dashboard',
+            get_string('studentmonitordashboard', 'local_student_monitor'),
+            new moodle_url('/local/student_monitor/dashboard.php'),
+            'local/student_monitor:viewdashboard'
+        )
+    );
 }
