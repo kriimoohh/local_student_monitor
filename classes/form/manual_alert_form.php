@@ -92,9 +92,24 @@ class manual_alert_form extends \moodleform {
         $mform->addElement('select', 'groupid', get_string('group'), []);
         $mform->hideIf('groupid', 'recipients', 'neq', 'group');
 
-        // Manual user selection (hidden field, populated by JavaScript).
-        $mform->addElement('hidden', 'selectedusers');
-        $mform->setType('selectedusers', PARAM_TEXT);
+        // Manual user selection with autocomplete.
+        $options = [
+            'multiple' => true,
+            'ajax' => 'local_student_monitor/search_users',
+            'valuehtmlcallback' => function($value) {
+                global $DB;
+                if (!$value) {
+                    return '';
+                }
+                $user = $DB->get_record('user', ['id' => $value], 'id, firstname, lastname, email');
+                if ($user) {
+                    return fullname($user) . ' (' . $user->email . ')';
+                }
+                return '';
+            }
+        ];
+        $mform->addElement('autocomplete', 'selectedusers', get_string('selectusersfield', 'local_student_monitor'), [], $options);
+        $mform->hideIf('selectedusers', 'recipients', 'neq', 'manual');
 
         // Channels section.
         $mform->addElement('header', 'channelshdr', get_string('channels', 'local_student_monitor'));

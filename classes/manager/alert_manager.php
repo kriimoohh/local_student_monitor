@@ -161,8 +161,13 @@ class alert_manager {
                 if (empty($data->selectedusers)) {
                     return [];
                 }
-                $userids = explode(',', $data->selectedusers);
+                // Handle both array (from autocomplete) and comma-separated string formats.
+                $userids = is_array($data->selectedusers) ? $data->selectedusers : explode(',', $data->selectedusers);
                 foreach ($userids as $userid) {
+                    $userid = trim($userid);
+                    if (empty($userid)) {
+                        continue;
+                    }
                     $user = $DB->get_record('user', ['id' => $userid], 'id, firstname, lastname, email');
                     if ($user) {
                         $recipients[] = $user;

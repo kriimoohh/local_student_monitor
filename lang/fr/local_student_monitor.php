@@ -224,6 +224,7 @@ $string['reminders'] = 'Rappels automatiques';
 $string['reminders_help'] = 'Créer des rappels automatiques avant l\'événement';
 $string['eventdate_help'] = 'Date et heure de l\'événement ou de l\'échéance';
 $string['selectusers'] = 'Veuillez sélectionner au moins un utilisateur';
+$string['selectusersfield'] = 'Sélectionner des utilisateurs';
 $string['selectatleastonechannel'] = 'Veuillez sélectionner au moins un canal de communication';
 $string['createalertdesc'] = 'Créez une alerte manuelle pour informer les étudiants d\'un examen, devoir, ou événement important.';
 $string['viewalerts'] = 'Historique des alertes';
