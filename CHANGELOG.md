@@ -471,6 +471,88 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.6.0] - 2025-11-17
+
+### Added
+- **Predictive Analytics Engine (classes/manager/predictive_analytics.php)**
+  - AI-powered risk prediction using linear regression on historical data
+  - predict_risk() - Predict future risk level for individual students (3, 7, 14, or 30 days ahead)
+  - Trend analysis: inactivity trend, assignment trend, engagement trend
+  - Confidence scoring based on data quality and quantity (0-100%)
+  - Probability distribution for each risk level
+  - Key contributing factors identification
+  - get_early_warnings() - Identify students predicted to become at-risk
+  - generate_prediction_report() - Comprehensive prediction analytics
+  - Risk transition tracking (improving, stable, deteriorating)
+- **Predictions Dashboard (predictions.php)**
+  - Interactive predictive analytics interface
+  - 4 KPI cards: Total predictions, Early warnings, Average confidence, Deteriorating trend
+  - Configurable prediction horizon (3, 7, 14, 30 days)
+  - Early warnings table with detailed predictions
+  - Predicted risk distribution chart (Chart.js donut)
+  - Trend direction chart (Chart.js bar)
+  - Key factors display for each prediction
+  - Confidence filtering slider
+- **Parent/Guardian Notification System (classes/manager/parent_guardian_manager.php)**
+  - Complete parent/guardian management
+  - register_parent() - Register parents with email, phone, relationship
+  - notify_parents_critical() - Automatic critical risk notifications to parents
+  - send_weekly_digest() - Weekly activity summaries for parents
+  - Notification frequency settings (critical, weekly, monthly)
+  - Multi-channel support (email, SMS)
+  - Personalized recommendations for parents
+  - Recently notified tracking (7-day cooldown)
+  - Parent notification statistics
+- **Parent Management Interface (parent_management.php)**
+  - Parent/guardian registration form
+  - 3 KPI cards: Registered parents, Notifications this month, Unique parents notified
+  - Students with registered parents list
+  - Quick notify parents action
+  - Relationship types (parent, guardian, academic tutor)
+- **Custom Report Builder (classes/manager/custom_report_builder.php)**
+  - Flexible custom report creation
+  - 13 available columns: student name, email, risk level, inactivity, missing assignments, notifications, last login, supervisor, interventions, grades, courses, predicted risk
+  - 6 filter types: risk level, inactivity range, missing assignments range, assigned status, date range, supervisor
+  - save_report_template() - Save report configurations
+  - generate_report() - Execute custom SQL queries
+  - Dynamic SQL query building based on columns and filters
+  - export_to_csv() - CSV export with UTF-8 BOM
+  - get_report_statistics() - Summary statistics for reports
+  - Report template management (save, load, delete)
+- **Predictions JavaScript Module (amd/src/predictions.js)**
+  - Predicted risk distribution donut chart
+  - Trend direction bar chart
+  - High-risk prediction highlighting
+  - Table sorting functionality
+  - Confidence filter slider
+  - Real-time row filtering
+
+### Technical Improvements
+- Linear regression algorithm for trend analysis
+- Slope calculation for historical data patterns
+- Confidence scoring algorithm
+- Dynamic SQL query builder with parameterized queries
+- Multi-column report generation
+- Parent notification cooldown system
+- Prediction caching and performance optimization
+- Comprehensive data validation
+
+### Files Added (6)
+1. classes/manager/predictive_analytics.php - Predictive analytics engine (560 lines)
+2. classes/manager/parent_guardian_manager.php - Parent/guardian management (485 lines)
+3. classes/manager/custom_report_builder.php - Custom report builder (425 lines)
+4. predictions.php - Predictions dashboard (235 lines)
+5. parent_management.php - Parent management page (215 lines)
+6. amd/src/predictions.js - Predictions charts module (180 lines)
+
+### Files Modified
+- version.php (updated to v1.6.0, version 2025111706)
+- lang/en/local_student_monitor.php (+85 strings)
+- lang/fr/local_student_monitor.php (+85 strings)
+- CHANGELOG.md (added Phase 7 documentation)
+
+---
+
 ## [Unreleased]
 
 ### Planned for Future Versions
@@ -498,6 +580,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Version History
 
+- **v1.6.0** (2025-11-17) - Predictive Analytics & Parent Notifications
 - **v1.5.0** (2025-11-17) - Workflow Automation & Task Management
 - **v1.4.0** (2025-11-17) - PDF Export & Communication Management
 - **v1.3.0** (2025-11-17) - Visualization & Advanced Reporting
