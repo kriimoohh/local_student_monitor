@@ -88,8 +88,7 @@ class search_users extends external_api {
                         OR " . $DB->sql_like('u.email', ':email', false) . "
                         OR " . $DB->sql_like('u.username', ':username', false) . "
                         OR " . $DB->sql_like($DB->sql_concat('u.firstname', "' '", 'u.lastname'), ':fullname', false) . ")
-              ORDER BY u.firstname, u.lastname
-                 LIMIT :limitnum";
+              ORDER BY u.firstname, u.lastname";
 
         $searchparam = '%' . $DB->sql_like_escape($params['query']) . '%';
 
@@ -98,9 +97,8 @@ class search_users extends external_api {
             'lastname' => $searchparam,
             'email' => $searchparam,
             'username' => $searchparam,
-            'fullname' => $searchparam,
-            'limitnum' => $params['limitnum']
-        ]);
+            'fullname' => $searchparam
+        ], 0, $params['limitnum']);
 
         $result = [];
         foreach ($users as $user) {
