@@ -221,14 +221,14 @@ class sms_cost_tracker {
         }
 
         $sql = "SELECT
-                    n.notification_type,
+                    n.type as notification_type,
                     COUNT(DISTINCT n.id) as notification_count,
                     SUM(CASE WHEN JSON_EXTRACT(n.channels, '$.sms') = 1 THEN 1 ELSE 0 END) as sms_count
                 FROM {local_sm_notifications} n
                 WHERE n.timecreated >= :startdate
                     AND n.timecreated <= :enddate
                     AND n.channels LIKE '%sms%'
-                GROUP BY n.notification_type
+                GROUP BY n.type
                 ORDER BY notification_count DESC";
 
         try {
@@ -236,13 +236,13 @@ class sms_cost_tracker {
         } catch (\Exception $e) {
             // Fallback query for databases that don't support JSON_EXTRACT.
             $sql = "SELECT
-                        n.notification_type,
+                        n.type as notification_type,
                         COUNT(*) as notification_count
                     FROM {local_sm_notifications} n
                     WHERE n.timecreated >= :startdate
                         AND n.timecreated <= :enddate
                         AND n.channels LIKE '%sms%'
-                    GROUP BY n.notification_type
+                    GROUP BY n.type
                     ORDER BY notification_count DESC";
 
             $results = $DB->get_records_sql($sql, ['startdate' => $startdate, 'enddate' => $enddate]);

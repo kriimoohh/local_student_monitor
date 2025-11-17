@@ -541,10 +541,9 @@ class bi_analytics_engine {
             JOIN {user} u ON u.id = st.userid
             WHERE st.risk_level IN ('CRITIQUE', 'ÉLEVÉ')
             ORDER BY st.risk_score DESC, st.inactivity_days DESC
-            LIMIT :limit
         ";
 
-        return $DB->get_records_sql($sql, ['limit' => $limit]);
+        return $DB->get_records_sql($sql, [], 0, $limit);
     }
 
     /**
