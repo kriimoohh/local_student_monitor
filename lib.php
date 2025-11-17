@@ -35,6 +35,7 @@ function local_student_monitor_extend_navigation(global_navigation $navigation) 
     $context = context_system::instance();
 
     if (has_capability('local/student_monitor:viewdashboard', $context)) {
+        // Add main dashboard link.
         $node = $navigation->add(
             get_string('pluginname', 'local_student_monitor'),
             new moodle_url('/local/student_monitor/dashboard.php'),
@@ -44,6 +45,41 @@ function local_student_monitor_extend_navigation(global_navigation $navigation) 
             new pix_icon('i/dashboard', '')
         );
         $node->showinflatnavigation = true;
+
+        // Add submenu items for quick access.
+        $dashboardnode = $node->add(
+            get_string('studentmonitordashboard', 'local_student_monitor'),
+            new moodle_url('/local/student_monitor/dashboard.php'),
+            navigation_node::TYPE_CUSTOM,
+            null,
+            'sm_dashboard',
+            new pix_icon('i/dashboard', '')
+        );
+        $dashboardnode->showinflatnavigation = false;
+
+        // Add create alert link.
+        if (has_capability('local/student_monitor:sendmanual', $context)) {
+            $alertnode = $node->add(
+                get_string('createalert', 'local_student_monitor'),
+                new moodle_url('/local/student_monitor/create_alert.php'),
+                navigation_node::TYPE_CUSTOM,
+                null,
+                'sm_create_alert',
+                new pix_icon('i/edit', '')
+            );
+            $alertnode->showinflatnavigation = false;
+        }
+
+        // Add view alerts link.
+        $viewalertsnode = $node->add(
+            get_string('viewalerts', 'local_student_monitor'),
+            new moodle_url('/local/student_monitor/view_alerts.php'),
+            navigation_node::TYPE_CUSTOM,
+            null,
+            'sm_view_alerts',
+            new pix_icon('i/report', '')
+        );
+        $viewalertsnode->showinflatnavigation = false;
     }
 }
 
