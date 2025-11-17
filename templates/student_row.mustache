@@ -1,0 +1,76 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template local_student_monitor/student_row
+
+    Student row template for student list table.
+
+    Context variables required:
+    * userid - User ID
+    * fullname - Student full name
+    * email - Student email
+    * risklevel - Risk level (FAIBLE, MOYEN, ÉLEVÉ, CRITIQUE)
+    * riskclass - CSS class for risk badge
+    * inactivitydays - Days of inactivity
+    * missingassignments - Number of missing assignments
+    * notificationcount - Number of notifications sent
+    * lastactivity - Last activity date (formatted)
+    * profileurl - URL to student profile
+
+    Example context (json):
+    {
+        "userid": "123",
+        "fullname": "Fatou Diop",
+        "email": "fatou.diop@unchk.edu.sn",
+        "risklevel": "ÉLEVÉ",
+        "riskclass": "badge-warning",
+        "inactivitydays": "8",
+        "missingassignments": "3",
+        "notificationcount": "5",
+        "lastactivity": "2025-11-10 14:30",
+        "profileurl": "/user/profile.php?id=123"
+    }
+}}
+<tr data-userid="{{userid}}">
+    <td>
+        <span class="badge {{riskclass}}">{{risklevel}}</span>
+    </td>
+    <td>
+        <a href="{{profileurl}}">{{fullname}}</a>
+    </td>
+    <td>{{email}}</td>
+    <td>{{lastactivity}}</td>
+    <td>
+        {{#inactivitydays}}
+        <span class="badge badge-secondary">{{inactivitydays}}</span>
+        {{/inactivitydays}}
+    </td>
+    <td>
+        {{#missingassignments}}
+        <span class="badge badge-danger">{{missingassignments}}</span>
+        {{/missingassignments}}
+        {{^missingassignments}}
+        <span class="text-success">0</span>
+        {{/missingassignments}}
+    </td>
+    <td>{{notificationcount}}</td>
+    <td>
+        <a href="{{profileurl}}" class="btn btn-sm btn-primary">
+            {{#str}}view{{/str}}
+        </a>
+    </td>
+</tr>

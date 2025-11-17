@@ -147,11 +147,80 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.2.0] - 2025-11-17
+
+### Added
+- **Course-Specific Settings (course_settings.php)**
+  - Per-course configuration page accessible from course menu
+  - Course settings form (classes/form/course_settings_form.php)
+  - Enable/disable Student Monitor for specific courses
+  - Configurable activity types to monitor (assignments, quizzes, forums, resources, URLs, pages)
+  - Custom assignment reminder days per course
+  - Custom inactivity threshold per course
+  - Default supervisor assignment per course
+  - Teacher digest notifications (daily, weekly, monthly)
+  - Settings stored in local_sm_config table with courseid
+- **Student Notification Preferences (preferences.php)**
+  - Self-service preferences page for students
+  - Channel selection (Email, Moodle, SMS, WhatsApp)
+  - Notification history viewer (last 10 notifications)
+  - User preferences storage using Moodle's preferences API
+  - Clean, accessible interface
+- **Mustache Templates**
+  - templates/kpi_card.mustache - Reusable KPI card component
+  - templates/student_row.mustache - Student table row component
+  - Improved code maintainability and consistency
+  - Easier customization for themes
+- **Unit Tests**
+  - tests/notification_manager_test.php (5 test cases):
+    - test_create_notification - Basic notification creation
+    - test_create_inactivity_notification - Inactivity notification with template
+    - test_replace_placeholders - Placeholder replacement logic
+    - test_has_recent_notification - Recent notification checking
+    - test_update_notification_status - Status transitions (pending → sent → read)
+  - tests/student_tracker_test.php (6 test cases):
+    - test_update_student_tracking - Tracking record creation
+    - test_calculate_risk_level - All 4 risk levels (FAIBLE, MOYEN, ÉLEVÉ, CRITIQUE)
+    - test_assign_to_supervisor - Supervisor assignment
+    - test_add_notes - Note appending functionality
+    - test_get_students_at_risk - Risk level filtering
+    - test_get_statistics - Statistics calculation
+  - All tests extend \advanced_testcase
+  - Proper setUp() and resetAfterTest() usage
+- **Localization**
+  - 50+ new language strings (French & English)
+  - Course settings vocabulary
+  - Student preferences vocabulary
+  - Complete bilingual support
+
+### Technical Improvements
+- Enhanced Moodle forms with conditional field display (hideIf)
+- Dynamic supervisor list generation from course enrollments
+- User preferences API integration
+- Mustache template system for reusable UI components
+- Comprehensive PHPUnit test coverage for core managers
+- Improved code documentation
+
+### Files Added (7)
+1. course_settings.php
+2. classes/form/course_settings_form.php
+3. preferences.php
+4. templates/kpi_card.mustache
+5. templates/student_row.mustache
+6. tests/notification_manager_test.php
+7. tests/student_tracker_test.php
+
+### Files Modified
+- version.php (updated to v1.2.0, version 2025111702)
+- lang/en/local_student_monitor.php (+50 strings)
+- lang/fr/local_student_monitor.php (+50 strings)
+- README.md (updated with Phase 3 features and comprehensive changelog)
+
+---
+
 ## [Unreleased]
 
-### Planned for v1.2.0
-- [ ] Course-specific settings page (course_settings.php)
-- [ ] Student preferences page
+### Planned for Future Versions
 - [ ] JavaScript charts integration (Chart.js)
 - [ ] Advanced filtering and search in student list
 - [ ] Bulk actions for students
@@ -176,6 +245,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Version History
 
+- **v1.2.0** (2025-11-17) - Configuration & Testing
 - **v1.1.0** (2025-11-17) - UI, Dashboard & Manual Alerts
 - **v1.0.0** (2025-11-17) - Initial release
 

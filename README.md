@@ -1,6 +1,6 @@
 # Student Monitor - Plugin Moodle
 
-**Version:** 1.0.0
+**Version:** 1.2.0
 **Compatible Moodle:** 4.0+
 **PHP:** 8.0+
 **Licence:** GNU GPL v3
@@ -136,6 +136,18 @@ Les enseignants peuvent :
 - Créer des alertes pour leurs cours
 - Voir les étudiants à risque dans leurs cours
 - Consulter les statistiques de leur cours
+- **Configurer Student Monitor pour leur cours** : Accéder aux paramètres spécifiques via le menu du cours
+
+#### Configurer les paramètres du cours
+
+1. Dans votre cours > **Plus** > **Student Monitor Settings**
+2. Paramètres disponibles :
+   - Activer/désactiver Student Monitor pour ce cours
+   - Choisir les types d'activités à surveiller (devoirs, tests, forums, etc.)
+   - Configurer les rappels de devoirs personnalisés
+   - Définir un seuil d'inactivité personnalisé
+   - Assigner un superviseur par défaut
+   - Activer les résumés périodiques (quotidien, hebdomadaire, mensuel)
 
 ### Pour les étudiants
 
@@ -144,6 +156,18 @@ Les étudiants reçoivent automatiquement :
 - Alertes de nouveau contenu dans leurs cours
 - Rappels de devoirs à rendre
 - Annonces institutionnelles importantes
+
+#### Gérer ses préférences de notification
+
+Les étudiants peuvent personnaliser leurs canaux de réception :
+
+1. **Navigation** > **Student Monitor** > **Préférences**
+2. Choisir les canaux souhaités :
+   - ✉️ Email
+   - 🔔 Notifications Moodle
+   - 📱 SMS (si activé)
+   - 💬 WhatsApp (si activé)
+3. Consulter l'historique de leurs notifications
 
 ---
 
@@ -241,11 +265,36 @@ Le plugin respecte la réglementation RGPD :
 
 ## 🧪 Tests
 
-Pour exécuter les tests unitaires :
+Le plugin inclut des tests unitaires complets pour les fonctionnalités principales :
+
+### Tests disponibles
+
+- **notification_manager_test.php** - Tests du gestionnaire de notifications
+  - Création de notifications
+  - Remplacement des placeholders
+  - Vérification des notifications récentes
+  - Mise à jour des statuts
+
+- **student_tracker_test.php** - Tests du suivi étudiant
+  - Mise à jour du suivi
+  - Calcul des niveaux de risque (4 niveaux)
+  - Attribution aux superviseurs
+  - Ajout de notes
+  - Récupération des étudiants à risque
+  - Statistiques
+
+### Exécuter les tests
 
 ```bash
+# Initialiser PHPUnit (première fois uniquement)
 php admin/tool/phpunit/cli/init.php
+
+# Exécuter tous les tests du plugin
 php vendor/bin/phpunit --filter local_student_monitor
+
+# Exécuter un test spécifique
+php vendor/bin/phpunit --filter notification_manager_test
+php vendor/bin/phpunit --filter student_tracker_test
 ```
 
 ---
@@ -303,18 +352,59 @@ Pour toute question ou problème :
 
 ## 📝 Changelog
 
+### Version 1.2.0 (2025-11-17)
+
+**Phase 3 - Configuration & Testing**
+
+- ✅ Paramètres spécifiques par cours (course_settings.php)
+- ✅ Préférences de notification pour les étudiants (preferences.php)
+- ✅ Templates Mustache réutilisables (kpi_card, student_row)
+- ✅ Tests unitaires (notification_manager, student_tracker)
+- ✅ 50+ nouvelles chaînes de langue (FR/EN)
+- ✅ Améliorations de la personnalisation
+
+**Nouvelles fonctionnalités :**
+- Configuration granulaire par cours (activation, types d'activités, seuils personnalisés)
+- Résumés périodiques pour enseignants (quotidien, hebdomadaire, mensuel)
+- Préférences de canaux pour les étudiants
+- Historique des notifications pour les étudiants
+- Tests unitaires complets pour les managers principaux
+
+### Version 1.1.0 (2025-11-17)
+
+**Phase 2 - Interface & Alertes manuelles**
+
+- ✅ Dashboard interactif avec KPI et statistiques
+- ✅ Système d'alertes manuelles complet
+- ✅ Historique et suivi des alertes
+- ✅ Export CSV avec encodage UTF-8
+- ✅ Styles CSS responsive (300+ lignes)
+- ✅ Module JavaScript AMD pour interactivité
+- ✅ Fournisseurs de messages Moodle
+
+**Nouvelles fonctionnalités :**
+- Interface utilisateur complète et moderne
+- Création d'alertes personnalisées (examens, devoirs, événements)
+- Filtrage des étudiants par niveau de risque
+- Actions rapides depuis le dashboard
+- Rappels automatiques (J-7, J-3, J-1)
+
 ### Version 1.0.0 (2025-11-17)
 
+**Phase 1 - Infrastructure & Notifications automatiques**
+
 - ✅ Implémentation initiale
-- ✅ Détection d'inactivité (3 niveaux)
+- ✅ Détection d'inactivité (3 niveaux : 72h, 7j, 14j)
 - ✅ Notifications de nouveau contenu
-- ✅ Rappels de devoirs
+- ✅ Rappels de devoirs automatiques
 - ✅ Annonces institutionnelles
-- ✅ Alertes manuelles
-- ✅ Dashboard interactif
 - ✅ Multi-canaux (Email, Moodle, SMS, WhatsApp)
-- ✅ Évaluation des risques
-- ✅ Conformité RGPD
+- ✅ Système d'évaluation des risques (4 niveaux)
+- ✅ Conformité RGPD/Privacy API
+- ✅ 6 tâches CRON planifiées
+- ✅ 6 observateurs d'événements
+- ✅ Base de données (5 tables)
+- ✅ 8 permissions (capabilities)
 
 ---
 
