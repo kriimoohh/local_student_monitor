@@ -304,9 +304,8 @@ class alert_manager {
                   JOIN {user} u ON u.id = n.sentby
                  WHERE n.type = 'manual_alert'
               GROUP BY n.subject, n.timecreated, n.sentby, u.firstname, u.lastname
-              ORDER BY n.timecreated DESC
-                 LIMIT :limit";
+              ORDER BY n.timecreated DESC";
 
-        return $DB->get_records_sql($sql, ['limit' => $limit]);
+        return $DB->get_records_sql($sql, [], 0, $limit);
     }
 }

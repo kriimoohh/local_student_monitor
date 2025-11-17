@@ -261,8 +261,7 @@ class intervention_tracker {
                 LEFT JOIN {user} u ON u.id = i.supervisor_id
                 WHERE i.student_id = :userid
                 ORDER BY i.timecreated DESC
-                LIMIT :limit
-            ", ['userid' => $userid, 'limit' => $limit]);
+            ", ['userid' => $userid], 0, $limit);
         } else {
             // Fallback to logs table.
             $logs = $DB->get_records_sql("
@@ -271,8 +270,7 @@ class intervention_tracker {
                 WHERE action = 'intervention_logged'
                   AND details LIKE :userid
                 ORDER BY timecreated DESC
-                LIMIT :limit
-            ", ['userid' => '%"student_id":' . $userid . '%', 'limit' => $limit]);
+            ", ['userid' => '%"student_id":' . $userid . '%'], 0, $limit);
 
             $interventions = [];
             foreach ($logs as $log) {
@@ -466,7 +464,6 @@ class intervention_tracker {
             LEFT JOIN {user} u ON u.id = l.userid
             WHERE l.action = 'escalated_to_coordinator'
             ORDER BY l.timecreated DESC
-            LIMIT :limit
-        ", ['limit' => $limit]);
+        ", [], 0, $limit);
     }
 }

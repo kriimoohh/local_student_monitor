@@ -267,12 +267,10 @@ class report_scheduler {
             $params['risklevel'] = $risklevel;
         }
 
-        $sql .= " ORDER BY st.risk_score DESC, st.inactivity_days DESC
-                  LIMIT :limit";
-        $params['limit'] = $limit;
+        $sql .= " ORDER BY st.risk_score DESC, st.inactivity_days DESC";
 
         return (object)[
-            'students' => $DB->get_records_sql($sql, $params),
+            'students' => $DB->get_records_sql($sql, $params, 0, $limit),
             'filter' => $risklevel,
             'count' => count($DB->get_records_sql($sql, $params))
         ];
