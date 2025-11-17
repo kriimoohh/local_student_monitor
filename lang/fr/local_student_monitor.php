@@ -836,3 +836,72 @@ $string['tip3'] = '🎯 Motivation: Chaque petit progrès compte. Célébrez vos
 $string['tip4'] = '🤝 Conseil: N\'hésitez pas à demander de l\'aide à vos camarades ou enseignants.';
 $string['tip5'] = '⏰ Rappel: Gérez votre temps efficacement en priorisant les tâches importantes.';
 
+
+// Business Intelligence & Advanced Analytics (Phase 10).
+$string['bidashboard'] = 'Tableau de bord BI';
+$string['institutionaloverview'] = 'Vue d\'ensemble institutionnelle';
+$string['totalstudents'] = 'Total étudiants';
+$string['needsintervention'] = 'Besoin d\'intervention';
+$string['successrate'] = 'Taux de réussite';
+$string['avgresponsetime'] = 'Temps de réponse moyen';
+$string['studentsimproved'] = 'étudiants améliorés';
+$string['hoursaverage'] = 'heures en moyenne';
+$string['riskdistribution'] = 'Distribution du risque';
+$string['trendsandcharts'] = 'Tendances et graphiques';
+$string['dailyinterventions'] = 'Interventions quotidiennes';
+$string['successratetrend'] = 'Tendance taux de réussite';
+$string['retentionanalytics'] = 'Analytiques de rétention';
+$string['retentionrate'] = 'Taux de rétention';
+$string['activestudents'] = 'étudiants actifs';
+$string['atriskdropout'] = 'Risque d\'abandon';
+$string['dropoutprediction'] = 'Prédiction d\'abandon';
+$string['highriskinactive'] = 'Haut risque inactif';
+$string['retentiontrend'] = 'Tendance de rétention';
+$string['supervisorperformance'] = 'Performance des superviseurs';
+$string['assignedstudents'] = 'Étudiants assignés';
+$string['avgresponse'] = 'Réponse moyenne';
+$string['nosupervisordata'] = 'Aucune donnée de superviseur';
+$string['cohortanalysis'] = 'Analyse de cohortes';
+$string['cohort'] = 'Cohorte';
+$string['avgriskscore'] = 'Score de risque moyen';
+$string['nocohortdata'] = 'Aucune donnée de cohorte';
+$string['exportexecutivesummary'] = 'Exporter le résumé exécutif';
+$string['backtobidashboard'] = 'Retour au tableau de bord BI';
+
+// Report Scheduler.
+$string['reportschedules'] = 'Planifications de rapports';
+$string['createnewschedule'] = 'Créer une nouvelle planification';
+$string['noschedules'] = 'Aucune planification créée';
+$string['reporttype'] = 'Type de rapport';
+$string['frequency'] = 'Fréquence';
+$string['format'] = 'Format';
+$string['lastrun'] = 'Dernière exécution';
+$string['nextrun'] = 'Prochaine exécution';
+$string['scheduledeleted'] = 'Planification supprimée';
+$string['confirmdelete'] = 'Êtes-vous sûr de vouloir supprimer?';
+$string['enabled'] = 'Activé';
+$string['disabled'] = 'Désactivé';
+$string['enable'] = 'Activer';
+$string['disable'] = 'Désactiver';
+
+// Report types.
+$string['report_executive_summary'] = 'Résumé exécutif';
+$string['report_supervisor_performance'] = 'Performance des superviseurs';
+$string['report_student_risk'] = 'Risques étudiants';
+$string['report_retention'] = 'Rétention';
+$string['report_cohort_analysis'] = 'Analyse de cohortes';
+
+// Frequencies.
+$string['freq_daily'] = 'Quotidien';
+$string['freq_weekly'] = 'Hebdomadaire';
+$string['freq_monthly'] = 'Mensuel';
+$string['freq_quarterly'] = 'Trimestriel';
+
+// Misc.
+$string['scheduledreport'] = 'Rapport programmé';
+$string['scheduledreportbody'] = 'Veuillez trouver ci-joint le rapport {$a->reporttype} généré le {$a->date}.';
+$string['generatedon'] = 'Généré le';
+$string['critical'] = 'Critique';
+$string['high'] = 'Élevé';
+$string['medium'] = 'Moyen';
+$string['low'] = 'Faible';

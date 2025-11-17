@@ -835,3 +835,72 @@ $string['tip2'] = '📚 Tip: Create a weekly study schedule and stick to it.';
 $string['tip3'] = '🎯 Motivation: Every bit of progress counts. Celebrate your wins!';
 $string['tip4'] = '🤝 Tip: Don\'t hesitate to ask classmates or teachers for help.';
 $string['tip5'] = '⏰ Reminder: Manage your time effectively by prioritizing important tasks.';
+
+// Business Intelligence & Advanced Analytics (Phase 10).
+$string['bidashboard'] = 'BI Dashboard';
+$string['institutionaloverview'] = 'Institutional Overview';
+$string['totalstudents'] = 'Total Students';
+$string['needsintervention'] = 'Needs Intervention';
+$string['successrate'] = 'Success Rate';
+$string['avgresponsetime'] = 'Avg Response Time';
+$string['studentsimproved'] = 'students improved';
+$string['hoursaverage'] = 'hours average';
+$string['riskdistribution'] = 'Risk Distribution';
+$string['trendsandcharts'] = 'Trends & Charts';
+$string['dailyinterventions'] = 'Daily Interventions';
+$string['successratetrend'] = 'Success Rate Trend';
+$string['retentionanalytics'] = 'Retention Analytics';
+$string['retentionrate'] = 'Retention Rate';
+$string['activestudents'] = 'active students';
+$string['atriskdropout'] = 'At Risk Dropout';
+$string['dropoutprediction'] = 'Dropout Prediction';
+$string['highriskinactive'] = 'High risk inactive';
+$string['retentiontrend'] = 'Retention Trend';
+$string['supervisorperformance'] = 'Supervisor Performance';
+$string['assignedstudents'] = 'Assigned Students';
+$string['avgresponse'] = 'Avg Response';
+$string['nosupervisordata'] = 'No supervisor data';
+$string['cohortanalysis'] = 'Cohort Analysis';
+$string['cohort'] = 'Cohort';
+$string['avgriskscore'] = 'Avg Risk Score';
+$string['nocohortdata'] = 'No cohort data';
+$string['exportexecutivesummary'] = 'Export Executive Summary';
+$string['backtobidashboard'] = 'Back to BI Dashboard';
+
+// Report Scheduler.
+$string['reportschedules'] = 'Report Schedules';
+$string['createnewschedule'] = 'Create New Schedule';
+$string['noschedules'] = 'No schedules created';
+$string['reporttype'] = 'Report Type';
+$string['frequency'] = 'Frequency';
+$string['format'] = 'Format';
+$string['lastrun'] = 'Last Run';
+$string['nextrun'] = 'Next Run';
+$string['scheduledeleted'] = 'Schedule deleted';
+$string['confirmdelete'] = 'Are you sure you want to delete?';
+$string['enabled'] = 'Enabled';
+$string['disabled'] = 'Disabled';
+$string['enable'] = 'Enable';
+$string['disable'] = 'Disable';
+
+// Report types.
+$string['report_executive_summary'] = 'Executive Summary';
+$string['report_supervisor_performance'] = 'Supervisor Performance';
+$string['report_student_risk'] = 'Student Risk';
+$string['report_retention'] = 'Retention';
+$string['report_cohort_analysis'] = 'Cohort Analysis';
+
+// Frequencies.
+$string['freq_daily'] = 'Daily';
+$string['freq_weekly'] = 'Weekly';
+$string['freq_monthly'] = 'Monthly';
+$string['freq_quarterly'] = 'Quarterly';
+
+// Misc.
+$string['scheduledreport'] = 'Scheduled Report';
+$string['scheduledreportbody'] = 'Please find attached the {$a->reporttype} report generated on {$a->date}.';
+$string['generatedon'] = 'Generated on';
+$string['critical'] = 'Critical';
+$string['high'] = 'High';
+$string['medium'] = 'Medium';
+$string['low'] = 'Low';

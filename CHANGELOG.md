@@ -5,6 +5,34 @@ All notable changes to the Student Monitor plugin will be documented in this fil
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.9.0] - 2025-11-17
+
+### Added
+- **Advanced BI Analytics Engine:** Comprehensive business intelligence analytics with institutional overview, trend analysis, supervisor performance tracking, cohort analysis, retention analytics
+- **BI Dashboard for Administrators:** Interactive dashboard with real-time KPIs, risk distribution visualization, daily interventions/success rate trends, retention metrics, supervisor performance tables, cohort analysis tables
+- **Automated Report Scheduler:** Schedule reports (executive summary, supervisor performance, student risk, retention, cohort analysis) with multiple frequencies (daily, weekly, monthly, quarterly) and formats (PDF, CSV, HTML)
+- **Report Scheduler Management Page:** Create, enable/disable, and delete scheduled reports with recipients configuration
+- **BI Charts Module:** Chart.js visualizations for interventions trend, success rate trend, dual-axis retention trend chart
+- **Institutional Metrics:** Total students, needs intervention count, success rate calculation, average response time, active supervisors count
+- **Trend Analysis:** Daily risk distribution, intervention counts, notification counts, success rate trends over weeks
+- **Cohort Analysis:** Group students by course, enrolment period, or risk level with detailed metrics
+- **Retention Analytics:** Overall retention rate, at-risk dropout count, dropout prediction, retention trends over 12 weeks, retention by risk level
+- **Supervisor Performance Analytics:** Assigned students, total interventions, average response time, students improved, success rate per supervisor
+- **Automated Report Generation:** PDF/CSV/HTML report generation with email delivery to multiple recipients
+- **Executive Summary Reports:** Comprehensive institutional reports combining overview, trends, supervisors, retention, top risks, and recommendations
+- **60+ Language Strings:** New BI terminology, report types, frequencies, analytics labels in French and English
+
+### Technical Improvements
+- BI analytics engine with SQL optimization for large datasets
+- Report scheduler with cron-based execution
+- Multi-format report generation (PDF via TCPDF, CSV, HTML)
+- Email delivery system with file attachments
+- Chart.js dual-axis visualization support
+- Cohort grouping with dynamic SQL queries
+- Retention calculation algorithms
+- Success rate trending with historical comparison
+- Next run time calculation for various frequencies
+
 ## [1.8.0] - 2025-11-17
 
 ### Added
