@@ -348,6 +348,129 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.5.0] - 2025-11-17
+
+### Added
+- **Workflow Automation System (classes/manager/workflow_manager.php)**
+  - Automatic risk-based workflows for student interventions
+  - execute_risk_workflows() - Main workflow orchestration method
+  - execute_critical_workflow() - Urgent intervention for CRITIQUE risk level
+    - Auto-assign to default supervisor
+    - Create urgent intervention task (24h due date)
+    - Send multi-channel notification (email, moodle, SMS)
+    - Escalate to academic coordinator after 48h without response
+  - execute_high_workflow() - Follow-up for ÉLEVÉ risk level
+    - Auto-assign if inactivity > 7 days
+    - Create follow-up task (3 days due date)
+    - Send reminder if no contact in last 7 days
+  - execute_medium_workflow() - Preventive for MOYEN risk level
+    - Send preventive reminder if inactivity > 5 days
+  - Automatic supervisor task creation with priority and due dates
+  - Escalation to coordinator with detailed student information
+  - Workflow execution logging
+- **Task Management for Supervisors (tasks.php)**
+  - Dedicated task management page for supervisors
+  - 4 task KPI cards: Total, Pending, In progress, Overdue
+  - Task filtering by status (all, pending, in_progress, completed)
+  - Task priority system (urgent, high, normal, low)
+  - Task types (urgent_intervention, follow_up, preventive, check_in)
+  - Due date tracking with overdue highlighting
+  - Quick actions: Start work, Mark complete, View details
+  - Student context for each task (risk level, inactivity days, email)
+  - Task table with sortable columns and status badges
+  - Overdue task visual alerts
+- **Intervention Tracking System (classes/manager/intervention_tracker.php)**
+  - log_intervention() - Log all supervisor interventions
+  - complete_task() - Mark tasks as completed with notes
+  - defer_task() - Postpone tasks with new due dates
+  - reassign_task() - Transfer tasks to other supervisors
+  - get_intervention_history() - Student intervention timeline
+  - get_supervisor_statistics() - Supervisor performance metrics
+  - get_effectiveness_metrics() - Intervention success tracking
+  - get_escalation_history() - Critical case escalations
+  - Automatic student tracking updates after interventions
+  - Intervention count tracking per student
+  - Average response time calculation
+- **Business Rules Engine (classes/manager/business_rules_engine.php)**
+  - Customizable workflow automation rules
+  - evaluate_rules() - Rule evaluation for students
+  - 5 default business rules:
+    1. Critical inactivity auto-assign
+    2. High risk follow-up
+    3. Escalate after 48h no response
+    4. Missing assignments alert
+    5. Budget limit warning (SMS)
+  - Rule conditions with operators (==, !=, >, >=, <, <=, in, not_in)
+  - Rule actions: assign_supervisor, create_task, send_notification, escalate_to_coordinator, notify_supervisor, disable_sms, notify_admin
+  - execute_actions() - Execute rule-defined actions
+  - create_rule() - Create custom rules
+  - test_rule() - Test rules against current data
+  - Priority-based rule execution
+  - Rule execution logging
+  - Calculated fields (hours_since_intervention, response_received, sms_budget_usage)
+- **Effectiveness Reports (effectiveness.php)**
+  - Comprehensive intervention effectiveness analytics
+  - Period selector (week, month, quarter, year)
+  - Supervisor filter for individual performance
+  - 4 effectiveness KPIs:
+    - Students improved (risk level decreased)
+    - Students at risk (still critical/high)
+    - Success rate percentage
+    - Average interventions per student
+  - Supervisor performance metrics:
+    - Tasks completed
+    - Tasks pending
+    - Tasks overdue
+    - Average response time (hours)
+  - Risk transition analysis (improved, stable, deteriorated)
+  - Risk transition donut chart (Chart.js)
+  - Intervention type distribution table
+  - PDF export button for effectiveness reports
+- **JavaScript Modules**
+  - amd/src/task_manager.js - Task management interface enhancements
+    - Real-time status filtering
+    - Action confirmations
+    - Overdue task highlighting
+    - Task statistics summary
+    - Quick action button states
+  - amd/src/effectiveness_charts.js - Effectiveness visualization
+    - Risk transition donut chart
+    - Responsive chart rendering
+    - Percentage calculation in tooltips
+- **Enhanced Settings**
+  - default_supervisor_id - Default supervisor for auto-assignments
+  - coordinator_email - Coordinator email for escalations
+  - sms_monthly_budget - Monthly SMS budget limit
+
+### Technical Improvements
+- Automatic workflow execution based on risk levels
+- Task management system with priorities and due dates
+- Intervention tracking with complete history
+- Business rules engine with customizable conditions
+- Effectiveness metrics calculation
+- Risk level transition tracking
+- Average response time calculations
+- Multi-condition rule evaluation
+- Automatic escalation logic
+- Budget enforcement for SMS
+
+### Files Added (8)
+1. classes/manager/workflow_manager.php - Workflow automation
+2. classes/manager/intervention_tracker.php - Intervention tracking
+3. classes/manager/business_rules_engine.php - Business rules engine
+4. tasks.php - Task management page
+5. effectiveness.php - Effectiveness reports page
+6. amd/src/task_manager.js - Task management module
+7. amd/src/effectiveness_charts.js - Effectiveness charts module
+
+### Files Modified
+- version.php (updated to v1.5.0, version 2025111705)
+- lang/en/local_student_monitor.php (+113 strings)
+- lang/fr/local_student_monitor.php (+113 strings)
+- CHANGELOG.md (added Phase 6 documentation)
+
+---
+
 ## [Unreleased]
 
 ### Planned for Future Versions
@@ -375,6 +498,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Version History
 
+- **v1.5.0** (2025-11-17) - Workflow Automation & Task Management
 - **v1.4.0** (2025-11-17) - PDF Export & Communication Management
 - **v1.3.0** (2025-11-17) - Visualization & Advanced Reporting
 - **v1.2.0** (2025-11-17) - Configuration & Testing

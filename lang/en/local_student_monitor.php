@@ -386,3 +386,116 @@ $string['exportstudentspdf'] = 'Export students (PDF)';
 $string['exportnotificationspdf'] = 'Export notifications (PDF)';
 $string['exportdetailedpdf'] = 'Export detailed report (PDF)';
 $string['invalidexporttype'] = 'Invalid export type';
+
+// Workflow automation & Tasks (Phase 6).
+$string['taskmanagement'] = 'Task Management';
+$string['taskcompleted'] = 'Task marked as completed';
+$string['taskdeferred'] = 'Task deferred';
+$string['taskreassigned'] = 'Task reassigned';
+$string['notasksfound'] = 'No tasks found';
+$string['tasktype'] = 'Task type';
+$string['duedate'] = 'Due date';
+$string['actions'] = 'Actions';
+$string['totaltasks'] = 'Total tasks';
+$string['pendingtasks'] = 'Pending tasks';
+$string['inprogresstasks'] = 'In progress tasks';
+$string['overduetasks'] = 'Overdue tasks';
+$string['filterbystatus'] = 'Filter by status';
+$string['all'] = 'All';
+$string['pending'] = 'Pending';
+$string['inprogress'] = 'In progress';
+$string['completed'] = 'Completed';
+$string['overdue'] = 'Overdue';
+$string['startwork'] = 'Start work';
+$string['markcomplete'] = 'Mark as complete';
+$string['viewdetails'] = 'View details';
+
+// Task types.
+$string['tasktype_urgent_intervention'] = 'Urgent intervention';
+$string['tasktype_follow_up'] = 'Follow-up';
+$string['tasktype_preventive'] = 'Preventive';
+$string['tasktype_check_in'] = 'Check-in';
+
+// Task priorities.
+$string['priority'] = 'Priority';
+$string['priority_urgent'] = 'Urgent';
+$string['priority_high'] = 'High';
+$string['priority_normal'] = 'Normal';
+$string['priority_low'] = 'Low';
+
+// Task statuses.
+$string['status'] = 'Status';
+$string['status_pending'] = 'Pending';
+$string['status_in_progress'] = 'In progress';
+$string['status_completed'] = 'Completed';
+
+// Intervention tracking.
+$string['interventionlogged'] = 'Intervention logged';
+$string['interventiontype'] = 'Intervention type';
+$string['interventionnotes'] = 'Intervention notes';
+$string['interventionhistory'] = 'Intervention history';
+$string['lastintervention'] = 'Last intervention';
+$string['interventioncount'] = 'Intervention count';
+$string['task_completed'] = 'Task completed';
+$string['phone_call'] = 'Phone call';
+$string['meeting'] = 'Meeting';
+$string['email_response'] = 'Email response';
+
+// Business rules.
+$string['businessrules'] = 'Business rules';
+$string['rulename'] = 'Rule name';
+$string['ruleconditions'] = 'Conditions';
+$string['ruleactions'] = 'Actions';
+$string['ruleenabled'] = 'Rule enabled';
+$string['ruledisabled'] = 'Rule disabled';
+$string['ruleexecuted'] = 'Rule executed';
+$string['createrule'] = 'Create rule';
+$string['testrule'] = 'Test rule';
+
+// Effectiveness reports.
+$string['effectivenessreports'] = 'Effectiveness Reports';
+$string['overalleffectiveness'] = 'Overall effectiveness';
+$string['studentsimproved'] = 'Students improved';
+$string['successrate'] = 'Success rate';
+$string['avginterventions'] = 'Average interventions';
+$string['perstudent'] = 'per student';
+$string['supervisorperformance'] = 'Supervisor performance';
+$string['taskscompleted'] = 'Tasks completed';
+$string['taskspending'] = 'Tasks pending';
+$string['tasksoverdue'] = 'Tasks overdue';
+$string['avgresponsetime'] = 'Average response time';
+$string['hours'] = 'hours';
+$string['risktransitions'] = 'Risk transitions';
+$string['interventiontypes'] = 'Intervention types';
+$string['improved'] = 'Improved';
+$string['stable'] = 'Stable';
+$string['deteriorated'] = 'Deteriorated';
+$string['thisquarter'] = 'This quarter';
+$string['allsupervisors'] = 'All supervisors';
+
+// Workflow messages.
+$string['urgentintervention'] = 'Urgent intervention required';
+$string['criticalriskmessage'] = 'Your academic risk level is critical. Please contact your supervisor immediately.';
+$string['followupreminder'] = 'Follow-up reminder';
+$string['highriskmessage'] = 'Your academic activity requires attention. Please reconnect to your course.';
+$string['preventivereminder'] = 'Preventive reminder';
+$string['mediumriskmessage'] = 'We have noticed a decrease in your activity. Please feel free to contact us if you need help.';
+$string['escalationsubject'] = 'Escalation - Student in critical situation';
+$string['escalationmessage'] = 'Student {$a->studentname} is in critical situation (Level: {$a->risklevel}). Inactivity: {$a->inactivity} days, Missing assignments: {$a->missing}.';
+$string['automatednotification'] = 'Automated notification';
+$string['risknotificationmessage'] = 'Automated alert: Risk level {$a->risklevel}, Inactivity: {$a->inactivity} days.';
+$string['supervisornotification'] = 'Supervisor notification';
+$string['studentneedsattention'] = 'Student {$a->studentname} needs your attention (Level: {$a->risklevel}).';
+$string['systemalert'] = 'Student Monitor system alert';
+$string['taskreassignedsubject'] = 'New task assigned';
+$string['taskreassignedmessage'] = 'A task of type {$a->tasktype} has been assigned to you. Due date: {$a->duedate}.';
+
+// Supervisor settings.
+$string['supervisor'] = 'Supervisor';
+$string['defaultsupervisor'] = 'Default supervisor';
+$string['assignsupervisor'] = 'Assign supervisor';
+$string['coordinatoremail'] = 'Coordinator email';
+$string['coordinatoremail_desc'] = 'Academic coordinator email for escalations';
+
+// Type labels.
+$string['type'] = 'Type';
