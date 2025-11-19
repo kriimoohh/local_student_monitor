@@ -56,12 +56,12 @@ class alert_manager {
         $message = $data->description['text'];
 
         // Add event details to message.
-        if (isset($data->eventdate)) {
+        if (isset($data->eventdate) && $data->eventdate > 0) {
             $message .= "\n\n";
             $message .= get_string('eventdate', 'local_student_monitor') . ': ' . userdate($data->eventdate);
         }
 
-        if (isset($data->location)) {
+        if (isset($data->location) && !empty(trim($data->location))) {
             $message .= "\n" . get_string('location') . ': ' . $data->location;
         }
 
@@ -94,7 +94,7 @@ class alert_manager {
         foreach ($recipients as $recipient) {
             $metadata = [
                 'alerttype' => $data->alerttype,
-                'eventdate' => $data->eventdate ?? null,
+                'eventdate' => (isset($data->eventdate) && $data->eventdate > 0) ? $data->eventdate : null,
                 'manual' => true,
             ];
 
@@ -150,7 +150,7 @@ class alert_manager {
         }
 
         // Schedule reminders if requested.
-        if (!empty($notificationids) && isset($data->eventdate)) {
+        if (!empty($notificationids) && isset($data->eventdate) && $data->eventdate > 0) {
             $this->schedule_reminders($notificationids[0], $data);
         }
 
