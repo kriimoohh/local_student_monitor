@@ -39,39 +39,62 @@ $PAGE->set_pagelayout('admin');
 // Create form.
 $mform = new \local_student_monitor\form\manual_alert_form();
 
+// Check if we're returning from preview with session data.
+$sessionkey = 'local_student_monitor_preview_data';
+if (isset($SESSION->$sessionkey)) {
+    // Restore data from session.
+    $mform->set_data($SESSION->$sessionkey);
+}
+
 // Form processing.
 if ($mform->is_cancelled()) {
+    // Clear session data if exists.
+    if (isset($SESSION->$sessionkey)) {
+        unset($SESSION->$sessionkey);
+    }
     redirect(new moodle_url('/local/student_monitor/dashboard.php'));
 } else if ($data = $mform->get_data()) {
-    // Create alert.
-    $alertmanager = new \local_student_monitor\manager\alert_manager();
-    $result = $alertmanager->create_manual_alert($data);
-
-    if ($result['count'] > 0) {
-        // Build success message with send statistics.
-        $message = get_string('alertcreated', 'local_student_monitor') . ' ';
-        if ($result['success'] > 0) {
-            $message .= get_string('alertssent', 'local_student_monitor', $result['success']);
-        }
-        if ($result['failed'] > 0) {
-            $message .= ' - ' . get_string('alertsfailed', 'local_student_monitor', $result['failed']);
-        }
-
-        $notifytype = ($result['failed'] > 0) ? \core\output\notification::NOTIFY_WARNING : \core\output\notification::NOTIFY_SUCCESS;
-
-        redirect(
-            new moodle_url('/local/student_monitor/dashboard.php'),
-            $message,
-            null,
-            $notifytype
-        );
+    // Check which button was pressed.
+    if (isset($data->submitbutton)) {
+        // Preview button was pressed - save data to session and redirect to preview.
+        $SESSION->$sessionkey = $data;
+        redirect(new moodle_url('/local/student_monitor/preview_alert.php'));
     } else {
-        redirect(
-            new moodle_url('/local/student_monitor/create_alert.php'),
-            get_string('error_creating_alert', 'local_student_monitor'),
-            null,
-            \core\output\notification::NOTIFY_ERROR
-        );
+        // Send button was pressed - create and send alert.
+        $alertmanager = new \local_student_monitor\manager\alert_manager();
+        $result = $alertmanager->create_manual_alert($data);
+
+        // Clear session data if exists.
+        if (isset($SESSION->$sessionkey)) {
+            unset($SESSION->$sessionkey);
+        }
+
+        if ($result['count'] > 0) {
+            // Build success message with send statistics.
+            $message = get_string('alertcreated', 'local_student_monitor') . ' ';
+            if ($result['success'] > 0) {
+                $message .= get_string('alertssent', 'local_student_monitor', $result['success']);
+            }
+            if ($result['failed'] > 0) {
+                $message .= ' - ' . get_string('alertsfailed', 'local_student_monitor', $result['failed']);
+            }
+
+            $notifytype = ($result['failed'] > 0) ? \core\output\notification::NOTIFY_WARNING : \core\output\notification::NOTIFY_SUCCESS;
+
+            redirect(
+                new moodle_url('/local/student_monitor/dashboard.php'),
+                $message,
+                null,
+                $notifytype
+            );
+        } else {
+            redirect(
+                new moodle_url('/local/student_monitor/create_alert.php'),
+                get_string('error_creating_alert', 'local_student_monitor'),
+                null,
+                \core\output\notification::NOTIFY_ERROR
+            );
+        }
     }
 }
 

@@ -462,6 +462,16 @@ class alert_manager {
     }
 
     /**
+     * Get recipients for preview (public wrapper for get_recipients).
+     *
+     * @param \stdClass $data Form data
+     * @return array Array of user objects
+     */
+    public function get_recipients_for_preview($data) {
+        return $this->get_recipients($data);
+    }
+
+    /**
      * Get alert statistics.
      *
      * @param int $alertid Alert notification ID

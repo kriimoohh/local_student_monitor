@@ -126,8 +126,10 @@ class manual_alert_form extends \moodleform {
         $courses = $this->get_courses();
         $mform->addElement('select', 'courseid', get_string('course'), $courses);
         $mform->hideIf('courseid', 'recipients', 'eq', 'all_students');
+        $mform->hideIf('courseid', 'recipients', 'eq', 'by_inactivity_level');
         $mform->hideIf('courseid', 'recipients', 'eq', 'manual');
         $mform->hideIf('courseid', 'recipients', 'eq', 'category');
+        $mform->hideIf('courseid', 'recipients', 'eq', 'csv');
 
         // Group selection.
         $mform->addElement('select', 'groupid', get_string('group'), []);
@@ -190,7 +192,14 @@ class manual_alert_form extends \moodleform {
         $mform->addHelpButton('remindershdr', 'reminders', 'local_student_monitor');
 
         // Action buttons.
-        $this->add_action_buttons(true, get_string('sendalert', 'local_student_monitor'));
+        $buttonarray = [];
+        $buttonarray[] = $mform->createElement('submit', 'submitbutton', get_string('previewalert', 'local_student_monitor'),
+            ['class' => 'btn btn-secondary']);
+        $buttonarray[] = $mform->createElement('submit', 'submitandsend', get_string('sendalert', 'local_student_monitor'),
+            ['class' => 'btn btn-primary']);
+        $buttonarray[] = $mform->createElement('cancel');
+        $mform->addGroup($buttonarray, 'buttonar', '', [' '], false);
+        $mform->closeHeaderBefore('buttonar');
     }
 
     /**

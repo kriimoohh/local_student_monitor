@@ -286,7 +286,7 @@ class student_tracker {
         $sql = "SELECT st.*, u.firstname, u.lastname, u.email
                   FROM {local_sm_student_tracking} st
                   JOIN {user} u ON u.id = st.userid
-                 WHERE 1=1";
+                 WHERE u.deleted = 0 AND u.suspended = 0";
 
         $params = [];
 

@@ -956,3 +956,13 @@ $string['savechannels'] = 'Save Channels';
 $string['channelssaved'] = 'Notification channels saved successfully';
 $string['channelsconfigurationdesc'] = 'Select channels to use for automatic alerts. At least one channel must be enabled.';
 $string['configurealerts'] = 'Configure Alerts';
+
+// Preview alert.
+$string['previewalert'] = 'Preview Alert';
+$string['previewalertdesc'] = 'Review the alert details before sending. Check the recipients, subject, message, and channels.';
+$string['backtoedit'] = 'Back to Edit';
+$string['confirmsendalert'] = 'Are you sure you want to send this alert?';
+$string['sender'] = 'Sender';
+$string['recipientslist'] = 'Recipients List';
+$string['andmore'] = 'and {$a} more';
+$string['error_no_preview_data'] = 'No preview data available. Please create an alert first.';
