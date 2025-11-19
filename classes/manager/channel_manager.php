@@ -129,20 +129,15 @@ class channel_manager {
             $userfrom = \core_user::get_support_user();
         }
 
-        // Create message object for direct messaging (not notification).
-        $messagecontent = new \core\message\message();
-        $messagecontent->component = 'moodle';
-        $messagecontent->name = 'instantmessage';
-        $messagecontent->userfrom = $userfrom;
-        $messagecontent->userto = $user;
-        $messagecontent->subject = $subject;
-        $messagecontent->fullmessage = $message;
-        $messagecontent->fullmessageformat = FORMAT_PLAIN;
-        $messagecontent->fullmessagehtml = text_to_html($message);
-        $messagecontent->smallmessage = $subject;
-        $messagecontent->notification = 0; // This is a direct message, not a notification.
-
-        return message_send($messagecontent);
+        // Use Moodle's direct messaging API instead of notification system.
+        // This sends the message to the user's message inbox.
+        try {
+            $messageid = message_post_message($userfrom, $user, $message, FORMAT_PLAIN);
+            return $messageid;
+        } catch (\Exception $e) {
+            debugging('Error sending Moodle message: ' . $e->getMessage(), DEBUG_DEVELOPER);
+            return false;
+        }
     }
 
     /**
