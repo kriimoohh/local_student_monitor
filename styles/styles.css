@@ -6,6 +6,64 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+/* Navigation Menu */
+.student-monitor-nav-menu {
+    margin-bottom: 20px;
+}
+
+.student-monitor-nav-menu .navbar {
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 10px 15px;
+}
+
+.student-monitor-nav-menu .navbar-brand {
+    font-size: 20px;
+    font-weight: 700;
+    color: #333;
+}
+
+.student-monitor-nav-menu .nav-link {
+    font-weight: 500;
+    color: #555;
+    padding: 8px 15px;
+    border-radius: 4px;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.student-monitor-nav-menu .nav-link:hover {
+    background-color: #f8f9fa;
+    color: #007bff;
+}
+
+.student-monitor-nav-menu .dropdown-menu {
+    border-radius: 6px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    border: 1px solid #e0e0e0;
+    margin-top: 5px;
+}
+
+.student-monitor-nav-menu .dropdown-item {
+    padding: 10px 20px;
+    transition: background-color 0.2s;
+}
+
+.student-monitor-nav-menu .dropdown-item:hover {
+    background-color: #f8f9fa;
+    color: #007bff;
+}
+
+.student-monitor-nav-menu .dropdown-item:active {
+    background-color: #007bff;
+    color: white;
+}
+
+/* Active menu item */
+.student-monitor-nav-menu .nav-item.active .nav-link {
+    background-color: #007bff;
+    color: white;
+}
+
 /* Dashboard Container */
 .student-monitor-dashboard {
     margin: 20px 0;
