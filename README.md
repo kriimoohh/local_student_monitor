@@ -1,6 +1,6 @@
 # Student Monitor - Plugin Moodle
 
-**Version:** 1.4.0
+**Version:** 2.1.0
 **Compatible Moodle:** 4.0+
 **PHP:** 8.0+
 **Licence:** GNU GPL v3
@@ -9,25 +9,61 @@
 
 ## 📋 Description
 
-Student Monitor est un plugin Moodle développé pour l'**UNCHK (Université Numérique Cheikh Hamidou Kane)** au Sénégal. Il améliore la rétention des étudiants en Licence 1 grâce à un système automatisé de suivi et de notifications.
+Student Monitor est un plugin Moodle complet développé pour l'**UNCHK (Université Numérique Cheikh Hamidou Kane)** au Sénégal. Il améliore la rétention des étudiants grâce à un système automatisé de suivi, d'analyse et de notifications multicanaux.
 
 ### Fonctionnalités principales
 
-✅ **4 types de notifications automatiques :**
-1. Détection d'inactivité (seuils configurables : 72h, 7j, 14j)
-2. Notification de nouveau contenu pédagogique
-3. Rappels de devoirs à échéance (J-7, J-3, J-1, H-6)
-4. Annonces institutionnelles depuis un forum dédié
+✅ **Système de notifications automatiques intelligent :**
+1. Détection d'inactivité multi-niveaux (3, 7, 14 jours - configurables)
+2. Notifications de nouveau contenu pédagogique
+3. Rappels automatiques de devoirs (J-7, J-3, J-1, H-6)
+4. Annonces institutionnelles depuis forum dédié
+5. **Configuration graphique** - Activation/désactivation et paramétrage sans code
 
-✅ **Alertes manuelles** - Les superviseurs peuvent créer des alertes personnalisées
+✅ **Gestion avancée des alertes manuelles :**
+- Création d'alertes personnalisées par type (examen, devoir, événement, annonce)
+- **Sélection ciblée par niveau d'inactivité** (3+, 7+, 14+ jours)
+- **Sélection par niveau de risque** (CRITIQUE, ÉLEVÉ, MOYEN)
+- Destinataires multiples (catégories, cours, groupes, sélection manuelle, CSV)
+- Rappels automatiques programmables
 
-✅ **Dashboard interactif** - Visualisation des étudiants à risque et statistiques
+✅ **Page dédiée Étudiants à Risque :**
+- Vue d'ensemble avec statistiques par niveau de risque
+- Filtrage avancé et tri multi-critères
+- Pagination flexible (25, 50, 100, 200 par page)
+- Indicateurs visuels avec icônes de criticité
+- Actions rapides (profil, notification)
 
-✅ **Multi-canaux** - Email, Notifications Moodle, SMS, WhatsApp Business
+✅ **Dashboard interactif et complet :**
+- KPI en temps réel (étudiants à risque, notifications, interventions)
+- Widget de configuration des alertes automatiques
+- Accès rapide à toutes les fonctionnalités
+- Alertes critiques en temps réel
 
-✅ **Évaluation des risques** - Calcul automatique du niveau de risque (FAIBLE, MOYEN, ÉLEVÉ, CRITIQUE)
+✅ **Multi-canaux intelligent :**
+- Email (natif Moodle)
+- Notifications Moodle
+- SMS (avec suivi des coûts)
+- WhatsApp Business (templates pré-approuvés)
+- Configuration par canal pour alertes automatiques
 
-✅ **RGPD compliant** - Conformité avec le Privacy API de Moodle
+✅ **Évaluation et prédiction des risques :**
+- Calcul automatique sur 4 niveaux (FAIBLE, MOYEN, ÉLEVÉ, CRITIQUE)
+- Analyse multi-facteurs (inactivité, devoirs, notifications)
+- Prédiction par IA (3, 7, 14, 30 jours)
+- Identification proactive des étudiants à risque
+
+✅ **Analytics et Business Intelligence :**
+- Dashboard BI pour administrateurs
+- Rapports de performance superviseurs
+- Analyse de cohortes et rétention
+- Tendances et métriques institutionnelles
+
+✅ **RGPD et sécurité :**
+- Conformité Privacy API Moodle
+- Export/suppression données personnelles
+- Logs d'actions traçables
+- Permissions granulaires (8 capabilities)
 
 ---
 
@@ -99,21 +135,91 @@ Pour activer WhatsApp Business :
 #### Accéder au Dashboard
 
 1. Allez dans **Navigation > Student Monitor**
-2. Visualisez les KPI :
-   - Étudiants à risque
-   - Notifications envoyées
+2. Visualisez les KPI en temps réel :
+   - Étudiants à risque (CRITIQUE + ÉLEVÉ)
+   - Notifications envoyées (semaine)
    - Interventions nécessaires
-   - Taux de lecture
+   - Taux de lecture des notifications
+3. **Nouveau :** Widget d'état des alertes automatiques (administrateurs uniquement)
+
+#### Configurer les Alertes Automatiques (Administrateurs)
+
+1. Dashboard > **⚙️ Configurer les alertes**
+2. **Activer/Désactiver** le système :
+   - Bouton unique pour activer/désactiver
+   - Confirmation obligatoire avant désactivation
+3. **Configurer les seuils d'inactivité** :
+   - Niveau 1 : Nombre de jours (défaut : 3)
+   - Niveau 2 : Nombre de jours (défaut : 7)
+   - Niveau 3 : Nombre de jours (défaut : 14)
+4. **Sélectionner les canaux** pour alertes automatiques :
+   - Email (recommandé)
+   - Notifications Moodle (recommandé)
+   - SMS (si configuré)
+   - WhatsApp (si configuré)
+5. **Enregistrer** - Les modifications sont appliquées immédiatement
+
+#### Consulter les Étudiants à Risque
+
+1. Dashboard > **⚠️ Étudiants à risque**
+2. **Vue d'ensemble** :
+   - 4 cartes statistiques cliquables (CRITIQUE, ÉLEVÉ, MOYEN, FAIBLE)
+   - Nombre d'étudiants par niveau en temps réel
+3. **Filtrage et tri** :
+   - Cliquer sur une carte pour filtrer par niveau
+   - Trier par nom, email, risque, inactivité, devoirs, notifications
+   - Choisir ordre croissant/décroissant
+   - Effacer les filtres en un clic
+4. **Pagination** :
+   - 25, 50, 100 ou 200 étudiants par page
+   - Navigation entre les pages
+5. **Actions rapides** :
+   - **Voir le profil** : Ouvre le profil dans un nouvel onglet
+   - **📧 Envoyer notification** : Accès direct au formulaire d'alerte
+6. **Export** : Exporter la liste filtrée en CSV
 
 #### Créer une alerte manuelle
 
 1. Dashboard > **Créer une alerte**
 2. Choisir le type (Examen, Devoir, Annonce, Événement)
-3. Remplir les détails (titre, date, description)
-4. Sélectionner les destinataires
+3. Remplir les détails (titre, date, description, lieu)
+4. **Sélectionner les destinataires** - OPTIONS ÉTENDUES :
+
+   **Option 1 : Tous les étudiants**
+   - Envoie à tous les étudiants du système
+
+   **Option 2 : Par niveau d'inactivité / risque** ⭐ NOUVEAU
+   - **Niveau 1** : Étudiants inactifs 3+ jours
+   - **Niveau 2** : Étudiants inactifs 7+ jours
+   - **Niveau 3** : Étudiants inactifs 14+ jours
+   - **Risque CRITIQUE** : (nombre affiché)
+   - **Risque ÉLEVÉ** : (nombre affiché)
+   - **Risque MOYEN** : (nombre affiché)
+   - Visualisation du nombre d'étudiants concernés
+
+   **Option 3 : Par catégorie**
+   - Sélectionner une catégorie de cours
+   - Tous les étudiants inscrits dans la catégorie
+
+   **Option 4 : Par cours**
+   - Sélectionner un cours spécifique
+   - Tous les étudiants du cours
+
+   **Option 5 : Par groupe**
+   - Sélectionner d'abord un cours
+   - Puis sélectionner un groupe du cours
+
+   **Option 6 : Sélection manuelle**
+   - Chercher et sélectionner des étudiants individuellement
+   - Autocomplete avec nom et email
+
+   **Option 7 : Import CSV**
+   - Uploader un fichier CSV avec emails/usernames/IDs
+   - Voir `examples/CSV_IMPORT_README.md` pour le format
+
 5. Choisir les canaux de diffusion
-6. Activer les rappels automatiques (optionnel)
-7. Envoyer
+6. Activer les rappels automatiques (J-7, J-3, J-1 - optionnel)
+7. **Envoyer** - L'alerte est envoyée immédiatement
 
 #### Suivi des étudiants
 
@@ -407,9 +513,61 @@ Pour toute question ou problème :
 
 ---
 
-## 📝 Changelog
+## 📝 Changelog (Résumé)
 
-### Version 1.4.0 (2025-11-17)
+Voir [CHANGELOG.md](CHANGELOG.md) pour la documentation complète des versions.
+
+### Version 2.1.0 (2025-11-19) - Configuration et Ciblage
+
+**Nouvelles fonctionnalités majeures :**
+- ✅ Page de configuration des alertes automatiques
+- ✅ Activation/désactivation graphique des alertes
+- ✅ Configuration des seuils d'inactivité (3, 7, 14 jours)
+- ✅ Sélection des canaux pour alertes automatiques
+- ✅ Sélection de destinataires par niveau d'inactivité (3+, 7+, 14+ jours)
+- ✅ Sélection de destinataires par niveau de risque (CRITIQUE, ÉLEVÉ, MOYEN)
+- ✅ Widget de statut sur le dashboard
+- ✅ 68 nouvelles chaînes de langue (FR/EN)
+
+**Fichiers ajoutés :**
+- configure_automatic_alerts.php (319 lignes)
+
+**Impact utilisateur :**
+- Aucun code nécessaire pour configurer les alertes
+- Envoi ciblé aux étudiants spécifiques
+- Contrôle complet depuis l'interface
+
+### Version 2.0.0 (2025-11-19) - Page Étudiants à Risque
+
+**Nouvelles fonctionnalités majeures :**
+- ✅ Page dédiée pour consulter les étudiants à risque
+- ✅ Statistiques interactives par niveau (CRITIQUE, ÉLEVÉ, MOYEN, FAIBLE)
+- ✅ Filtrage avancé par niveau de risque
+- ✅ Tri multi-critères (nom, email, risque, inactivité, devoirs, notifications)
+- ✅ Pagination flexible (25, 50, 100, 200 par page)
+- ✅ Indicateurs visuels avec icônes de criticité
+- ✅ Actions rapides (profil, notification)
+- ✅ Export CSV avec filtres appliqués
+- ✅ 16 nouvelles chaînes de langue (FR/EN)
+
+**Fichiers ajoutés :**
+- students_at_risk.php (370 lignes)
+
+**Impact utilisateur :**
+- Accès rapide aux étudiants par niveau
+- Meilleure visibilité sur la criticité
+- Actions directes depuis la liste
+
+### Version 1.9.0 (2025-11-17) - Business Intelligence
+
+**Fonctionnalités :**
+- Dashboard BI pour administrateurs
+- Analyse de cohortes et rétention
+- Performance des superviseurs
+- Planificateur de rapports automatiques
+- 60+ nouvelles chaînes de langue
+
+### Version 1.4.0 (2025-11-17) - Export et Communication
 
 **Phase 5 - Export PDF & Gestion des communications**
 
