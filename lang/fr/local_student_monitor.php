@@ -957,3 +957,13 @@ $string['savechannels'] = 'Enregistrer les canaux';
 $string['channelssaved'] = 'Canaux de notification enregistrés avec succès';
 $string['channelsconfigurationdesc'] = 'Sélectionnez les canaux à utiliser pour les alertes automatiques. Au moins un canal doit être activé.';
 $string['configurealerts'] = 'Configurer les alertes';
+
+// Preview alert.
+$string['previewalert'] = 'Prévisualiser l\'alerte';
+$string['previewalertdesc'] = 'Vérifiez les détails de l\'alerte avant l\'envoi. Contrôlez les destinataires, l\'objet, le message et les canaux.';
+$string['backtoedit'] = 'Retour à l\'édition';
+$string['confirmsendalert'] = 'Êtes-vous sûr de vouloir envoyer cette alerte ?';
+$string['sender'] = 'Expéditeur';
+$string['recipientslist'] = 'Liste des destinataires';
+$string['andmore'] = 'et {$a} de plus';
+$string['error_no_preview_data'] = 'Aucune donnée de prévisualisation disponible. Veuillez d\'abord créer une alerte.';
