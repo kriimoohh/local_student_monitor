@@ -187,6 +187,55 @@ class alert_manager {
         $recipients = [];
 
         switch ($data->recipients) {
+            case 'by_inactivity_level':
+                if (empty($data->inactivity_level)) {
+                    return [];
+                }
+
+                // Get students based on selected inactivity level or risk level.
+                $tracker = new student_tracker();
+
+                if (strpos($data->inactivity_level, 'inactivity_level') === 0) {
+                    // Handle inactivity levels (by days).
+                    $thresholds = [
+                        'inactivity_level1' => get_config('local_student_monitor', 'inactivity_threshold_1') ?: 3,
+                        'inactivity_level2' => get_config('local_student_monitor', 'inactivity_threshold_2') ?: 7,
+                        'inactivity_level3' => get_config('local_student_monitor', 'inactivity_threshold_3') ?: 14,
+                    ];
+
+                    $threshold = $thresholds[$data->inactivity_level] ?? 3;
+
+                    $sql = "SELECT DISTINCT u.id, u.firstname, u.lastname, u.email
+                              FROM {user} u
+                              JOIN {local_sm_student_tracking} st ON st.userid = u.id
+                             WHERE st.inactivity_days >= :threshold
+                               AND u.deleted = 0
+                               AND u.suspended = 0
+                          ORDER BY st.inactivity_days DESC";
+
+                    $recipients = $DB->get_records_sql($sql, ['threshold' => $threshold]);
+                } else if (strpos($data->inactivity_level, 'risk_') === 0) {
+                    // Handle risk levels.
+                    $risklevelmap = [
+                        'risk_critique' => 'CRITIQUE',
+                        'risk_eleve' => 'ÉLEVÉ',
+                        'risk_moyen' => 'MOYEN',
+                    ];
+
+                    $risklevel = $risklevelmap[$data->inactivity_level] ?? 'MOYEN';
+
+                    $sql = "SELECT DISTINCT u.id, u.firstname, u.lastname, u.email
+                              FROM {user} u
+                              JOIN {local_sm_student_tracking} st ON st.userid = u.id
+                             WHERE st.risk_level = :risklevel
+                               AND u.deleted = 0
+                               AND u.suspended = 0
+                          ORDER BY st.inactivity_days DESC";
+
+                    $recipients = $DB->get_records_sql($sql, ['risklevel' => $risklevel]);
+                }
+                break;
+
             case 'category':
                 if (empty($data->categoryid)) {
                     return [];

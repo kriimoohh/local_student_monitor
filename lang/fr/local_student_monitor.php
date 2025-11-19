@@ -913,3 +913,47 @@ $string['critical'] = 'Critique';
 $string['high'] = 'Élevé';
 $string['medium'] = 'Moyen';
 $string['low'] = 'Faible';
+
+// Students at risk page.
+$string['viewstudents'] = 'Voir les étudiants';
+$string['currentfilter'] = 'Filtre actuel';
+$string['clearfilter'] = 'Effacer le filtre';
+$string['showingatrisk'] = 'Affichage des étudiants à risque (MOYEN et plus)';
+$string['nostudentsatrisk'] = 'Aucun étudiant à risque trouvé - Excellent travail !';
+$string['viewprofile'] = 'Voir le profil';
+$string['sendnotification'] = 'Envoyer une notification';
+$string['perpage'] = 'Par page';
+
+// Recipients by inactivity level.
+$string['recipients_by_inactivity_level'] = 'Par niveau d\'inactivité / risque';
+$string['selectinactivitylevel'] = 'Sélectionner le niveau';
+$string['inactivity_level'] = 'Niveau d\'inactivité / risque';
+$string['inactivity_level_help'] = 'Sélectionnez le niveau d\'inactivité ou de risque pour envoyer l\'alerte aux étudiants correspondants.';
+$string['inactivity_level1'] = 'Niveau 1 - Inactivité modérée';
+$string['inactivity_level2'] = 'Niveau 2 - Inactivité importante';
+$string['inactivity_level3'] = 'Niveau 3 - Inactivité critique';
+$string['inactivitydays_3plus'] = '3+ jours';
+$string['inactivitydays_7plus'] = '7+ jours';
+$string['inactivitydays_14plus'] = '14+ jours';
+$string['studentpreview'] = 'Aperçu des étudiants';
+
+// Automatic alerts configuration.
+$string['configureautomaticalerts'] = 'Configuration des alertes automatiques';
+$string['configureautomaticalertsdesc'] = 'Configurez les paramètres des alertes automatiques pour le suivi des étudiants à risque.';
+$string['automaticalertsenabled'] = 'Alertes automatiques activées';
+$string['automaticalertsdisabled'] = 'Alertes automatiques désactivées';
+$string['automaticalertsenabledinfo'] = 'Les alertes automatiques sont actives. Le système surveille les étudiants et envoie des notifications automatiques selon les seuils configurés.';
+$string['automaticalertsdisabledinfo'] = 'Les alertes automatiques sont désactivées. Activez-les pour commencer à surveiller les étudiants automatiquement.';
+$string['automaticalertsinfo'] = 'Système de détection et de notification automatique des étudiants à risque.';
+$string['enableautomaticalerts'] = 'Activer les alertes automatiques';
+$string['disableautomaticalerts'] = 'Désactiver les alertes automatiques';
+$string['confirmdisableautomaticalerts'] = 'Êtes-vous sûr de vouloir désactiver les alertes automatiques ? Les étudiants à risque ne recevront plus de notifications automatiques.';
+$string['currentstatus'] = 'Statut actuel';
+$string['inactivitythresholds'] = 'Seuils d\'inactivité';
+$string['savethresholds'] = 'Enregistrer les seuils';
+$string['thresholdssaved'] = 'Seuils d\'inactivité enregistrés avec succès';
+$string['notificationchannels'] = 'Canaux de notification';
+$string['savechannels'] = 'Enregistrer les canaux';
+$string['channelssaved'] = 'Canaux de notification enregistrés avec succès';
+$string['channelsconfigurationdesc'] = 'Sélectionnez les canaux à utiliser pour les alertes automatiques. Au moins un canal doit être activé.';
+$string['configurealerts'] = 'Configurer les alertes';

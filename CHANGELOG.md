@@ -5,6 +5,163 @@ All notable changes to the Student Monitor plugin will be documented in this fil
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.1.0] - 2025-11-19
+
+### Added
+- **Automatic Alerts Configuration Page (configure_automatic_alerts.php):**
+  - Dedicated configuration interface for automatic alert system
+  - Enable/disable automatic alerts with visual status indicators
+  - Configure inactivity thresholds (Level 1: 3+ days, Level 2: 7+ days, Level 3: 14+ days)
+  - Configure notification channels for automatic alerts (email, Moodle, SMS, WhatsApp)
+  - Confirmation dialog for disabling automatic alerts to prevent accidental changes
+  - Real-time status display on dashboard for administrators
+  - Color-coded status cards (green for enabled, yellow for disabled)
+- **Manual Alert Recipients by Inactivity/Risk Level:**
+  - New recipient type: "By Inactivity / Risk Level" in manual alert form
+  - 6 selection options:
+    - Inactivity Level 1 (3+ days)
+    - Inactivity Level 2 (7+ days)
+    - Inactivity Level 3 (14+ days)
+    - Risk Level CRITIQUE (critical students)
+    - Risk Level ÉLEVÉ (high risk students)
+    - Risk Level MOYEN (medium risk students)
+  - Real-time student count display for each risk level
+  - Student preview functionality (interface prepared)
+  - Intelligent SQL queries to fetch students by level
+  - Students ordered by inactivity (most inactive first)
+- **Dashboard Integration:**
+  - Automatic alerts status card on main dashboard
+  - Visible only to users with managesettings capability
+  - Quick access button to configuration page
+  - Clear messaging about system status and impact
+  - Color-coded visual indicators for enabled/disabled state
+- **Enhanced Alert Manager:**
+  - Support for inactivity level recipients in create_manual_alert
+  - Day-based threshold selection (3, 7, 14 days)
+  - Risk-based selection (CRITIQUE, ÉLEVÉ, MOYEN)
+  - Dynamic threshold configuration based on admin settings
+  - Comprehensive recipient filtering and validation
+
+### Technical Improvements
+- Enhanced manual_alert_form.php with inactivity level selection
+- Extended alert_manager.php to handle new recipient type
+- Added automatic alerts configuration persistence
+- Dashboard status widget with permission checks
+- Form validation for inactivity level selection
+- Help text and contextual hints for administrators
+- SQL optimization for large-scale recipient queries
+
+### Files Added (1)
+1. configure_automatic_alerts.php - Automatic alerts configuration page (319 lines)
+
+### Files Modified
+- classes/form/manual_alert_form.php (+37 lines)
+- classes/manager/alert_manager.php (+49 lines)
+- dashboard.php (+19 lines)
+- lang/en/local_student_monitor.php (+34 strings)
+- lang/fr/local_student_monitor.php (+34 strings)
+
+### Localization
+- 68 new language strings (34 French, 34 English)
+- Automatic alerts configuration terminology
+- Inactivity level selection labels
+- Status messages and confirmations
+- Help text for administrators
+
+### User Experience
+- Simplified automatic alerts management
+- No code changes needed for threshold configuration
+- Clear visual feedback on system status
+- Targeted alert sending by risk/inactivity level
+- Preview of affected students before sending
+- Consistent terminology across interface
+
+---
+
+## [2.0.0] - 2025-11-19
+
+### Added
+- **Students at Risk Page (students_at_risk.php):**
+  - Dedicated comprehensive page for viewing and filtering at-risk students
+  - Interactive statistics cards for each risk level (CRITIQUE, ÉLEVÉ, MOYEN, FAIBLE)
+  - Real-time student count display for each level
+  - Click-to-filter functionality on statistics cards
+  - Advanced sorting capabilities:
+    - Sort by name (alphabetical)
+    - Sort by email
+    - Sort by risk level
+    - Sort by inactivity days
+    - Sort by missing assignments
+    - Sort by notification count
+  - Flexible pagination (25, 50, 100, 200 students per page)
+  - Visual risk indicators with color-coded badges
+  - Icon-based warning system:
+    - Red circle (🔴) for 14+ days of inactivity
+    - Orange circle (🟠) for 7-13 days of inactivity
+    - Exclamation (❗) for 5+ missing assignments
+    - Warning (⚠️) for 3-4 missing assignments
+  - Profile pictures in student list
+  - Quick actions per student:
+    - View full profile (opens in new tab)
+    - Send notification (direct link to alert form)
+  - Current filter display with clear/reset option
+  - Export to CSV with applied filters
+  - Direct navigation from main dashboard
+- **Navigation Integration:**
+  - Added to Site Administration menu
+  - Quick access button on main dashboard (danger/warning styled)
+  - Breadcrumb navigation support
+  - Proper capability checks (viewdashboard permission)
+- **Enhanced Filtering:**
+  - Filter by specific risk level or show all
+  - Ascending/descending sort toggle
+  - Persistent filter state across page loads
+  - Clear visual indication of active filters
+  - Student count display with current filter
+- **Data Visualization:**
+  - Color-coded risk level badges (danger, warning, info, success)
+  - Responsive table design with hover effects
+  - Mobile-friendly layout with profile pictures
+  - Visual hierarchy for quick scanning
+  - Font weight emphasis for critical metrics
+
+### Technical Improvements
+- Efficient SQL queries with pagination
+- Dynamic sorting with SQL ORDER BY
+- Parameterized queries for security
+- User capability verification
+- URL parameter handling for filters
+- HTML table with sortable headers
+- Bootstrap integration for responsive design
+- Profile picture rendering with Moodle API
+- UTF-8 encoding for international names
+
+### Files Added (1)
+1. students_at_risk.php - Dedicated students at risk page (370 lines)
+
+### Files Modified
+- settings.php (+11 lines) - Added navigation menu entry
+- dashboard.php (+3 lines) - Added quick access button
+- lang/en/local_student_monitor.php (+8 strings)
+- lang/fr/local_student_monitor.php (+8 strings)
+
+### Localization
+- 16 new language strings (8 French, 8 English)
+- Student at risk terminology
+- Filter and navigation labels
+- Success/empty state messages
+- Action button labels
+
+### User Experience
+- Single-click access to filtered student lists
+- Visual feedback for sorting direction
+- Intuitive statistics overview
+- Quick actions without leaving page
+- Clear messaging about data state
+- Consistent design with existing dashboard
+
+---
+
 ## [1.9.0] - 2025-11-17
 
 ### Added

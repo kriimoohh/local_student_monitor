@@ -76,6 +76,7 @@ class manual_alert_form extends \moodleform {
         // Recipient type.
         $mform->addElement('select', 'recipients', get_string('recipients', 'local_student_monitor'), [
             'all_students' => get_string('allstudents', 'local_student_monitor'),
+            'by_inactivity_level' => get_string('recipients_by_inactivity_level', 'local_student_monitor'),
             'category' => get_string('recipients_category', 'local_student_monitor'),
             'all_course' => get_string('recipients_all_course', 'local_student_monitor'),
             'group' => get_string('recipients_group', 'local_student_monitor'),
@@ -83,6 +84,38 @@ class manual_alert_form extends \moodleform {
             'csv' => get_string('recipients_csv', 'local_student_monitor'),
         ]);
         $mform->addRule('recipients', null, 'required');
+
+        // Inactivity level selection (for by_inactivity_level recipients).
+        $tracker = new \local_student_monitor\manager\student_tracker();
+        $stats = $tracker->get_statistics();
+
+        $inactivityoptions = [
+            'inactivity_level1' => get_string('inactivity_level1', 'local_student_monitor') . ' (' .
+                get_string('inactivitydays_3plus', 'local_student_monitor') . ')',
+            'inactivity_level2' => get_string('inactivity_level2', 'local_student_monitor') . ' (' .
+                get_string('inactivitydays_7plus', 'local_student_monitor') . ')',
+            'inactivity_level3' => get_string('inactivity_level3', 'local_student_monitor') . ' (' .
+                get_string('inactivitydays_14plus', 'local_student_monitor') . ')',
+            'risk_critique' => get_string('risk_critique', 'local_student_monitor') . ' (' . $stats->critique . ' ' .
+                get_string('students', 'local_student_monitor') . ')',
+            'risk_eleve' => get_string('risk_eleve', 'local_student_monitor') . ' (' . $stats->eleve . ' ' .
+                get_string('students', 'local_student_monitor') . ')',
+            'risk_moyen' => get_string('risk_moyen', 'local_student_monitor') . ' (' . $stats->moyen . ' ' .
+                get_string('students', 'local_student_monitor') . ')',
+        ];
+
+        $mform->addElement('select', 'inactivity_level', get_string('selectinactivitylevel', 'local_student_monitor'),
+            $inactivityoptions);
+        $mform->addHelpButton('inactivity_level', 'inactivity_level', 'local_student_monitor');
+        $mform->hideIf('inactivity_level', 'recipients', 'neq', 'by_inactivity_level');
+
+        // Display student preview for selected inactivity level.
+        $mform->addElement('html', '<div id="inactivity-level-preview" style="display:none; margin-top:15px;">
+            <div class="alert alert-info">
+                <strong>' . get_string('studentpreview', 'local_student_monitor') . ':</strong>
+                <div id="preview-content"></div>
+            </div>
+        </div>');
 
         // Category selection (for category recipients).
         $categories = $this->get_categories();
@@ -171,6 +204,10 @@ class manual_alert_form extends \moodleform {
         $errors = parent::validation($data, $files);
 
         // Validate recipients.
+        if ($data['recipients'] == 'by_inactivity_level' && empty($data['inactivity_level'])) {
+            $errors['inactivity_level'] = get_string('required');
+        }
+
         if ($data['recipients'] == 'category' && empty($data['categoryid'])) {
             $errors['categoryid'] = get_string('required');
         }

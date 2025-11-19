@@ -226,4 +226,15 @@ if ($hassiteconfig) {
             'local/student_monitor:viewdashboard'
         )
     );
+
+    // Add students at risk link.
+    $ADMIN->add(
+        'root',
+        new admin_externalpage(
+            'local_student_monitor_students_at_risk',
+            get_string('studentsatrisk', 'local_student_monitor'),
+            new moodle_url('/local/student_monitor/students_at_risk.php'),
+            'local/student_monitor:viewdashboard'
+        )
+    );
 }
