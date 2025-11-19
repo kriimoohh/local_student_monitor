@@ -969,3 +969,10 @@ $string['sender'] = 'Expéditeur';
 $string['recipientslist'] = 'Liste des destinataires';
 $string['andmore'] = 'et {$a} de plus';
 $string['error_no_preview_data'] = 'Aucune donnée de prévisualisation disponible. Veuillez d\'abord créer une alerte.';
+
+// Refresh tracking.
+$string['refreshtracking'] = 'Actualiser l\'analyse des étudiants';
+$string['refreshtrackingbtn'] = '🔄 Actualiser l\'analyse';
+$string['refreshtrackingconfirm'] = 'Voulez-vous lancer une analyse complète de tous les étudiants ?';
+$string['refreshtrackinginfo'] = 'Cette opération va recalculer les niveaux de risque, les jours d\'inactivité et les devoirs manquants pour tous les étudiants actifs. Cela peut prendre plusieurs minutes selon le nombre d\'étudiants.';
+$string['refreshtrackingsuccess'] = 'Analyse terminée : {$a->updated}/{$a->total} étudiants mis à jour ({$a->failed} échecs). {$a->courses} suivis de cours actualisés.';

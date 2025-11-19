@@ -968,3 +968,10 @@ $string['sender'] = 'Sender';
 $string['recipientslist'] = 'Recipients List';
 $string['andmore'] = 'and {$a} more';
 $string['error_no_preview_data'] = 'No preview data available. Please create an alert first.';
+
+// Refresh tracking.
+$string['refreshtracking'] = 'Refresh Student Analysis';
+$string['refreshtrackingbtn'] = '🔄 Refresh Analysis';
+$string['refreshtrackingconfirm'] = 'Do you want to run a complete analysis of all students?';
+$string['refreshtrackinginfo'] = 'This operation will recalculate risk levels, inactivity days, and missing assignments for all active students. This may take several minutes depending on the number of students.';
+$string['refreshtrackingsuccess'] = 'Analysis completed: {$a->updated}/{$a->total} students updated ({$a->failed} failures). {$a->courses} course trackings refreshed.';

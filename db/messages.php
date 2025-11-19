@@ -26,10 +26,9 @@ defined('MOODLE_INTERNAL') || die();
 
 $messageproviders = [
     'notification' => [
-        'capability' => 'local/student_monitor:viewstudentdata',
         'defaults' => [
-            'popup' => MESSAGE_PERMITTED,
-            'email' => MESSAGE_PERMITTED,
+            'popup' => MESSAGE_PERMITTED + MESSAGE_DEFAULT_ENABLED,
+            'email' => MESSAGE_PERMITTED + MESSAGE_DEFAULT_ENABLED,
         ],
     ],
 ];

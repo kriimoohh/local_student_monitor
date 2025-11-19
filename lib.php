@@ -54,6 +54,7 @@ function local_student_monitor_extend_navigation(global_navigation $navigation) 
             null,
             'sm_dashboards'
         );
+        $dashboardsnode->showinflatnavigation = true;
 
         $dashboardsnode->add(
             get_string('studentmonitordashboard', 'local_student_monitor'),
@@ -92,6 +93,7 @@ function local_student_monitor_extend_navigation(global_navigation $navigation) 
             null,
             'sm_students'
         );
+        $studentsnode->showinflatnavigation = true;
 
         $studentsnode->add(
             get_string('studentsatrisk', 'local_student_monitor'),
@@ -122,6 +124,7 @@ function local_student_monitor_extend_navigation(global_navigation $navigation) 
                 null,
                 'sm_alerts'
             );
+            $alertsnode->showinflatnavigation = true;
 
             $alertsnode->add(
                 get_string('createalert', 'local_student_monitor'),
@@ -162,6 +165,7 @@ function local_student_monitor_extend_navigation(global_navigation $navigation) 
                 null,
                 'sm_reports'
             );
+            $reportsnode->showinflatnavigation = true;
 
             $reportsnode->add(
                 get_string('advancedreports', 'local_student_monitor'),
@@ -209,6 +213,7 @@ function local_student_monitor_extend_navigation(global_navigation $navigation) 
                 null,
                 'sm_campaigns'
             );
+            $campaignsnode->showinflatnavigation = true;
 
             $campaignsnode->add(
                 get_string('emailcampaigns', 'local_student_monitor'),
@@ -238,6 +243,7 @@ function local_student_monitor_extend_navigation(global_navigation $navigation) 
                 null,
                 'sm_communication'
             );
+            $commnode->showinflatnavigation = true;
 
             $commnode->add(
                 get_string('communicationstats', 'local_student_monitor'),
@@ -269,6 +275,7 @@ function local_student_monitor_extend_navigation(global_navigation $navigation) 
                 null,
                 'sm_management'
             );
+            $managementnode->showinflatnavigation = true;
 
             $managementnode->add(
                 get_string('parentmanagement', 'local_student_monitor'),
