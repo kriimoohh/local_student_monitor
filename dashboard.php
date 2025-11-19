@@ -171,7 +171,10 @@ if (!empty($criticalalerts)) {
 echo html_writer::start_div('mt-3 mb-3');
 $createalerturl = new moodle_url('/local/student_monitor/create_alert.php');
 $viewalertsurl = new moodle_url('/local/student_monitor/view_alerts.php');
+$studentsatriskurl = new moodle_url('/local/student_monitor/students_at_risk.php');
 
+echo html_writer::link($studentsatriskurl, '⚠️ ' . get_string('studentsatrisk', 'local_student_monitor'),
+    ['class' => 'btn btn-danger mr-2']);
 echo html_writer::link($createalerturl, get_string('createalert', 'local_student_monitor'),
     ['class' => 'btn btn-primary mr-2']);
 echo html_writer::link($viewalertsurl, get_string('weeklyreport', 'local_student_monitor'),

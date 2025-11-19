@@ -913,3 +913,13 @@ $string['critical'] = 'Critique';
 $string['high'] = 'Élevé';
 $string['medium'] = 'Moyen';
 $string['low'] = 'Faible';
+
+// Students at risk page.
+$string['viewstudents'] = 'Voir les étudiants';
+$string['currentfilter'] = 'Filtre actuel';
+$string['clearfilter'] = 'Effacer le filtre';
+$string['showingatrisk'] = 'Affichage des étudiants à risque (MOYEN et plus)';
+$string['nostudentsatrisk'] = 'Aucun étudiant à risque trouvé - Excellent travail !';
+$string['viewprofile'] = 'Voir le profil';
+$string['sendnotification'] = 'Envoyer une notification';
+$string['perpage'] = 'Par page';

@@ -912,3 +912,13 @@ $string['critical'] = 'Critical';
 $string['high'] = 'High';
 $string['medium'] = 'Medium';
 $string['low'] = 'Low';
+
+// Students at risk page.
+$string['viewstudents'] = 'View Students';
+$string['currentfilter'] = 'Current Filter';
+$string['clearfilter'] = 'Clear Filter';
+$string['showingatrisk'] = 'Showing students at risk (MEDIUM and above)';
+$string['nostudentsatrisk'] = 'No students at risk found - Great work!';
+$string['viewprofile'] = 'View Profile';
+$string['sendnotification'] = 'Send Notification';
+$string['perpage'] = 'Per Page';
