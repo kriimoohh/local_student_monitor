@@ -25,7 +25,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'local_student_monitor';
-$plugin->version = 2025111904;  // YYYYMMDDXX - Fix navigation menu display in Boost theme
+$plugin->version = 2025111905;  // YYYYMMDDXX - Add refresh tracking button on dashboard
 $plugin->requires = 2022041900; // Moodle 4.0
 $plugin->maturity = MATURITY_STABLE;
-$plugin->release = 'v1.12.5';
+$plugin->release = 'v1.13.0';

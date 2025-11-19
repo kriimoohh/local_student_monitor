@@ -202,7 +202,12 @@ echo html_writer::link($viewalertsurl, get_string('weeklyreport', 'local_student
 // Export button.
 $exporturl = new moodle_url('/local/student_monitor/export.php', ['format' => 'csv']);
 echo html_writer::link($exporturl, get_string('exportcsv', 'local_student_monitor'),
-    ['class' => 'btn btn-success']);
+    ['class' => 'btn btn-success mr-2']);
+
+// Refresh tracking button.
+$refreshurl = new moodle_url('/local/student_monitor/refresh_tracking.php');
+echo html_writer::link($refreshurl, get_string('refreshtrackingbtn', 'local_student_monitor'),
+    ['class' => 'btn btn-info']);
 
 echo html_writer::end_div();
 
