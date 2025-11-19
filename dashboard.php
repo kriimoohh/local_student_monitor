@@ -73,7 +73,7 @@ if ($notificationsstats->sent > 0) {
 }
 
 // Get students at risk.
-$studentsatrisk = $tracker->get_students_at_risk($risklevel, 50);
+$studentsatrisk = $tracker->get_students_at_risk($risklevel, 50, $search);
 
 // Get critical alerts.
 $criticalalerts = $DB->get_records_sql(
@@ -190,13 +190,16 @@ if (has_capability('local/student_monitor:managesettings', $context)) {
 echo html_writer::start_div('mt-3 mb-3');
 $createalerturl = new moodle_url('/local/student_monitor/create_alert.php');
 $viewalertsurl = new moodle_url('/local/student_monitor/view_alerts.php');
+$weeklyreporturl = new moodle_url('/local/student_monitor/weekly_report.php');
 $studentsatriskurl = new moodle_url('/local/student_monitor/students_at_risk.php');
 
 echo html_writer::link($studentsatriskurl, '⚠️ ' . get_string('studentsatrisk', 'local_student_monitor'),
     ['class' => 'btn btn-danger mr-2']);
 echo html_writer::link($createalerturl, get_string('createalert', 'local_student_monitor'),
     ['class' => 'btn btn-primary mr-2']);
-echo html_writer::link($viewalertsurl, get_string('weeklyreport', 'local_student_monitor'),
+echo html_writer::link($weeklyreporturl, '📊 ' . get_string('weeklyreport', 'local_student_monitor'),
+    ['class' => 'btn btn-info mr-2']);
+echo html_writer::link($viewalertsurl, get_string('viewalerts', 'local_student_monitor'),
     ['class' => 'btn btn-secondary mr-2']);
 
 // Export button.
@@ -207,7 +210,7 @@ echo html_writer::link($exporturl, get_string('exportcsv', 'local_student_monito
 // Refresh tracking button.
 $refreshurl = new moodle_url('/local/student_monitor/refresh_tracking.php');
 echo html_writer::link($refreshurl, get_string('refreshtrackingbtn', 'local_student_monitor'),
-    ['class' => 'btn btn-info']);
+    ['class' => 'btn btn-warning']);
 
 echo html_writer::end_div();
 
@@ -217,7 +220,7 @@ echo html_writer::start_div('card-body');
 echo html_writer::tag('h5', get_string('studentlist', 'local_student_monitor'), ['class' => 'card-title']);
 
 // Filter form.
-echo html_writer::start_tag('form', ['method' => 'get', 'action' => $PAGE->url, 'class' => 'form-inline']);
+echo html_writer::start_tag('form', ['method' => 'get', 'action' => $PAGE->url, 'class' => 'form-inline mb-3']);
 
 echo html_writer::tag('label', get_string('risklevel', 'local_student_monitor') . ':', ['class' => 'mr-2']);
 echo html_writer::select(
@@ -234,11 +237,26 @@ echo html_writer::select(
     ['class' => 'custom-select mr-2']
 );
 
+echo html_writer::tag('label', get_string('search') . ':', ['class' => 'mr-2 ml-3']);
+echo html_writer::empty_tag('input', [
+    'type' => 'text',
+    'name' => 'search',
+    'value' => $search,
+    'placeholder' => get_string('searchplaceholder', 'local_student_monitor'),
+    'class' => 'form-control mr-2',
+]);
+
 echo html_writer::empty_tag('input', [
     'type' => 'submit',
     'value' => get_string('filter'),
     'class' => 'btn btn-primary',
 ]);
+
+if ($risklevel || $search) {
+    $clearurl = new moodle_url('/local/student_monitor/dashboard.php');
+    echo html_writer::link($clearurl, get_string('clearfilters', 'local_student_monitor'),
+        ['class' => 'btn btn-outline-secondary ml-2']);
+}
 
 echo html_writer::end_tag('form');
 echo html_writer::end_div();
