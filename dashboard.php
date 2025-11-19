@@ -43,9 +43,14 @@ $PAGE->requires->css('/local/student_monitor/styles/styles.css');
 $PAGE->requires->js_call_amd('local_student_monitor/dashboard', 'init');
 
 // Get filter parameters.
-$risklevel = optional_param('risk', '', PARAM_ALPHA);
+$risklevel = optional_param('risk', '', PARAM_TEXT);
 $courseid = optional_param('course', 0, PARAM_INT);
 $search = optional_param('search', '', PARAM_TEXT);
+
+// Validate risk level to prevent SQL injection and ensure only valid values.
+if ($risklevel && !in_array($risklevel, ['CRITIQUE', 'ÉLEVÉ', 'MOYEN', 'FAIBLE'])) {
+    $risklevel = '';
+}
 
 // Initialize managers.
 $tracker = new \local_student_monitor\manager\student_tracker();

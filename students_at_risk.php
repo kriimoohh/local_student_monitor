@@ -32,11 +32,16 @@ $context = context_system::instance();
 require_capability('local/student_monitor:viewdashboard', $context);
 
 // Get filter parameters.
-$risklevel = optional_param('risk', '', PARAM_ALPHA);
+$risklevel = optional_param('risk', '', PARAM_TEXT);
 $page = optional_param('page', 0, PARAM_INT);
 $perpage = optional_param('perpage', 25, PARAM_INT);
 $sort = optional_param('sort', 'risk', PARAM_ALPHA);
 $dir = optional_param('dir', 'ASC', PARAM_ALPHA);
+
+// Validate risk level to prevent SQL injection and ensure only valid values.
+if ($risklevel && !in_array($risklevel, ['CRITIQUE', 'ÉLEVÉ', 'MOYEN', 'FAIBLE'])) {
+    $risklevel = '';
+}
 
 $PAGE->set_url(new moodle_url('/local/student_monitor/students_at_risk.php', [
     'risk' => $risklevel,

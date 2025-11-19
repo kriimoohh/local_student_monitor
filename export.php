@@ -31,7 +31,12 @@ require_capability('local/student_monitor:exportdata', $context);
 
 $format = required_param('format', PARAM_ALPHA);
 $type = optional_param('type', 'students', PARAM_ALPHA);
-$risklevel = optional_param('risk', '', PARAM_ALPHA);
+$risklevel = optional_param('risk', '', PARAM_TEXT);
+
+// Validate risk level to prevent SQL injection and ensure only valid values.
+if ($risklevel && !in_array($risklevel, ['CRITIQUE', 'ÉLEVÉ', 'MOYEN', 'FAIBLE'])) {
+    $risklevel = '';
+}
 
 // Get reporting manager.
 $reportingmanager = new \local_student_monitor\manager\reporting_manager();
