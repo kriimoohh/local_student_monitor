@@ -104,6 +104,210 @@ if ($message = optional_param('message', '', PARAM_TEXT)) {
     echo $OUTPUT->notification(get_string($message, 'local_student_monitor'), 'success');
 }
 
+// Navigation Menu
+echo html_writer::start_div('student-monitor-nav-menu mb-4');
+echo html_writer::start_tag('nav', ['class' => 'navbar navbar-expand-lg navbar-light bg-light']);
+echo html_writer::start_div('container-fluid');
+
+// Brand
+echo html_writer::tag('span', '📊 Student Monitor', ['class' => 'navbar-brand']);
+
+// Navbar toggle button for mobile
+echo html_writer::start_tag('button', [
+    'class' => 'navbar-toggler',
+    'type' => 'button',
+    'data-toggle' => 'collapse',
+    'data-target' => '#studentMonitorNav',
+    'aria-controls' => 'studentMonitorNav',
+    'aria-expanded' => 'false',
+    'aria-label' => 'Toggle navigation'
+]);
+echo html_writer::tag('span', '', ['class' => 'navbar-toggler-icon']);
+echo html_writer::end_tag('button');
+
+// Navbar content
+echo html_writer::start_div('collapse navbar-collapse', ['id' => 'studentMonitorNav']);
+echo html_writer::start_tag('ul', ['class' => 'navbar-nav mr-auto']);
+
+// Dashboard menu
+echo html_writer::start_tag('li', ['class' => 'nav-item dropdown']);
+echo html_writer::start_tag('a', [
+    'class' => 'nav-link dropdown-toggle',
+    'href' => '#',
+    'id' => 'dashboardDropdown',
+    'role' => 'button',
+    'data-toggle' => 'dropdown',
+    'aria-haspopup' => 'true',
+    'aria-expanded' => 'false'
+]);
+echo '📊 Tableaux de bord';
+echo html_writer::end_tag('a');
+echo html_writer::start_div('dropdown-menu', ['aria-labelledby' => 'dashboardDropdown']);
+$dashboardurl = new moodle_url('/local/student_monitor/dashboard.php');
+echo html_writer::link($dashboardurl, 'Dashboard principal', ['class' => 'dropdown-item']);
+if (has_capability('local/student_monitor:viewreports', $context)) {
+    $bidashboardurl = new moodle_url('/local/student_monitor/bi_dashboard.php');
+    echo html_writer::link($bidashboardurl, 'Tableau de bord BI', ['class' => 'dropdown-item']);
+    $weeklyreporturl = new moodle_url('/local/student_monitor/weekly_report.php');
+    echo html_writer::link($weeklyreporturl, 'Rapport hebdomadaire', ['class' => 'dropdown-item']);
+}
+echo html_writer::end_div();
+echo html_writer::end_tag('li');
+
+// Students menu
+echo html_writer::start_tag('li', ['class' => 'nav-item dropdown']);
+echo html_writer::start_tag('a', [
+    'class' => 'nav-link dropdown-toggle',
+    'href' => '#',
+    'id' => 'studentsDropdown',
+    'role' => 'button',
+    'data-toggle' => 'dropdown',
+    'aria-haspopup' => 'true',
+    'aria-expanded' => 'false'
+]);
+echo '👥 Gestion des étudiants';
+echo html_writer::end_tag('a');
+echo html_writer::start_div('dropdown-menu', ['aria-labelledby' => 'studentsDropdown']);
+$studentsatriskurl = new moodle_url('/local/student_monitor/students_at_risk.php');
+echo html_writer::link($studentsatriskurl, 'Étudiants à risque', ['class' => 'dropdown-item']);
+if (has_capability('local/student_monitor:intervene', $context)) {
+    $bulkactionsurl = new moodle_url('/local/student_monitor/bulk_actions.php');
+    echo html_writer::link($bulkactionsurl, 'Actions en masse', ['class' => 'dropdown-item']);
+}
+echo html_writer::end_div();
+echo html_writer::end_tag('li');
+
+// Alerts menu
+if (has_capability('local/student_monitor:sendmanual', $context)) {
+    echo html_writer::start_tag('li', ['class' => 'nav-item dropdown']);
+    echo html_writer::start_tag('a', [
+        'class' => 'nav-link dropdown-toggle',
+        'href' => '#',
+        'id' => 'alertsDropdown',
+        'role' => 'button',
+        'data-toggle' => 'dropdown',
+        'aria-haspopup' => 'true',
+        'aria-expanded' => 'false'
+    ]);
+    echo '📧 Alertes & Notifications';
+    echo html_writer::end_tag('a');
+    echo html_writer::start_div('dropdown-menu', ['aria-labelledby' => 'alertsDropdown']);
+    $createalerturl = new moodle_url('/local/student_monitor/create_alert.php');
+    echo html_writer::link($createalerturl, 'Créer une alerte', ['class' => 'dropdown-item']);
+    $viewalertsurl = new moodle_url('/local/student_monitor/view_alerts.php');
+    echo html_writer::link($viewalertsurl, 'Historique des alertes', ['class' => 'dropdown-item']);
+    if (has_capability('local/student_monitor:managesettings', $context)) {
+        $configurealertsurl = new moodle_url('/local/student_monitor/configure_automatic_alerts.php');
+        echo html_writer::link($configurealertsurl, 'Configuration des alertes auto', ['class' => 'dropdown-item']);
+    }
+    echo html_writer::end_div();
+    echo html_writer::end_tag('li');
+}
+
+// Reports menu
+if (has_capability('local/student_monitor:viewreports', $context)) {
+    echo html_writer::start_tag('li', ['class' => 'nav-item dropdown']);
+    echo html_writer::start_tag('a', [
+        'class' => 'nav-link dropdown-toggle',
+        'href' => '#',
+        'id' => 'reportsDropdown',
+        'role' => 'button',
+        'data-toggle' => 'dropdown',
+        'aria-haspopup' => 'true',
+        'aria-expanded' => 'false'
+    ]);
+    echo '📈 Rapports & Analytics';
+    echo html_writer::end_tag('a');
+    echo html_writer::start_div('dropdown-menu', ['aria-labelledby' => 'reportsDropdown']);
+    $advancedreportsurl = new moodle_url('/local/student_monitor/advanced_reports.php');
+    echo html_writer::link($advancedreportsurl, 'Rapports avancés', ['class' => 'dropdown-item']);
+    $analyticsurl = new moodle_url('/local/student_monitor/predictive_analytics.php');
+    echo html_writer::link($analyticsurl, 'Analytics prédictifs', ['class' => 'dropdown-item']);
+    $efficiencyurl = new moodle_url('/local/student_monitor/efficiency_reports.php');
+    echo html_writer::link($efficiencyurl, 'Rapports d\'efficacité', ['class' => 'dropdown-item']);
+    $scheduledurl = new moodle_url('/local/student_monitor/scheduled_reports.php');
+    echo html_writer::link($scheduledurl, 'Planifications de rapports', ['class' => 'dropdown-item']);
+    echo html_writer::end_div();
+    echo html_writer::end_tag('li');
+}
+
+// Email campaigns menu
+if (has_capability('local/student_monitor:sendmanual', $context)) {
+    echo html_writer::start_tag('li', ['class' => 'nav-item dropdown']);
+    echo html_writer::start_tag('a', [
+        'class' => 'nav-link dropdown-toggle',
+        'href' => '#',
+        'id' => 'campaignsDropdown',
+        'role' => 'button',
+        'data-toggle' => 'dropdown',
+        'aria-haspopup' => 'true',
+        'aria-expanded' => 'false'
+    ]);
+    echo '📧 Campagnes Email';
+    echo html_writer::end_tag('a');
+    echo html_writer::start_div('dropdown-menu', ['aria-labelledby' => 'campaignsDropdown']);
+    $managecampaignsurl = new moodle_url('/local/student_monitor/manage_campaigns.php');
+    echo html_writer::link($managecampaignsurl, 'Gestion des campagnes', ['class' => 'dropdown-item']);
+    $campaignstatsurl = new moodle_url('/local/student_monitor/campaign_stats.php');
+    echo html_writer::link($campaignstatsurl, 'Statistiques de campagnes', ['class' => 'dropdown-item']);
+    echo html_writer::end_div();
+    echo html_writer::end_tag('li');
+}
+
+// Communication menu
+if (has_capability('local/student_monitor:viewreports', $context)) {
+    echo html_writer::start_tag('li', ['class' => 'nav-item dropdown']);
+    echo html_writer::start_tag('a', [
+        'class' => 'nav-link dropdown-toggle',
+        'href' => '#',
+        'id' => 'communicationDropdown',
+        'role' => 'button',
+        'data-toggle' => 'dropdown',
+        'aria-haspopup' => 'true',
+        'aria-expanded' => 'false'
+    ]);
+    echo '💬 Communication';
+    echo html_writer::end_tag('a');
+    echo html_writer::start_div('dropdown-menu', ['aria-labelledby' => 'communicationDropdown']);
+    $commstatsurl = new moodle_url('/local/student_monitor/communication_stats.php');
+    echo html_writer::link($commstatsurl, 'Statistiques de communication', ['class' => 'dropdown-item']);
+    if (has_capability('local/student_monitor:managetemplates', $context)) {
+        $templatesurl = new moodle_url('/local/student_monitor/template_editor.php');
+        echo html_writer::link($templatesurl, 'Éditeur de templates', ['class' => 'dropdown-item']);
+    }
+    echo html_writer::end_div();
+    echo html_writer::end_tag('li');
+}
+
+// Management menu
+if (has_capability('local/student_monitor:intervene', $context)) {
+    echo html_writer::start_tag('li', ['class' => 'nav-item dropdown']);
+    echo html_writer::start_tag('a', [
+        'class' => 'nav-link dropdown-toggle',
+        'href' => '#',
+        'id' => 'managementDropdown',
+        'role' => 'button',
+        'data-toggle' => 'dropdown',
+        'aria-haspopup' => 'true',
+        'aria-expanded' => 'false'
+    ]);
+    echo '⚙️ Gestion';
+    echo html_writer::end_tag('a');
+    echo html_writer::start_div('dropdown-menu', ['aria-labelledby' => 'managementDropdown']);
+    $parentsurl = new moodle_url('/local/student_monitor/manage_parents.php');
+    echo html_writer::link($parentsurl, 'Gestion des parents/tuteurs', ['class' => 'dropdown-item']);
+    $tasksurl = new moodle_url('/local/student_monitor/manage_tasks.php');
+    echo html_writer::link($tasksurl, 'Gestion des tâches', ['class' => 'dropdown-item']);
+    echo html_writer::end_div();
+    echo html_writer::end_tag('li');
+}
+
+echo html_writer::end_tag('ul');
+echo html_writer::end_div(); // collapse navbar-collapse
+echo html_writer::end_div(); // container-fluid
+echo html_writer::end_tag('nav');
+echo html_writer::end_div(); // student-monitor-nav-menu
+
 // KPI Cards.
 echo html_writer::start_div('student-monitor-dashboard');
 
