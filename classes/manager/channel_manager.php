@@ -55,7 +55,8 @@ class channel_manager {
                     break;
 
                 case 'moodle':
-                    $results['moodle'] = $this->send_moodle_notification($user, $notification->subject, $notification->message);
+                    $fromuserid = isset($notification->sentby) ? $notification->sentby : null;
+                    $results['moodle'] = $this->send_moodle_notification($user, $notification->subject, $notification->message, $fromuserid);
                     break;
 
                 case 'sms':
@@ -112,20 +113,34 @@ class channel_manager {
      * @param \stdClass $user User object
      * @param string $subject Subject
      * @param string $message Message
+     * @param int|null $fromuserid User ID of sender (defaults to support user)
      * @return int|false Message ID or false on failure
      */
-    public function send_moodle_notification($user, $subject, $message) {
+    public function send_moodle_notification($user, $subject, $message, $fromuserid = null) {
+        global $DB;
+
+        // Get the sender user - use the specified user, or fall back to support user.
+        if ($fromuserid) {
+            $userfrom = $DB->get_record('user', ['id' => $fromuserid]);
+            if (!$userfrom) {
+                $userfrom = \core_user::get_support_user();
+            }
+        } else {
+            $userfrom = \core_user::get_support_user();
+        }
+
+        // Create message object for direct messaging (not notification).
         $messagecontent = new \core\message\message();
-        $messagecontent->component = 'local_student_monitor';
-        $messagecontent->name = 'notification';
-        $messagecontent->userfrom = \core_user::get_noreply_user();
+        $messagecontent->component = 'moodle';
+        $messagecontent->name = 'instantmessage';
+        $messagecontent->userfrom = $userfrom;
         $messagecontent->userto = $user;
         $messagecontent->subject = $subject;
         $messagecontent->fullmessage = $message;
         $messagecontent->fullmessageformat = FORMAT_PLAIN;
         $messagecontent->fullmessagehtml = text_to_html($message);
-        $messagecontent->smallmessage = substr($message, 0, 200);
-        $messagecontent->notification = 1;
+        $messagecontent->smallmessage = $subject;
+        $messagecontent->notification = 0; // This is a direct message, not a notification.
 
         return message_send($messagecontent);
     }
@@ -405,8 +420,9 @@ class channel_manager {
                 break;
 
             case 'moodle':
-                $result['success'] = (bool) $this->send_moodle_notification($user, $testsubject, $testmessage);
-                $result['message'] = $result['success'] ? 'Moodle notification sent' : 'Failed to send Moodle notification';
+                global $USER;
+                $result['success'] = (bool) $this->send_moodle_notification($user, $testsubject, $testmessage, $USER->id);
+                $result['message'] = $result['success'] ? 'Moodle message sent' : 'Failed to send Moodle message';
                 break;
 
             case 'sms':
