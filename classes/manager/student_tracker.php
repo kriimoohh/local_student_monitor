@@ -278,9 +278,10 @@ class student_tracker {
      *
      * @param string|null $risklevel Filter by risk level
      * @param int $limit Limit results
+     * @param string|null $search Search by student name or email
      * @return array Array of tracking records
      */
-    public function get_students_at_risk($risklevel = null, $limit = 100) {
+    public function get_students_at_risk($risklevel = null, $limit = 100, $search = null) {
         global $DB;
 
         $sql = "SELECT st.*, u.firstname, u.lastname, u.email
@@ -296,6 +297,18 @@ class student_tracker {
         } else {
             // Only get students with at least MOYEN risk.
             $sql .= " AND st.risk_level IN ('MOYEN', 'ÉLEVÉ', 'CRITIQUE')";
+        }
+
+        if ($search) {
+            $sql .= " AND (" . $DB->sql_like('u.firstname', ':search1', false) .
+                    " OR " . $DB->sql_like('u.lastname', ':search2', false) .
+                    " OR " . $DB->sql_like('u.email', ':search3', false) .
+                    " OR " . $DB->sql_like($DB->sql_concat('u.firstname', "' '", 'u.lastname'), ':search4', false) . ")";
+            $searchparam = '%' . $DB->sql_like_escape($search) . '%';
+            $params['search1'] = $searchparam;
+            $params['search2'] = $searchparam;
+            $params['search3'] = $searchparam;
+            $params['search4'] = $searchparam;
         }
 
         $sql .= " ORDER BY
