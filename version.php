@@ -25,7 +25,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'local_student_monitor';
-$plugin->version = 2025111901;  // YYYYMMDDXX - Fix student level filter and translations
+$plugin->version = 2025111902;  // YYYYMMDDXX - Add navigation menu with all pages
 $plugin->requires = 2022041900; // Moodle 4.0
 $plugin->maturity = MATURITY_STABLE;
-$plugin->release = 'v1.12.2';
+$plugin->release = 'v1.12.3';
