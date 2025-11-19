@@ -182,7 +182,8 @@ echo html_writer::start_div('alert alert-info mb-3');
 if ($risklevel) {
     echo html_writer::tag('strong', get_string('currentfilter', 'local_student_monitor') . ': ');
     // Normalize risk level for translation (remove accents).
-    $riskkey = strtolower(str_replace(['É', 'è', 'é', 'ê'], 'e', $risklevel));
+    $riskkey = mb_strtolower($risklevel, 'UTF-8');
+    $riskkey = str_replace(['é', 'è', 'ê', 'ë'], 'e', $riskkey);
     echo get_string('risk_' . $riskkey, 'local_student_monitor');
     echo ' (' . $totalcount . ' ' . get_string('student', 'local_student_monitor') . ') ';
     $clearurl = new moodle_url($PAGE->url, ['risk' => '']);

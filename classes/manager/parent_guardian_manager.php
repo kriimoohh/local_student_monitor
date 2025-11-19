@@ -183,7 +183,8 @@ class parent_guardian_manager {
      */
     protected function prepare_parent_message($student, $parent, $risklevel, $tracking) {
         // Normalize risk level for translation (remove accents).
-        $riskkey = strtolower(str_replace(['É', 'è', 'é', 'ê'], 'e', $risklevel));
+        $riskkey = mb_strtolower($risklevel, 'UTF-8');
+        $riskkey = str_replace(['é', 'è', 'ê', 'ë'], 'e', $riskkey);
 
         $data = [
             'parentname' => $parent->parent_name,
