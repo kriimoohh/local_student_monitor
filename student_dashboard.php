@@ -69,7 +69,9 @@ if ($tracking) {
     echo html_writer::tag('h5', get_string('yourrisk', 'local_student_monitor'), ['class' => 'card-title']);
     echo html_writer::tag('div', html_writer::tag('span', $risklevel,
         ['class' => 'badge badge-' . $riskclass . ' badge-lg']), ['class' => 'mb-2']);
-    echo html_writer::tag('small', get_string('riskexplanation_' . strtolower($risklevel), 'local_student_monitor'),
+    // Normalize risk level for translation (remove accents).
+    $riskkey = strtolower(str_replace(['É', 'è', 'é', 'ê'], 'e', $risklevel));
+    echo html_writer::tag('small', get_string('riskexplanation_' . $riskkey, 'local_student_monitor'),
         ['class' => 'text-muted d-block']);
 } else {
     echo html_writer::tag('h5', get_string('yourrisk', 'local_student_monitor'), ['class' => 'card-title']);
