@@ -181,14 +181,16 @@ echo html_writer::end_div(); // row.
 echo html_writer::start_div('alert alert-info mb-3');
 if ($risklevel) {
     echo html_writer::tag('strong', get_string('currentfilter', 'local_student_monitor') . ': ');
-    echo get_string('risk_' . strtolower($risklevel), 'local_student_monitor');
-    echo ' (' . $totalcount . ' ' . get_string('students', 'local_student_monitor') . ') ';
+    // Normalize risk level for translation (remove accents).
+    $riskkey = strtolower(str_replace(['É', 'è', 'é', 'ê'], 'e', $risklevel));
+    echo get_string('risk_' . $riskkey, 'local_student_monitor');
+    echo ' (' . $totalcount . ' ' . get_string('student', 'local_student_monitor') . ') ';
     $clearurl = new moodle_url($PAGE->url, ['risk' => '']);
     echo html_writer::link($clearurl, get_string('clearfilter', 'local_student_monitor'),
         ['class' => 'btn btn-sm btn-secondary ml-2']);
 } else {
     echo get_string('showingatrisk', 'local_student_monitor') . ' (' . $totalcount . ' ' .
-        get_string('students', 'local_student_monitor') . ')';
+        get_string('student', 'local_student_monitor') . ')';
 }
 echo html_writer::end_div();
 

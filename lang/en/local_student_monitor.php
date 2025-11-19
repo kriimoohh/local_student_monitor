@@ -222,6 +222,8 @@ $string['privacy:tracking'] = 'Student tracking';
 $string['privacy:logs'] = 'Activity logs';
 
 // Additional strings.
+$string['student'] = 'student';
+$string['students'] = 'students';
 $string['nostudents'] = 'No students found';
 $string['all'] = 'All';
 $string['filter'] = 'Filter';

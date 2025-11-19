@@ -182,10 +182,13 @@ class parent_guardian_manager {
      * @return string Message
      */
     protected function prepare_parent_message($student, $parent, $risklevel, $tracking) {
+        // Normalize risk level for translation (remove accents).
+        $riskkey = strtolower(str_replace(['É', 'è', 'é', 'ê'], 'e', $risklevel));
+
         $data = [
             'parentname' => $parent->parent_name,
             'studentname' => fullname($student),
-            'risklevel' => get_string('risk_' . strtolower(str_replace('É', 'e', $risklevel)), 'local_student_monitor'),
+            'risklevel' => get_string('risk_' . $riskkey, 'local_student_monitor'),
             'inactivitydays' => $tracking->inactivity_days,
             'missingassignments' => $tracking->missing_assignments,
             'supportemail' => get_config('local_student_monitor', 'supportemail'),

@@ -222,6 +222,8 @@ $string['privacy:tracking'] = 'Suivi étudiant';
 $string['privacy:logs'] = 'Journaux d\'activité';
 
 // Additional strings.
+$string['student'] = 'étudiant';
+$string['students'] = 'étudiants';
 $string['nostudents'] = 'Aucun étudiant trouvé';
 $string['all'] = 'Tous';
 $string['filter'] = 'Filtrer';

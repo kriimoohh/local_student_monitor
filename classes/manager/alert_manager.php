@@ -220,6 +220,7 @@ class alert_manager {
                         'risk_critique' => 'CRITIQUE',
                         'risk_eleve' => 'ÉLEVÉ',
                         'risk_moyen' => 'MOYEN',
+                        'risk_faible' => 'FAIBLE',
                     ];
 
                     $risklevel = $risklevelmap[$data->inactivity_level] ?? 'MOYEN';
