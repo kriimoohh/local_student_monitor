@@ -922,3 +922,37 @@ $string['nostudentsatrisk'] = 'No students at risk found - Great work!';
 $string['viewprofile'] = 'View Profile';
 $string['sendnotification'] = 'Send Notification';
 $string['perpage'] = 'Per Page';
+
+// Recipients by inactivity level.
+$string['recipients_by_inactivity_level'] = 'By Inactivity / Risk Level';
+$string['selectinactivitylevel'] = 'Select Level';
+$string['inactivity_level'] = 'Inactivity / Risk Level';
+$string['inactivity_level_help'] = 'Select the inactivity or risk level to send alerts to matching students.';
+$string['inactivity_level1'] = 'Level 1 - Moderate Inactivity';
+$string['inactivity_level2'] = 'Level 2 - Significant Inactivity';
+$string['inactivity_level3'] = 'Level 3 - Critical Inactivity';
+$string['inactivitydays_3plus'] = '3+ days';
+$string['inactivitydays_7plus'] = '7+ days';
+$string['inactivitydays_14plus'] = '14+ days';
+$string['studentpreview'] = 'Student Preview';
+
+// Automatic alerts configuration.
+$string['configureautomaticalerts'] = 'Configure Automatic Alerts';
+$string['configureautomaticalertsdesc'] = 'Configure automatic alert settings for at-risk student monitoring.';
+$string['automaticalertsenabled'] = 'Automatic alerts enabled';
+$string['automaticalertsdisabled'] = 'Automatic alerts disabled';
+$string['automaticalertsenabledinfo'] = 'Automatic alerts are active. The system monitors students and sends automatic notifications based on configured thresholds.';
+$string['automaticalertsdisabledinfo'] = 'Automatic alerts are disabled. Enable them to start monitoring students automatically.';
+$string['automaticalertsinfo'] = 'Automatic detection and notification system for at-risk students.';
+$string['enableautomaticalerts'] = 'Enable Automatic Alerts';
+$string['disableautomaticalerts'] = 'Disable Automatic Alerts';
+$string['confirmdisableautomaticalerts'] = 'Are you sure you want to disable automatic alerts? At-risk students will no longer receive automatic notifications.';
+$string['currentstatus'] = 'Current Status';
+$string['inactivitythresholds'] = 'Inactivity Thresholds';
+$string['savethresholds'] = 'Save Thresholds';
+$string['thresholdssaved'] = 'Inactivity thresholds saved successfully';
+$string['notificationchannels'] = 'Notification Channels';
+$string['savechannels'] = 'Save Channels';
+$string['channelssaved'] = 'Notification channels saved successfully';
+$string['channelsconfigurationdesc'] = 'Select channels to use for automatic alerts. At least one channel must be enabled.';
+$string['configurealerts'] = 'Configure Alerts';

@@ -167,6 +167,25 @@ if (!empty($criticalalerts)) {
     echo html_writer::end_div();
 }
 
+// Automatic Alerts Configuration Card.
+$automaticalertsenabled = get_config('local_student_monitor', 'automatic_alerts_enabled');
+if (has_capability('local/student_monitor:managesettings', $context)) {
+    echo html_writer::start_div('alert ' . ($automaticalertsenabled ? 'alert-success' : 'alert-warning') . ' mb-3');
+    echo html_writer::start_div('d-flex justify-content-between align-items-center');
+    echo html_writer::start_div();
+    echo html_writer::tag('strong', $automaticalertsenabled ?
+        '✅ ' . get_string('automaticalertsenabled', 'local_student_monitor') :
+        '⚠️ ' . get_string('automaticalertsdisabled', 'local_student_monitor'));
+    echo html_writer::tag('p', get_string('automaticalertsinfo', 'local_student_monitor'),
+        ['class' => 'mb-0 mt-1']);
+    echo html_writer::end_div();
+    $configureurl = new moodle_url('/local/student_monitor/configure_automatic_alerts.php');
+    echo html_writer::link($configureurl, '⚙️ ' . get_string('configurealerts', 'local_student_monitor'),
+        ['class' => 'btn btn-sm ' . ($automaticalertsenabled ? 'btn-outline-success' : 'btn-outline-warning')]);
+    echo html_writer::end_div();
+    echo html_writer::end_div();
+}
+
 // Quick Actions.
 echo html_writer::start_div('mt-3 mb-3');
 $createalerturl = new moodle_url('/local/student_monitor/create_alert.php');
