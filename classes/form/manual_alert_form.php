@@ -102,6 +102,8 @@ class manual_alert_form extends \moodleform {
                 get_string('students', 'local_student_monitor') . ')',
             'risk_moyen' => get_string('risk_moyen', 'local_student_monitor') . ' (' . $stats->moyen . ' ' .
                 get_string('students', 'local_student_monitor') . ')',
+            'risk_faible' => get_string('risk_faible', 'local_student_monitor') . ' (' . $stats->faible . ' ' .
+                get_string('students', 'local_student_monitor') . ')',
         ];
 
         $mform->addElement('select', 'inactivity_level', get_string('selectinactivitylevel', 'local_student_monitor'),
@@ -193,10 +195,8 @@ class manual_alert_form extends \moodleform {
 
         // Action buttons.
         $buttonarray = [];
-        $buttonarray[] = $mform->createElement('submit', 'submitbutton', get_string('previewalert', 'local_student_monitor'),
-            ['class' => 'btn btn-secondary']);
-        $buttonarray[] = $mform->createElement('submit', 'submitandsend', get_string('sendalert', 'local_student_monitor'),
-            ['class' => 'btn btn-primary']);
+        $buttonarray[] = $mform->createElement('submit', 'submitbutton', get_string('previewalert', 'local_student_monitor'));
+        $buttonarray[] = $mform->createElement('submit', 'submitandsend', get_string('sendalert', 'local_student_monitor'));
         $buttonarray[] = $mform->createElement('cancel');
         $mform->addGroup($buttonarray, 'buttonar', '', [' '], false);
         $mform->closeHeaderBefore('buttonar');
