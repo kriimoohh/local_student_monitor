@@ -32,6 +32,11 @@ $risklevel = optional_param('risk', '', PARAM_TEXT);
 $startdate = optional_param('startdate', 0, PARAM_INT);
 $enddate = optional_param('enddate', 0, PARAM_INT);
 
+// Validate risk level to prevent SQL injection and ensure only valid values.
+if ($risklevel && !in_array($risklevel, ['CRITIQUE', 'ÉLEVÉ', 'MOYEN', 'FAIBLE'])) {
+    $risklevel = '';
+}
+
 $pdfmanager = new \local_student_monitor\manager\pdf_manager();
 
 switch ($type) {
