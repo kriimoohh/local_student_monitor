@@ -70,7 +70,8 @@ if ($tracking) {
     echo html_writer::tag('div', html_writer::tag('span', $risklevel,
         ['class' => 'badge badge-' . $riskclass . ' badge-lg']), ['class' => 'mb-2']);
     // Normalize risk level for translation (remove accents).
-    $riskkey = strtolower(str_replace(['É', 'è', 'é', 'ê'], 'e', $risklevel));
+    $riskkey = mb_strtolower($risklevel, 'UTF-8');
+    $riskkey = str_replace(['é', 'è', 'ê', 'ë'], 'e', $riskkey);
     echo html_writer::tag('small', get_string('riskexplanation_' . $riskkey, 'local_student_monitor'),
         ['class' => 'text-muted d-block']);
 } else {
