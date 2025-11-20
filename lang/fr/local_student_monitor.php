@@ -650,6 +650,12 @@ $string['exportoptions'] = 'Options d\'export';
 $string['exporttocsv'] = 'Exporter en CSV';
 $string['norecipients'] = 'Aucun destinataire';
 
+// Alert types and statuses.
+$string['manual'] = 'Manuelle';
+$string['automatic'] = 'Automatique';
+$string['system'] = 'Système';
+$string['failed'] = 'Échec';
+
 // Gamification (Phase 8).
 $string['gamification'] = 'Gamification';
 $string['leaderboard'] = 'Classement';

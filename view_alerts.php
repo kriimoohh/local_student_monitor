@@ -52,18 +52,67 @@ if (!empty($recentalerts)) {
     $table = new html_table();
     $table->head = [
         get_string('title', 'local_student_monitor'),
+        get_string('type', 'local_student_monitor'),
         get_string('sentby', 'local_student_monitor'),
         get_string('recipients', 'local_student_monitor'),
+        get_string('status', 'local_student_monitor'),
         get_string('timecreated', 'local_student_monitor'),
     ];
 
     $table->attributes['class'] = 'table table-striped';
 
     foreach ($recentalerts as $alert) {
+        // Determine alert type display.
+        $alerttype = $alert->type;
+        $alerttypedisplay = '';
+
+        if ($alerttype === 'manual_alert') {
+            $alerttypedisplay = html_writer::tag('span', get_string('manual', 'local_student_monitor'),
+                ['class' => 'badge badge-primary']);
+        } else if (strpos($alerttype, 'inactivity_') === 0) {
+            $alerttypedisplay = html_writer::tag('span', get_string('automatic', 'local_student_monitor'),
+                ['class' => 'badge badge-warning']);
+        } else if ($alerttype === 'assignment_reminder') {
+            $alerttypedisplay = html_writer::tag('span', get_string('automatic', 'local_student_monitor'),
+                ['class' => 'badge badge-warning']);
+        } else {
+            $alerttypedisplay = html_writer::tag('span', get_string('automatic', 'local_student_monitor'),
+                ['class' => 'badge badge-info']);
+        }
+
+        // Determine sender display.
+        $sender = '';
+        if ($alert->sentby && $alert->firstname && $alert->lastname) {
+            $sender = fullname($alert);
+        } else {
+            $sender = get_string('system', 'local_student_monitor');
+        }
+
+        // Determine status display.
+        $statusdisplay = '';
+        switch ($alert->status) {
+            case 'sent':
+                $statusdisplay = html_writer::tag('span', get_string('sent', 'local_student_monitor'),
+                    ['class' => 'badge badge-success']);
+                break;
+            case 'pending':
+                $statusdisplay = html_writer::tag('span', get_string('pending', 'local_student_monitor'),
+                    ['class' => 'badge badge-warning']);
+                break;
+            case 'failed':
+                $statusdisplay = html_writer::tag('span', get_string('failed', 'local_student_monitor'),
+                    ['class' => 'badge badge-danger']);
+                break;
+            default:
+                $statusdisplay = $alert->status;
+        }
+
         $row = [
             $alert->subject,
-            fullname($alert),
+            $alerttypedisplay,
+            $sender,
             $alert->recipient_count,
+            $statusdisplay,
             userdate($alert->timecreated, get_string('strftimedatetime')),
         ];
 
