@@ -523,12 +523,27 @@ class alert_manager {
     public function get_recent_alerts($limit = 20) {
         global $DB;
 
-        $sql = "SELECT DISTINCT n.subject, n.timecreated, n.sentby, u.firstname, u.lastname,
-                       COUNT(n.id) as recipient_count
+        // Get all alerts (manual and automatic) with sender information.
+        // Group by subject and timecreated to show unique alert campaigns.
+        $sql = "SELECT n.id, n.subject, n.timecreated, n.sentby, n.type, n.status,
+                       u.firstname, u.lastname,
+                       COUNT(DISTINCT n2.id) as recipient_count
                   FROM {local_sm_notifications} n
-                  JOIN {user} u ON u.id = n.sentby
-                 WHERE n.type = 'manual_alert'
-              GROUP BY n.subject, n.timecreated, n.sentby, u.firstname, u.lastname
+                  LEFT JOIN {user} u ON u.id = n.sentby
+                  LEFT JOIN {local_sm_notifications} n2 ON (
+                      n2.subject = n.subject
+                      AND ABS(n2.timecreated - n.timecreated) < 60
+                      AND n2.type = n.type
+                  )
+                 WHERE n.status IN ('sent', 'pending', 'failed')
+                   AND n.id = (
+                       SELECT MIN(n3.id)
+                       FROM {local_sm_notifications} n3
+                       WHERE n3.subject = n.subject
+                         AND ABS(n3.timecreated - n.timecreated) < 60
+                         AND n3.type = n.type
+                   )
+              GROUP BY n.id, n.subject, n.timecreated, n.sentby, n.type, n.status, u.firstname, u.lastname
               ORDER BY n.timecreated DESC";
 
         return $DB->get_records_sql($sql, [], 0, $limit);
