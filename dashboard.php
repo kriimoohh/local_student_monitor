@@ -219,13 +219,13 @@ if (has_capability('local/student_monitor:viewreports', $context)) {
     echo '📈 Rapports & Analytics';
     echo html_writer::end_tag('a');
     echo html_writer::start_div('dropdown-menu', ['aria-labelledby' => 'reportsDropdown']);
-    $advancedreportsurl = new moodle_url('/local/student_monitor/advanced_reports.php');
+    $advancedreportsurl = new moodle_url('/local/student_monitor/reports.php');
     echo html_writer::link($advancedreportsurl, 'Rapports avancés', ['class' => 'dropdown-item']);
-    $analyticsurl = new moodle_url('/local/student_monitor/predictive_analytics.php');
+    $analyticsurl = new moodle_url('/local/student_monitor/predictions.php');
     echo html_writer::link($analyticsurl, 'Analytics prédictifs', ['class' => 'dropdown-item']);
-    $efficiencyurl = new moodle_url('/local/student_monitor/efficiency_reports.php');
+    $efficiencyurl = new moodle_url('/local/student_monitor/effectiveness.php');
     echo html_writer::link($efficiencyurl, 'Rapports d\'efficacité', ['class' => 'dropdown-item']);
-    $scheduledurl = new moodle_url('/local/student_monitor/scheduled_reports.php');
+    $scheduledurl = new moodle_url('/local/student_monitor/report_schedules.php');
     echo html_writer::link($scheduledurl, 'Planifications de rapports', ['class' => 'dropdown-item']);
     echo html_writer::end_div();
     echo html_writer::end_tag('li');
