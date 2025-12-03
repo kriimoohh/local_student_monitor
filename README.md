@@ -69,20 +69,32 @@ Student Monitor est un plugin Moodle complet développé pour l'**UNCHK (Univers
 
 ## 🚀 Installation
 
-### Méthode 1 : Via Git
+### Methode 1 : Via les Releases GitHub (Recommandee)
+
+1. Allez sur la page [Releases](../../releases) du projet
+2. Telechargez le fichier `student_monitor.zip` de la derniere version
+3. Extrayez le ZIP dans le dossier `local/` de votre installation Moodle
+   - Le dossier extrait s'appelle deja `student_monitor` (pret a l'emploi)
+4. Accedez a **Administration du site > Notifications**
+5. Cliquez sur "Mettre a jour la base de donnees"
+
+### Methode 2 : Via Git
 
 ```bash
 cd /path/to/moodle/local/
-git clone https://github.com/unchk/student_monitor.git student_monitor
-cd student_monitor
+git clone https://github.com/sakai-sn/local_student_monitor.git student_monitor
 ```
 
-### Méthode 2 : Manuel
+> **Important :** Le dossier doit s'appeler `student_monitor` (sans le prefixe `local_`)
 
-1. Téléchargez l'archive du plugin
-2. Extrayez dans `moodle/local/student_monitor`
-3. Accédez à **Administration du site > Notifications**
-4. Cliquez sur "Mettre à jour la base de données"
+### Methode 3 : Telechargement manuel depuis GitHub
+
+1. Telechargez le ZIP du depot depuis GitHub
+2. Extrayez l'archive
+3. **Renommez** le dossier en `student_monitor` (supprimez le prefixe `local_` et le suffixe de branche)
+4. Placez le dossier dans `moodle/local/student_monitor`
+5. Accedez a **Administration du site > Notifications**
+6. Cliquez sur "Mettre a jour la base de donnees"
 
 ---
 
