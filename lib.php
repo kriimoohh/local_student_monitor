@@ -428,13 +428,47 @@ function local_student_monitor_pluginfile($course, $cm, $context, $filearea, $ar
  * @return string
  */
 function local_student_monitor_get_risk_class($risklevel) {
-    $classes = [
-        'FAIBLE' => 'risk-low',
-        'MOYEN' => 'risk-medium',
-        'ÉLEVÉ' => 'risk-high',
-        'CRITIQUE' => 'risk-critical',
-    ];
-    return $classes[$risklevel] ?? 'risk-unknown';
+    return \local_student_monitor\risk_level::get_css_class($risklevel);
+}
+
+/**
+ * Get risk level display name (translated).
+ *
+ * @param string $risklevel
+ * @return string
+ */
+function local_student_monitor_get_risk_display_name($risklevel) {
+    return \local_student_monitor\risk_level::get_display_name($risklevel);
+}
+
+/**
+ * Get risk level badge class (Bootstrap).
+ *
+ * @param string $risklevel
+ * @return string
+ */
+function local_student_monitor_get_risk_badge_class($risklevel) {
+    return \local_student_monitor\risk_level::get_badge_class($risklevel);
+}
+
+/**
+ * Get risk level icon class (Font Awesome).
+ *
+ * @param string $risklevel
+ * @return string
+ */
+function local_student_monitor_get_risk_icon_class($risklevel) {
+    return \local_student_monitor\risk_level::get_icon_class($risklevel);
+}
+
+/**
+ * Get institution name from configuration.
+ *
+ * @return string Institution name
+ */
+function local_student_monitor_get_institution_name() {
+    $name = get_config('local_student_monitor', 'institution_name');
+    return $name ?: 'UNCHK';
 }
 
 /**

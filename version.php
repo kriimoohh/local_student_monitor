@@ -25,7 +25,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'local_student_monitor';
-$plugin->version = 2025111905;  // YYYYMMDDXX - Add refresh tracking button on dashboard
+$plugin->version = 2025120301;  // YYYYMMDDXX - Fix risk level hierarchy, add caching, improve notifications
 $plugin->requires = 2022041900; // Moodle 4.0
 $plugin->maturity = MATURITY_STABLE;
-$plugin->release = 'v1.13.0';
+$plugin->release = 'v1.14.0';

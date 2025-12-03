@@ -18,11 +18,13 @@
  * Student tracker manager class.
  *
  * @package    local_student_monitor
- * @copyright  2025 UNCHK - Université Numérique Cheikh Hamidou Kane
+ * @copyright  2025 UNCHK - Universite Numerique Cheikh Hamidou Kane
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 namespace local_student_monitor\manager;
+
+use local_student_monitor\risk_level;
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -32,6 +34,9 @@ defined('MOODLE_INTERNAL') || die();
  * Manages student tracking and risk assessment.
  */
 class student_tracker {
+
+    /** @var int Maximum days to look back in logs for activity */
+    const LOG_LOOKBACK_DAYS = 90;
 
     /**
      * Update tracking data for a student.
@@ -60,11 +65,15 @@ class student_tracker {
         // Count notifications sent.
         $tracking->notification_count = $this->count_notifications($userid);
 
-        // Calculate risk level.
+        // Calculate risk level using configured thresholds.
         $tracking->risk_level = $this->calculate_risk_level($tracking);
 
         // Determine if intervention is needed.
-        $tracking->intervention_needed = $this->needs_intervention($tracking);
+        $tracking->intervention_needed = risk_level::needs_intervention(
+            $tracking->risk_level,
+            $tracking->inactivity_days,
+            $tracking->missing_assignments ?? 0
+        ) ? 1 : 0;
 
         // Update timestamp.
         $tracking->timeupdated = time();
@@ -96,7 +105,7 @@ class student_tracker {
             $tracking = new \stdClass();
             $tracking->userid = $userid;
             $tracking->courseid = $courseid;
-            $tracking->risk_level = 'FAIBLE';
+            $tracking->risk_level = risk_level::LOW;
             $tracking->last_activity = time();
             $tracking->inactivity_days = 0;
             $tracking->missing_assignments = 0;
@@ -124,12 +133,20 @@ class student_tracker {
 
         // If checking specific course, look at course-specific activity.
         if ($courseid) {
+            // Add time boundary to limit query scope (performance optimization).
+            $timelimit = time() - (self::LOG_LOOKBACK_DAYS * risk_level::SECONDS_PER_DAY);
+
             $sql = "SELECT MAX(timecreated) as lastaccess
                       FROM {logstore_standard_log}
                      WHERE userid = :userid
-                       AND courseid = :courseid";
+                       AND courseid = :courseid
+                       AND timecreated > :timelimit";
 
-            $courseactivity = $DB->get_record_sql($sql, ['userid' => $userid, 'courseid' => $courseid]);
+            $courseactivity = $DB->get_record_sql($sql, [
+                'userid' => $userid,
+                'courseid' => $courseid,
+                'timelimit' => $timelimit,
+            ]);
 
             if ($courseactivity && $courseactivity->lastaccess) {
                 return max($user->lastaccess, $courseactivity->lastaccess);
@@ -147,11 +164,11 @@ class student_tracker {
      */
     protected function calculate_inactivity_days($lastactivity) {
         if (!$lastactivity) {
-            return 999; // Never logged in.
+            return risk_level::NEVER_LOGGED_IN_DAYS;
         }
 
         $diff = time() - $lastactivity;
-        return floor($diff / 86400); // Convert seconds to days.
+        return (int) floor($diff / risk_level::SECONDS_PER_DAY);
     }
 
     /**
@@ -203,23 +220,27 @@ class student_tracker {
 
     /**
      * Calculate risk level based on tracking data.
+     * Uses configured thresholds from plugin settings.
      *
      * @param \stdClass $tracking Tracking record
-     * @return string Risk level (FAIBLE, MOYEN, ÉLEVÉ, CRITIQUE)
+     * @return string Risk level constant
      */
     public function calculate_risk_level($tracking) {
         $score = 0;
 
-        // Inactivity score.
-        if ($tracking->inactivity_days >= 14) {
+        // Get configured thresholds.
+        $thresholds = risk_level::get_inactivity_thresholds();
+
+        // Inactivity score (max 40 points).
+        if ($tracking->inactivity_days >= $thresholds['level3']) {
             $score += 40;
-        } else if ($tracking->inactivity_days >= 7) {
+        } else if ($tracking->inactivity_days >= $thresholds['level2']) {
             $score += 25;
-        } else if ($tracking->inactivity_days >= 3) {
+        } else if ($tracking->inactivity_days >= $thresholds['level1']) {
             $score += 10;
         }
 
-        // Missing assignments score.
+        // Missing assignments score (max 30 points).
         if ($tracking->missing_assignments >= 5) {
             $score += 30;
         } else if ($tracking->missing_assignments >= 3) {
@@ -229,6 +250,7 @@ class student_tracker {
         }
 
         // Notification count (many notifications might indicate persistent issues).
+        // Max 20 points.
         if ($tracking->notification_count >= 10) {
             $score += 20;
         } else if ($tracking->notification_count >= 5) {
@@ -236,15 +258,7 @@ class student_tracker {
         }
 
         // Determine risk level based on score.
-        if ($score >= 60) {
-            return 'CRITIQUE';
-        } else if ($score >= 40) {
-            return 'ÉLEVÉ';
-        } else if ($score >= 20) {
-            return 'MOYEN';
-        }
-
-        return 'FAIBLE';
+        return risk_level::from_score($score);
     }
 
     /**
@@ -252,36 +266,26 @@ class student_tracker {
      *
      * @param \stdClass $tracking Tracking record
      * @return int 1 if intervention needed, 0 otherwise
+     * @deprecated Use risk_level::needs_intervention() instead
      */
     protected function needs_intervention($tracking) {
-        // Intervention needed if:
-        // - Risk level is CRITIQUE or ÉLEVÉ
-        // - Inactivity >= 14 days
-        // - Missing assignments >= 5
-        if ($tracking->risk_level == 'CRITIQUE' || $tracking->risk_level == 'ÉLEVÉ') {
-            return 1;
-        }
-
-        if ($tracking->inactivity_days >= 14) {
-            return 1;
-        }
-
-        if ($tracking->missing_assignments >= 5) {
-            return 1;
-        }
-
-        return 0;
+        return risk_level::needs_intervention(
+            $tracking->risk_level,
+            $tracking->inactivity_days,
+            $tracking->missing_assignments ?? 0
+        ) ? 1 : 0;
     }
 
     /**
      * Get students at risk.
      *
-     * @param string|null $risklevel Filter by risk level
+     * @param string|null $risklevel Filter by risk level (or minimum risk level with hierarchy)
      * @param int $limit Limit results
      * @param string|null $search Search by student name or email
+     * @param bool $usehierarchy If true, filter includes all levels >= specified level
      * @return array Array of tracking records
      */
-    public function get_students_at_risk($risklevel = null, $limit = 100, $search = null) {
+    public function get_students_at_risk($risklevel = null, $limit = 100, $search = null, $usehierarchy = true) {
         global $DB;
 
         $sql = "SELECT st.*, u.firstname, u.lastname, u.email
@@ -292,11 +296,24 @@ class student_tracker {
         $params = [];
 
         if ($risklevel) {
-            $sql .= " AND st.risk_level = :risklevel";
-            $params['risklevel'] = $risklevel;
+            if ($usehierarchy) {
+                // Use hierarchy to get all levels at or above the specified level.
+                $filter = risk_level::get_sql_filter_at_least($risklevel);
+                $sql .= " AND st.risk_level " . $filter['sql'];
+                $params = array_merge($params, $filter['params']);
+            } else {
+                // Exact match only.
+                $normalized = risk_level::normalize($risklevel);
+                $legacy = risk_level::convert_to_legacy($risklevel);
+                $sql .= " AND (st.risk_level = :risklevel OR st.risk_level = :risklevellegacy)";
+                $params['risklevel'] = $normalized;
+                $params['risklevellegacy'] = $legacy;
+            }
         } else {
-            // Only get students with at least MOYEN risk.
-            $sql .= " AND st.risk_level IN ('MOYEN', 'ÉLEVÉ', 'CRITIQUE')";
+            // Only get students with at least MEDIUM risk.
+            $filter = risk_level::get_sql_filter_at_least(risk_level::MEDIUM);
+            $sql .= " AND st.risk_level " . $filter['sql'];
+            $params = array_merge($params, $filter['params']);
         }
 
         if ($search) {
@@ -311,14 +328,7 @@ class student_tracker {
             $params['search4'] = $searchparam;
         }
 
-        $sql .= " ORDER BY
-                    CASE st.risk_level
-                        WHEN 'CRITIQUE' THEN 1
-                        WHEN 'ÉLEVÉ' THEN 2
-                        WHEN 'MOYEN' THEN 3
-                        ELSE 4
-                    END,
-                    st.inactivity_days DESC";
+        $sql .= " ORDER BY " . risk_level::get_sql_order_by('st.risk_level') . ", st.inactivity_days DESC";
 
         return $DB->get_records_sql($sql, $params, 0, $limit);
     }
@@ -375,11 +385,17 @@ class student_tracker {
         // Total students tracked.
         $stats->total_students = $DB->count_records('local_sm_student_tracking');
 
-        // Students by risk level.
-        $stats->critique = $DB->count_records('local_sm_student_tracking', ['risk_level' => 'CRITIQUE']);
-        $stats->eleve = $DB->count_records('local_sm_student_tracking', ['risk_level' => 'ÉLEVÉ']);
-        $stats->moyen = $DB->count_records('local_sm_student_tracking', ['risk_level' => 'MOYEN']);
-        $stats->faible = $DB->count_records('local_sm_student_tracking', ['risk_level' => 'FAIBLE']);
+        // Students by risk level (support both new and legacy values).
+        $stats->critical = $this->count_by_risk_level(risk_level::CRITICAL);
+        $stats->high = $this->count_by_risk_level(risk_level::HIGH);
+        $stats->medium = $this->count_by_risk_level(risk_level::MEDIUM);
+        $stats->low = $this->count_by_risk_level(risk_level::LOW);
+
+        // Legacy names for backward compatibility.
+        $stats->critique = $stats->critical;
+        $stats->eleve = $stats->high;
+        $stats->moyen = $stats->medium;
+        $stats->faible = $stats->low;
 
         // Students needing intervention.
         $stats->intervention_needed = $DB->count_records('local_sm_student_tracking', ['intervention_needed' => 1]);
@@ -391,5 +407,26 @@ class student_tracker {
         $stats->avg_inactivity = round($result->avg_inactivity ?? 0, 1);
 
         return $stats;
+    }
+
+    /**
+     * Count students by risk level (includes both new and legacy values).
+     *
+     * @param string $level Risk level constant
+     * @return int Count
+     */
+    protected function count_by_risk_level($level) {
+        global $DB;
+
+        $normalized = risk_level::normalize($level);
+        $legacy = risk_level::convert_to_legacy($level);
+
+        $sql = "SELECT COUNT(*) FROM {local_sm_student_tracking}
+                 WHERE risk_level = :level OR risk_level = :legacy";
+
+        return (int) $DB->count_records_sql($sql, [
+            'level' => $normalized,
+            'legacy' => $legacy,
+        ]);
     }
 }

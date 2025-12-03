@@ -111,6 +111,24 @@ $string['risk_faible'] = 'FAIBLE';
 $string['risk_moyen'] = 'MOYEN';
 $string['risk_eleve'] = 'ÉLEVÉ';
 $string['risk_critique'] = 'CRITIQUE';
+$string['risk_low'] = 'Faible';
+$string['risk_medium'] = 'Moyen';
+$string['risk_high'] = 'Élevé';
+$string['risk_critical'] = 'Critique';
+
+// Paramètres de l\'institution.
+$string['institutionname'] = 'Nom de l\'institution';
+$string['institutionname_desc'] = 'Nom de votre institution (affiché dans les notifications)';
+
+// Seuils de score de risque.
+$string['riskscoresettings'] = 'Seuils de score de risque';
+$string['riskscoresettingsdesc'] = 'Configurez les seuils de score pour chaque niveau de risque';
+$string['thresholdcritical'] = 'Seuil critique';
+$string['thresholdcritical_desc'] = 'Score minimum pour le niveau de risque critique (défaut : 60)';
+$string['thresholdhigh'] = 'Seuil élevé';
+$string['thresholdhigh_desc'] = 'Score minimum pour le niveau de risque élevé (défaut : 40)';
+$string['thresholdmedium'] = 'Seuil moyen';
+$string['thresholdmedium_desc'] = 'Score minimum pour le niveau de risque moyen (défaut : 20)';
 
 // Notification types.
 $string['notificationtype'] = 'Type de notification';

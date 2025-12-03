@@ -42,6 +42,15 @@ if ($hassiteconfig) {
         1
     ));
 
+    // Institution name.
+    $settings->add(new admin_setting_configtext(
+        'local_student_monitor/institution_name',
+        get_string('institutionname', 'local_student_monitor'),
+        get_string('institutionname_desc', 'local_student_monitor'),
+        'UNCHK',
+        PARAM_TEXT
+    ));
+
     // Inactivity Detection Settings.
     $settings->add(new admin_setting_heading(
         'local_student_monitor/inactivitysettings',
@@ -73,6 +82,40 @@ if ($hassiteconfig) {
         get_string('inactivitythreshold3', 'local_student_monitor'),
         get_string('inactivitythreshold3_desc', 'local_student_monitor'),
         14,
+        PARAM_INT
+    ));
+
+    // Risk Score Thresholds.
+    $settings->add(new admin_setting_heading(
+        'local_student_monitor/riskscoresettings',
+        get_string('riskscoresettings', 'local_student_monitor'),
+        get_string('riskscoresettingsdesc', 'local_student_monitor')
+    ));
+
+    // Critical risk threshold.
+    $settings->add(new admin_setting_configtext(
+        'local_student_monitor/threshold_critical',
+        get_string('thresholdcritical', 'local_student_monitor'),
+        get_string('thresholdcritical_desc', 'local_student_monitor'),
+        60,
+        PARAM_INT
+    ));
+
+    // High risk threshold.
+    $settings->add(new admin_setting_configtext(
+        'local_student_monitor/threshold_high',
+        get_string('thresholdhigh', 'local_student_monitor'),
+        get_string('thresholdhigh_desc', 'local_student_monitor'),
+        40,
+        PARAM_INT
+    ));
+
+    // Medium risk threshold.
+    $settings->add(new admin_setting_configtext(
+        'local_student_monitor/threshold_medium',
+        get_string('thresholdmedium', 'local_student_monitor'),
+        get_string('thresholdmedium_desc', 'local_student_monitor'),
+        20,
         PARAM_INT
     ));
 

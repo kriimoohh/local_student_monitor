@@ -25,6 +25,54 @@
 define(['jquery', 'core/ajax', 'core/notification'], function($, Ajax, Notification) {
 
     /**
+     * Allowed risk level values for validation.
+     * @type {string[]}
+     */
+    var ALLOWED_RISK_LEVELS = ['', 'LOW', 'MEDIUM', 'HIGH', 'CRITICAL', 'FAIBLE', 'MOYEN', 'ÉLEVÉ', 'CRITIQUE'];
+
+    /**
+     * Validate and sanitize the risk level parameter.
+     *
+     * @param {string} risk - The risk level to validate
+     * @returns {string} Sanitized risk level or empty string if invalid
+     */
+    var sanitizeRiskLevel = function(risk) {
+        if (!risk) {
+            return '';
+        }
+
+        // Convert to uppercase for comparison.
+        var upperRisk = risk.toUpperCase().trim();
+
+        // Check if it's an allowed value.
+        if (ALLOWED_RISK_LEVELS.indexOf(upperRisk) !== -1) {
+            return encodeURIComponent(upperRisk);
+        }
+
+        // Return empty string if not a valid risk level.
+        return '';
+    };
+
+    /**
+     * Build a safe URL with the risk parameter.
+     *
+     * @param {string} risk - The risk level parameter
+     * @returns {string} Safe URL
+     */
+    var buildFilterUrl = function(risk) {
+        var url = new URL(window.location.href);
+        var sanitizedRisk = sanitizeRiskLevel(risk);
+
+        if (sanitizedRisk) {
+            url.searchParams.set('risk', sanitizedRisk);
+        } else {
+            url.searchParams.delete('risk');
+        }
+
+        return url.toString();
+    };
+
+    /**
      * Initialize dashboard.
      */
     var init = function() {
@@ -38,10 +86,11 @@ define(['jquery', 'core/ajax', 'core/notification'], function($, Ajax, Notificat
             }, 60000);
         };
 
-        // Filter handling.
+        // Filter handling with XSS protection.
         $('#risk-filter').on('change', function() {
             var risk = $(this).val();
-            window.location.href = window.location.pathname + '?risk=' + risk;
+            var safeUrl = buildFilterUrl(risk);
+            window.location.href = safeUrl;
         });
 
         // Initialize tooltips.

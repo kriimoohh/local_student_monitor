@@ -108,7 +108,7 @@ class notification_manager {
             'riskLevel' => $risklevel,
             'supportemail' => get_config('local_student_monitor', 'support_email'),
             'supportphone' => get_config('local_student_monitor', 'support_phone'),
-            'institutionname' => 'UNCHK',
+            'institutionname' => local_student_monitor_get_institution_name(),
         ];
 
         // Replace placeholders.
@@ -278,7 +278,7 @@ class notification_manager {
 
         // Add system placeholders.
         $placeholders['{currentdate}'] = userdate(time());
-        $placeholders['{institutionname}'] = 'UNCHK';
+        $placeholders['{institutionname}'] = local_student_monitor_get_institution_name();
 
         // Replace all placeholders.
         return str_replace(array_keys($placeholders), array_values($placeholders), $template);
@@ -352,14 +352,16 @@ class notification_manager {
      * @return string Risk level
      */
     protected function calculate_risk_level_from_days($days) {
-        if ($days >= 14) {
-            return 'CRITIQUE';
-        } else if ($days >= 7) {
-            return 'ÉLEVÉ';
-        } else if ($days >= 3) {
-            return 'MOYEN';
+        $thresholds = \local_student_monitor\risk_level::get_inactivity_thresholds();
+
+        if ($days >= $thresholds['level3']) {
+            return \local_student_monitor\risk_level::CRITICAL;
+        } else if ($days >= $thresholds['level2']) {
+            return \local_student_monitor\risk_level::HIGH;
+        } else if ($days >= $thresholds['level1']) {
+            return \local_student_monitor\risk_level::MEDIUM;
         }
-        return 'FAIBLE';
+        return \local_student_monitor\risk_level::LOW;
     }
 
     /**
