@@ -220,45 +220,30 @@ class student_tracker {
 
     /**
      * Calculate risk level based on tracking data.
-     * Uses configured thresholds from plugin settings.
+     * Uses rule-based logic with separate evaluation of inactivity and missing assignments.
+     * The final risk level is the MAXIMUM of the two criteria.
+     *
+     * Inactivity rules (configurable thresholds):
+     * - CRITICAL: >= 14 days (default)
+     * - HIGH: >= 7 days
+     * - MEDIUM: >= 3 days
+     * - LOW: < 3 days
+     *
+     * Missing assignments rules (configurable thresholds):
+     * - CRITICAL: >= 5 assignments
+     * - HIGH: >= 3 assignments
+     * - MEDIUM: >= 1 assignment
+     * - LOW: 0 assignments
      *
      * @param \stdClass $tracking Tracking record
      * @return string Risk level constant
      */
     public function calculate_risk_level($tracking) {
-        $score = 0;
+        $inactivitydays = (int) ($tracking->inactivity_days ?? 0);
+        $missingassignments = (int) ($tracking->missing_assignments ?? 0);
 
-        // Get configured thresholds.
-        $thresholds = risk_level::get_inactivity_thresholds();
-
-        // Inactivity score (max 40 points).
-        if ($tracking->inactivity_days >= $thresholds['level3']) {
-            $score += 40;
-        } else if ($tracking->inactivity_days >= $thresholds['level2']) {
-            $score += 25;
-        } else if ($tracking->inactivity_days >= $thresholds['level1']) {
-            $score += 10;
-        }
-
-        // Missing assignments score (max 30 points).
-        if ($tracking->missing_assignments >= 5) {
-            $score += 30;
-        } else if ($tracking->missing_assignments >= 3) {
-            $score += 20;
-        } else if ($tracking->missing_assignments >= 1) {
-            $score += 10;
-        }
-
-        // Notification count (many notifications might indicate persistent issues).
-        // Max 20 points.
-        if ($tracking->notification_count >= 10) {
-            $score += 20;
-        } else if ($tracking->notification_count >= 5) {
-            $score += 10;
-        }
-
-        // Determine risk level based on score.
-        return risk_level::from_score($score);
+        // Use the new rule-based calculation that separates criteria.
+        return risk_level::calculate_from_criteria($inactivitydays, $missingassignments);
     }
 
     /**

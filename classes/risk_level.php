@@ -90,6 +90,13 @@ class risk_level {
     const DEFAULT_INACTIVITY_LEVEL3 = 14;
 
     /**
+     * Missing assignments thresholds (default values).
+     */
+    const DEFAULT_ASSIGNMENTS_LEVEL1 = 1;
+    const DEFAULT_ASSIGNMENTS_LEVEL2 = 3;
+    const DEFAULT_ASSIGNMENTS_LEVEL3 = 5;
+
+    /**
      * Special value for users who never logged in.
      */
     const NEVER_LOGGED_IN_DAYS = 999;
@@ -349,6 +356,115 @@ class risk_level {
             'level3' => (int) get_config('local_student_monitor', 'inactivity_threshold_3')
                 ?: self::DEFAULT_INACTIVITY_LEVEL3,
         ];
+    }
+
+    /**
+     * Get configured missing assignments thresholds.
+     *
+     * @return array Associative array with level1, level2, level3 thresholds
+     */
+    public static function get_assignments_thresholds(): array {
+        return [
+            'level1' => (int) get_config('local_student_monitor', 'assignments_threshold_1')
+                ?: self::DEFAULT_ASSIGNMENTS_LEVEL1,
+            'level2' => (int) get_config('local_student_monitor', 'assignments_threshold_2')
+                ?: self::DEFAULT_ASSIGNMENTS_LEVEL2,
+            'level3' => (int) get_config('local_student_monitor', 'assignments_threshold_3')
+                ?: self::DEFAULT_ASSIGNMENTS_LEVEL3,
+        ];
+    }
+
+    /**
+     * Calculate risk level based on inactivity days only.
+     *
+     * Rules:
+     * - CRITICAL: inactivity >= level3 (default 14 days)
+     * - HIGH: inactivity >= level2 (default 7 days)
+     * - MEDIUM: inactivity >= level1 (default 3 days)
+     * - LOW: inactivity < level1
+     *
+     * @param int $inactivitydays Number of days of inactivity
+     * @return string Risk level constant
+     */
+    public static function from_inactivity_days(int $inactivitydays): string {
+        $thresholds = self::get_inactivity_thresholds();
+
+        if ($inactivitydays >= $thresholds['level3']) {
+            return self::CRITICAL;
+        } else if ($inactivitydays >= $thresholds['level2']) {
+            return self::HIGH;
+        } else if ($inactivitydays >= $thresholds['level1']) {
+            return self::MEDIUM;
+        }
+
+        return self::LOW;
+    }
+
+    /**
+     * Calculate risk level based on missing assignments only.
+     *
+     * Rules:
+     * - CRITICAL: missing >= level3 (default 5)
+     * - HIGH: missing >= level2 (default 3)
+     * - MEDIUM: missing >= level1 (default 1)
+     * - LOW: missing = 0
+     *
+     * @param int $missingassignments Number of missing assignments
+     * @return string Risk level constant
+     */
+    public static function from_missing_assignments(int $missingassignments): string {
+        $thresholds = self::get_assignments_thresholds();
+
+        if ($missingassignments >= $thresholds['level3']) {
+            return self::CRITICAL;
+        } else if ($missingassignments >= $thresholds['level2']) {
+            return self::HIGH;
+        } else if ($missingassignments >= $thresholds['level1']) {
+            return self::MEDIUM;
+        }
+
+        return self::LOW;
+    }
+
+    /**
+     * Get the maximum (highest) risk level from an array of levels.
+     *
+     * @param array $levels Array of risk level constants
+     * @return string The highest risk level
+     */
+    public static function get_max_risk_level(array $levels): string {
+        if (empty($levels)) {
+            return self::LOW;
+        }
+
+        $maxvalue = 0;
+        $maxlevel = self::LOW;
+
+        foreach ($levels as $level) {
+            $normalized = self::normalize($level);
+            $value = self::get_hierarchy_value($normalized);
+            if ($value > $maxvalue) {
+                $maxvalue = $value;
+                $maxlevel = $normalized;
+            }
+        }
+
+        return $maxlevel;
+    }
+
+    /**
+     * Calculate the combined risk level using rule-based logic.
+     * Takes the maximum of inactivity risk and missing assignments risk.
+     *
+     * @param int $inactivitydays Number of days of inactivity
+     * @param int $missingassignments Number of missing assignments
+     * @return string Risk level constant (the higher of the two)
+     */
+    public static function calculate_from_criteria(int $inactivitydays, int $missingassignments): string {
+        $inactivityrisk = self::from_inactivity_days($inactivitydays);
+        $assignmentsrisk = self::from_missing_assignments($missingassignments);
+
+        return self::get_max_risk_level([$inactivityrisk, $assignmentsrisk]);
     }
 
     /**

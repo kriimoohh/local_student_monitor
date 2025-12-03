@@ -85,37 +85,37 @@ if ($hassiteconfig) {
         PARAM_INT
     ));
 
-    // Risk Score Thresholds.
+    // Missing Assignments Thresholds.
     $settings->add(new admin_setting_heading(
-        'local_student_monitor/riskscoresettings',
-        get_string('riskscoresettings', 'local_student_monitor'),
-        get_string('riskscoresettingsdesc', 'local_student_monitor')
+        'local_student_monitor/assignmentsthresholds',
+        get_string('assignmentsthresholds', 'local_student_monitor'),
+        get_string('assignmentsthresholds_desc', 'local_student_monitor')
     ));
 
-    // Critical risk threshold.
+    // Assignments threshold level 1 (MEDIUM risk).
     $settings->add(new admin_setting_configtext(
-        'local_student_monitor/threshold_critical',
-        get_string('thresholdcritical', 'local_student_monitor'),
-        get_string('thresholdcritical_desc', 'local_student_monitor'),
-        60,
+        'local_student_monitor/assignments_threshold_1',
+        get_string('assignmentsthreshold1', 'local_student_monitor'),
+        get_string('assignmentsthreshold1_desc', 'local_student_monitor'),
+        1,
         PARAM_INT
     ));
 
-    // High risk threshold.
+    // Assignments threshold level 2 (HIGH risk).
     $settings->add(new admin_setting_configtext(
-        'local_student_monitor/threshold_high',
-        get_string('thresholdhigh', 'local_student_monitor'),
-        get_string('thresholdhigh_desc', 'local_student_monitor'),
-        40,
+        'local_student_monitor/assignments_threshold_2',
+        get_string('assignmentsthreshold2', 'local_student_monitor'),
+        get_string('assignmentsthreshold2_desc', 'local_student_monitor'),
+        3,
         PARAM_INT
     ));
 
-    // Medium risk threshold.
+    // Assignments threshold level 3 (CRITICAL risk).
     $settings->add(new admin_setting_configtext(
-        'local_student_monitor/threshold_medium',
-        get_string('thresholdmedium', 'local_student_monitor'),
-        get_string('thresholdmedium_desc', 'local_student_monitor'),
-        20,
+        'local_student_monitor/assignments_threshold_3',
+        get_string('assignmentsthreshold3', 'local_student_monitor'),
+        get_string('assignmentsthreshold3_desc', 'local_student_monitor'),
+        5,
         PARAM_INT
     ));
 

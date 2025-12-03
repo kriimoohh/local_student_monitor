@@ -120,7 +120,17 @@ $string['risk_critical'] = 'Critique';
 $string['institutionname'] = 'Nom de l\'institution';
 $string['institutionname_desc'] = 'Nom de votre institution (affiché dans les notifications)';
 
-// Seuils de score de risque.
+// Seuils de devoirs manquants.
+$string['assignmentsthresholds'] = 'Seuils de devoirs manquants';
+$string['assignmentsthresholds_desc'] = 'Configurez les seuils de devoirs manquants pour chaque niveau de risque. Le niveau de risque final est le maximum entre le risque d\'inactivité et le risque de devoirs manquants.';
+$string['assignmentsthreshold1'] = 'Seuil niveau MOYEN (devoirs)';
+$string['assignmentsthreshold1_desc'] = 'Nombre de devoirs manquants pour le niveau MOYEN (défaut : 1)';
+$string['assignmentsthreshold2'] = 'Seuil niveau ÉLEVÉ (devoirs)';
+$string['assignmentsthreshold2_desc'] = 'Nombre de devoirs manquants pour le niveau ÉLEVÉ (défaut : 3)';
+$string['assignmentsthreshold3'] = 'Seuil niveau CRITIQUE (devoirs)';
+$string['assignmentsthreshold3_desc'] = 'Nombre de devoirs manquants pour le niveau CRITIQUE (défaut : 5)';
+
+// Legacy: Seuils de score de risque (conservés pour compatibilité).
 $string['riskscoresettings'] = 'Seuils de score de risque';
 $string['riskscoresettingsdesc'] = 'Configurez les seuils de score pour chaque niveau de risque';
 $string['thresholdcritical'] = 'Seuil critique';

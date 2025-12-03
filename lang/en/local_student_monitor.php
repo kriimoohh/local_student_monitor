@@ -120,7 +120,17 @@ $string['risk_critical'] = 'Critical';
 $string['institutionname'] = 'Institution name';
 $string['institutionname_desc'] = 'Name of your institution (displayed in notifications)';
 
-// Risk score thresholds.
+// Missing assignments thresholds.
+$string['assignmentsthresholds'] = 'Missing assignments thresholds';
+$string['assignmentsthresholds_desc'] = 'Configure the missing assignments thresholds for each risk level. The final risk level is the maximum between inactivity risk and missing assignments risk.';
+$string['assignmentsthreshold1'] = 'MEDIUM level threshold (assignments)';
+$string['assignmentsthreshold1_desc'] = 'Number of missing assignments for MEDIUM risk level (default: 1)';
+$string['assignmentsthreshold2'] = 'HIGH level threshold (assignments)';
+$string['assignmentsthreshold2_desc'] = 'Number of missing assignments for HIGH risk level (default: 3)';
+$string['assignmentsthreshold3'] = 'CRITICAL level threshold (assignments)';
+$string['assignmentsthreshold3_desc'] = 'Number of missing assignments for CRITICAL risk level (default: 5)';
+
+// Legacy: Risk score thresholds (kept for compatibility).
 $string['riskscoresettings'] = 'Risk score thresholds';
 $string['riskscoresettingsdesc'] = 'Configure the score thresholds for each risk level';
 $string['thresholdcritical'] = 'Critical threshold';
