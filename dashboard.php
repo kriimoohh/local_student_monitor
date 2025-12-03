@@ -48,9 +48,17 @@ $courseid = optional_param('course', 0, PARAM_INT);
 $search = optional_param('search', '', PARAM_TEXT);
 
 // Validate risk level to prevent SQL injection and ensure only valid values.
-if ($risklevel && !in_array($risklevel, ['CRITIQUE', 'ÉLEVÉ', 'MOYEN', 'FAIBLE'])) {
+// Support both legacy French values and new English values.
+$validrisklevels = [
+    'CRITIQUE', 'ÉLEVÉ', 'MOYEN', 'FAIBLE',  // Legacy French.
+    'CRITICAL', 'HIGH', 'MEDIUM', 'LOW',      // New English.
+];
+if ($risklevel && !in_array(strtoupper($risklevel), $validrisklevels)) {
     $risklevel = '';
 }
+
+// Use risk_level class for proper handling.
+use local_student_monitor\risk_level;
 
 // Initialize managers.
 $tracker = new \local_student_monitor\manager\student_tracker();
@@ -80,19 +88,31 @@ if ($notificationsstats->sent > 0) {
 // Get students at risk.
 $studentsatrisk = $tracker->get_students_at_risk($risklevel, 50, $search);
 
-// Get critical alerts.
+// Get critical alerts - support both legacy and new risk level values, avoid duplicates.
+$riskordercase = "CASE st.risk_level
+    WHEN 'CRITICAL' THEN 1 WHEN 'CRITIQUE' THEN 1
+    WHEN 'HIGH' THEN 2 WHEN 'ÉLEVÉ' THEN 2
+    ELSE 3
+END";
+
 $criticalalerts = $DB->get_records_sql(
     "SELECT st.*, u.firstname, u.lastname, u.email
        FROM {local_sm_student_tracking} st
        JOIN {user} u ON u.id = st.userid
+       JOIN (
+           SELECT userid, MIN({$riskordercase}) as min_risk_order
+             FROM {local_sm_student_tracking}
+            WHERE intervention_needed = 1
+         GROUP BY userid
+       ) best ON best.userid = st.userid AND {$riskordercase} = best.min_risk_order
       WHERE st.intervention_needed = 1
-        AND st.risk_level IN ('CRITIQUE', 'ÉLEVÉ')
-   ORDER BY CASE st.risk_level
-                WHEN 'CRITIQUE' THEN 1
-                WHEN 'ÉLEVÉ' THEN 2
-                ELSE 3
-            END,
-            st.inactivity_days DESC
+        AND st.risk_level IN ('CRITIQUE', 'ÉLEVÉ', 'CRITICAL', 'HIGH')
+        AND u.deleted = 0 AND u.suspended = 0
+   GROUP BY st.userid, st.id, u.firstname, u.lastname, u.email,
+            st.risk_level, st.inactivity_days, st.last_activity,
+            st.missing_assignments, st.notification_count, st.intervention_needed,
+            st.courseid, st.assigned_to, st.notes, st.timeupdated
+   ORDER BY {$riskordercase}, st.inactivity_days DESC
       LIMIT 5"
 );
 
@@ -491,22 +511,25 @@ if (!empty($studentsatrisk)) {
     $table->attributes['class'] = 'table table-striped';
 
     foreach ($studentsatrisk as $student) {
-        // Risk badge.
+        // Risk badge - support both legacy and new values.
+        $normalizedrisk = risk_level::normalize($student->risk_level);
         $riskclass = 'badge ';
-        switch ($student->risk_level) {
-            case 'CRITIQUE':
+        switch ($normalizedrisk) {
+            case risk_level::CRITICAL:
                 $riskclass .= 'badge-danger';
                 break;
-            case 'ÉLEVÉ':
+            case risk_level::HIGH:
                 $riskclass .= 'badge-warning';
                 break;
-            case 'MOYEN':
+            case risk_level::MEDIUM:
                 $riskclass .= 'badge-info';
                 break;
             default:
                 $riskclass .= 'badge-success';
         }
-        $riskbadge = html_writer::tag('span', $student->risk_level, ['class' => $riskclass]);
+        // Display the translated name instead of raw value.
+        $riskdisplay = risk_level::get_display_name($student->risk_level);
+        $riskbadge = html_writer::tag('span', $riskdisplay, ['class' => $riskclass]);
 
         // Last activity.
         $lastactivity = $student->last_activity ? userdate($student->last_activity, get_string('strftimedatetime')) : '-';

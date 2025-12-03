@@ -288,9 +288,17 @@ class student_tracker {
     public function get_students_at_risk($risklevel = null, $limit = 100, $search = null, $usehierarchy = true) {
         global $DB;
 
+        // Use subquery to get the highest risk level per student (avoid duplicates).
+        $riskordercase = risk_level::get_sql_order_by('st.risk_level');
+
         $sql = "SELECT st.*, u.firstname, u.lastname, u.email
                   FROM {local_sm_student_tracking} st
                   JOIN {user} u ON u.id = st.userid
+                  JOIN (
+                      SELECT userid, MIN(" . risk_level::get_sql_order_by('risk_level') . ") as min_risk_order
+                        FROM {local_sm_student_tracking}
+                    GROUP BY userid
+                  ) best ON best.userid = st.userid AND {$riskordercase} = best.min_risk_order
                  WHERE u.deleted = 0 AND u.suspended = 0";
 
         $params = [];
@@ -327,6 +335,11 @@ class student_tracker {
             $params['search3'] = $searchparam;
             $params['search4'] = $searchparam;
         }
+
+        // Group by to ensure no duplicates (in case of ties in risk order).
+        $sql .= " GROUP BY st.userid, st.id, u.firstname, u.lastname, u.email,
+                  st.risk_level, st.last_activity, st.inactivity_days, st.missing_assignments,
+                  st.notification_count, st.intervention_needed, st.courseid, st.assigned_to, st.notes, st.timeupdated";
 
         $sql .= " ORDER BY " . risk_level::get_sql_order_by('st.risk_level') . ", st.inactivity_days DESC";
 

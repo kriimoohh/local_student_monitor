@@ -25,6 +25,36 @@
 define(['jquery'], function($) {
 
     /**
+     * Mapping of legacy French risk levels to normalized English values.
+     * Used for consistent comparison regardless of which format is stored.
+     */
+    var RISK_NORMALIZATION = {
+        'CRITIQUE': 'CRITICAL',
+        'ÉLEVÉ': 'HIGH',
+        'ELEVE': 'HIGH',
+        'MOYEN': 'MEDIUM',
+        'FAIBLE': 'LOW',
+        'CRITICAL': 'CRITICAL',
+        'HIGH': 'HIGH',
+        'MEDIUM': 'MEDIUM',
+        'LOW': 'LOW'
+    };
+
+    /**
+     * Normalize a risk level to standard English format.
+     *
+     * @param {string} risk - Risk level (legacy or new format)
+     * @returns {string} Normalized risk level
+     */
+    var normalizeRiskLevel = function(risk) {
+        if (!risk) {
+            return '';
+        }
+        var upperRisk = risk.toUpperCase().trim();
+        return RISK_NORMALIZATION[upperRisk] || upperRisk;
+    };
+
+    /**
      * Initialize advanced filters.
      */
     var init = function() {
@@ -113,10 +143,12 @@ define(['jquery'], function($) {
                 }
             }
 
-            // Risk level filter.
+            // Risk level filter - normalize both values for comparison.
             if (riskFilter && show) {
                 var riskLevel = $row.data('risk');
-                if (riskLevel !== riskFilter) {
+                var normalizedRowRisk = normalizeRiskLevel(riskLevel);
+                var normalizedFilterRisk = normalizeRiskLevel(riskFilter);
+                if (normalizedRowRisk !== normalizedFilterRisk) {
                     show = false;
                 }
             }

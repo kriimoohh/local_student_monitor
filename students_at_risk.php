@@ -39,7 +39,12 @@ $sort = optional_param('sort', 'risk', PARAM_ALPHA);
 $dir = optional_param('dir', 'ASC', PARAM_ALPHA);
 
 // Validate risk level to prevent SQL injection and ensure only valid values.
-if ($risklevel && !in_array($risklevel, ['CRITIQUE', 'ÉLEVÉ', 'MOYEN', 'FAIBLE'])) {
+// Support both legacy French values and new English values.
+$validrisklevels = [
+    'CRITIQUE', 'ÉLEVÉ', 'MOYEN', 'FAIBLE',  // Legacy French.
+    'CRITICAL', 'HIGH', 'MEDIUM', 'LOW',      // New English.
+];
+if ($risklevel && !in_array(strtoupper($risklevel), $validrisklevels)) {
     $risklevel = '';
 }
 
@@ -64,30 +69,61 @@ $tracker = new \local_student_monitor\manager\student_tracker();
 // Get statistics.
 $stats = $tracker->get_statistics();
 
+// Use risk_level class for proper filtering.
+use local_student_monitor\risk_level;
+
 // Build SQL query with filters.
+// Use subquery to get the highest risk level per student (avoid duplicates when student has multiple course entries).
+$riskordercase = "CASE st.risk_level
+    WHEN 'CRITICAL' THEN 1 WHEN 'CRITIQUE' THEN 1
+    WHEN 'HIGH' THEN 2 WHEN 'ÉLEVÉ' THEN 2
+    WHEN 'MEDIUM' THEN 3 WHEN 'MOYEN' THEN 3
+    WHEN 'LOW' THEN 4 WHEN 'FAIBLE' THEN 4
+    ELSE 5
+END";
+
+// Subquery to get the "worst" (highest risk) tracking record per student.
 $sql = "SELECT st.*, u.firstname, u.lastname, u.email, u.picture, u.imagealt, u.firstnamephonetic, u.lastnamephonetic,
                u.middlename, u.alternatename
           FROM {local_sm_student_tracking} st
           JOIN {user} u ON u.id = st.userid
+          JOIN (
+              SELECT userid, MIN({$riskordercase}) as min_risk_order
+                FROM {local_sm_student_tracking}
+            GROUP BY userid
+          ) best ON best.userid = st.userid AND {$riskordercase} = best.min_risk_order
          WHERE u.deleted = 0 AND u.suspended = 0";
 
 $params = [];
-$countsql = "SELECT COUNT(DISTINCT st.id)
+
+// Count query - count distinct users, not tracking records.
+$countsql = "SELECT COUNT(DISTINCT st.userid)
                FROM {local_sm_student_tracking} st
                JOIN {user} u ON u.id = st.userid
               WHERE u.deleted = 0 AND u.suspended = 0";
 
+// Normalize risk level and get both legacy and new values for filtering.
 if ($risklevel) {
-    $sql .= " AND st.risk_level = :risklevel";
-    $countsql .= " AND st.risk_level = :risklevel";
-    $params['risklevel'] = $risklevel;
+    $normalizedrisk = risk_level::normalize($risklevel);
+    $legacyrisk = risk_level::convert_to_legacy($risklevel);
+    $sql .= " AND (st.risk_level = :risklevel OR st.risk_level = :risklevellegacy)";
+    $countsql .= " AND (st.risk_level = :risklevel OR st.risk_level = :risklevellegacy)";
+    $params['risklevel'] = $normalizedrisk;
+    $params['risklevellegacy'] = $legacyrisk;
 } else {
-    // Only show students with at least MOYEN risk.
-    $sql .= " AND st.risk_level IN ('MOYEN', 'ÉLEVÉ', 'CRITIQUE')";
-    $countsql .= " AND st.risk_level IN ('MOYEN', 'ÉLEVÉ', 'CRITIQUE')";
+    // Only show students with at least MEDIUM/MOYEN risk.
+    // Include both legacy French and new English values.
+    $sql .= " AND st.risk_level IN ('MOYEN', 'ÉLEVÉ', 'CRITIQUE', 'MEDIUM', 'HIGH', 'CRITICAL')";
+    $countsql .= " AND st.risk_level IN ('MOYEN', 'ÉLEVÉ', 'CRITIQUE', 'MEDIUM', 'HIGH', 'CRITICAL')";
 }
 
-// Add sorting.
+// Ensure no duplicates by grouping on userid (in case of ties in risk order).
+$sql .= " GROUP BY st.userid, st.id, u.firstname, u.lastname, u.email, u.picture, u.imagealt,
+          u.firstnamephonetic, u.lastnamephonetic, u.middlename, u.alternatename,
+          st.risk_level, st.last_activity, st.inactivity_days, st.missing_assignments,
+          st.notification_count, st.intervention_needed, st.courseid, st.assigned_to, st.notes, st.timeupdated";
+
+// Add sorting - use the already defined $riskordercase for consistency.
 switch ($sort) {
     case 'name':
         $sql .= " ORDER BY u.lastname $dir, u.firstname $dir";
@@ -106,14 +142,8 @@ switch ($sort) {
         break;
     case 'risk':
     default:
-        $sql .= " ORDER BY
-                    CASE st.risk_level
-                        WHEN 'CRITIQUE' THEN 1
-                        WHEN 'ÉLEVÉ' THEN 2
-                        WHEN 'MOYEN' THEN 3
-                        ELSE 4
-                    END $dir,
-                    st.inactivity_days DESC";
+        // Use the $riskordercase which supports both legacy and new values.
+        $sql .= " ORDER BY {$riskordercase} $dir, st.inactivity_days DESC";
         break;
 }
 
@@ -297,22 +327,25 @@ if (!empty($students)) {
         // Profile picture.
         $userpic = $OUTPUT->user_picture($student, ['size' => 35, 'class' => 'rounded-circle']);
 
-        // Risk badge.
+        // Risk badge - support both legacy and new values.
+        $normalizedrisk = risk_level::normalize($student->risk_level);
         $riskclass = 'badge ';
-        switch ($student->risk_level) {
-            case 'CRITIQUE':
+        switch ($normalizedrisk) {
+            case risk_level::CRITICAL:
                 $riskclass .= 'badge-danger';
                 break;
-            case 'ÉLEVÉ':
+            case risk_level::HIGH:
                 $riskclass .= 'badge-warning';
                 break;
-            case 'MOYEN':
+            case risk_level::MEDIUM:
                 $riskclass .= 'badge-info';
                 break;
             default:
                 $riskclass .= 'badge-success';
         }
-        $riskbadge = html_writer::tag('span', $student->risk_level, ['class' => $riskclass]);
+        // Display the translated name instead of raw value.
+        $riskdisplay = risk_level::get_display_name($student->risk_level);
+        $riskbadge = html_writer::tag('span', $riskdisplay, ['class' => $riskclass]);
 
         // Last activity.
         $lastactivity = $student->last_activity ? userdate($student->last_activity, get_string('strftimedatetime')) : '-';
