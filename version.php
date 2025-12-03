@@ -18,7 +18,8 @@
  * Plugin version and other metadata.
  *
  * @package    local_student_monitor
- * @copyright  2025 UNCHK - Université Numérique Cheikh Hamidou Kane
+ * @author     kriimoohh
+ * @copyright  2025 UNCHK - Université Numérique Cheikh Hamidou KANE (utilisable par toute institution)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 

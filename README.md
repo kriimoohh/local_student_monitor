@@ -4,12 +4,17 @@
 **Compatible Moodle:** 4.0+
 **PHP:** 8.0+
 **Licence:** GNU GPL v3
+**Auteur:** kriimoohh
 
 ---
 
 ## 📋 Description
 
-Student Monitor est un plugin Moodle complet développé pour l'**UNCHK (Université Numérique Cheikh Hamidou Kane)** au Sénégal. Il améliore la rétention des étudiants grâce à un système automatisé de suivi, d'analyse et de notifications multicanaux.
+Student Monitor est un plugin Moodle complet développé initialement pour l'**UNCHK (Université Numérique Cheikh Hamidou KANE)** au Sénégal.
+
+> **🌍 Plugin universel** : Bien que conçu pour l'UNCHK, ce plugin est entièrement adaptable et utilisable par **toute autre institution éducative** (universités, écoles, centres de formation) souhaitant améliorer le suivi et la rétention de ses étudiants.
+
+Il améliore la rétention des étudiants grâce à un système automatisé de suivi, d'analyse et de notifications multicanaux.
 
 ### Fonctionnalités principales
 
@@ -675,8 +680,10 @@ Voir [CHANGELOG.md](CHANGELOG.md) pour la documentation complète des versions.
 
 ## 👥 Contributeurs
 
-- **UNCHK Development Team**
-- Université Numérique Cheikh Hamidou Kane, Sénégal
+- **kriimoohh** - Auteur principal
+- **UNCHK (Université Numérique Cheikh Hamidou KANE)** - Institution d'origine, Sénégal
+
+> Ce plugin est ouvert aux contributions de toute institution souhaitant l'améliorer.
 
 ---
 
@@ -699,4 +706,4 @@ Merci à la communauté Moodle pour les ressources et la documentation.
 
 ---
 
-**Développé avec ❤️ pour améliorer la réussite étudiante à l'UNCHK.**
+**Développé avec ❤️ par kriimoohh pour l'UNCHK (Université Numérique Cheikh Hamidou KANE) - Utilisable par toute institution éducative.**

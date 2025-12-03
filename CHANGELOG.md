@@ -963,8 +963,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Contributors
 
-- UNCHK Development Team
-- Université Numérique Cheikh Hamidou Kane, Sénégal
+- **kriimoohh** - Auteur principal
+- **UNCHK (Université Numérique Cheikh Hamidou KANE)** - Institution d'origine, Sénégal
+
+> Plugin développé pour l'UNCHK mais utilisable par toute institution éducative.
 
 ---
 
