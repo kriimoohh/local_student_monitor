@@ -1,0 +1,68 @@
+name: Release Moodle Plugin
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version tag (e.g., v1.13.0)'
+        required: true
+        type: string
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Get version
+        id: version
+        run: |
+          if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
+            echo "version=${{ inputs.version }}" >> $GITHUB_OUTPUT
+          else
+            echo "version=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Create plugin ZIP
+        run: |
+          # Create temporary directory with correct plugin name
+          mkdir -p /tmp/student_monitor
+
+          # Copy all files except .git and .github
+          rsync -av --exclude='.git' --exclude='.github' ./ /tmp/student_monitor/
+
+          # Create ZIP with correct folder name for Moodle installation
+          cd /tmp
+          zip -r student_monitor.zip student_monitor
+
+          # Move ZIP to workspace
+          mv student_monitor.zip $GITHUB_WORKSPACE/
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ steps.version.outputs.version }}
+          name: "Student Monitor ${{ steps.version.outputs.version }}"
+          body: |
+            ## Installation
+
+            1. Telecharger le fichier `student_monitor.zip`
+            2. Extraire le contenu dans le dossier `local/` de votre installation Moodle
+            3. Le dossier doit s'appeler `student_monitor` (deja correct dans le ZIP)
+            4. Aller dans Administration du site > Notifications pour finaliser l'installation
+
+            ## Changelog
+
+            Voir [CHANGELOG.md](https://github.com/${{ github.repository }}/blob/main/CHANGELOG.md) pour les details.
+          files: student_monitor.zip
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
