@@ -4,7 +4,7 @@
 **Compatible Moodle:** 4.0+
 **PHP:** 8.0+
 **Licence:** GNU GPL v3
-**Auteur:** kriimoohh
+**Auteur:** KPlus
 
 ---
 
