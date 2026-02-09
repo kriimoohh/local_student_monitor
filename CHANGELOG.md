@@ -5,6 +5,18 @@ All notable changes to the Student Monitor plugin will be documented in this fil
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.0.3] - 2026-02-09
+
+### Fixed
+- Fix remaining missing user name fields in `tasks.php`, `custom_report_builder.php`, `manual_alert_form.php`, `alert_manager.php` (CSV parsing), `business_rules_engine.php`
+- Replace direct `firstname . ' ' . lastname` concatenation with `fullname()` in `tasks.php`, `reporting_manager.php`, `pdf_manager.php`, `custom_report_builder.php`, `gamification_manager.php`
+- Localize all hardcoded French text in `weekly_report.php` using `get_string()` calls
+- Fix `weekly_report.php` using deprecated French risk level properties (`$stats->critique` etc.) — now uses English (`$stats->critical`)
+- Localize hardcoded French CSV export headers in `reporting_manager.php`
+- Add back-to-dashboard button on `report_schedules.php`
+
+---
+
 ## [3.0.2] - 2026-02-07
 
 ### Fixed

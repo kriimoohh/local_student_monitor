@@ -146,7 +146,7 @@ class manual_alert_form extends \moodleform {
                 if (!$value) {
                     return '';
                 }
-                $user = $DB->get_record('user', ['id' => $value], 'id, firstname, lastname, email');
+                $user = $DB->get_record('user', ['id' => $value], 'id, firstname, lastname, email, firstnamephonetic, lastnamephonetic, middlename, alternatename');
                 if ($user) {
                     return fullname($user) . ' (' . $user->email . ')';
                 }

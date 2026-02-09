@@ -26,7 +26,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'local_student_monitor';
-$plugin->version = 2026020703;  // YYYYMMDDXX - Add missing user name fields for fullname()
+$plugin->version = 2026020704;  // YYYYMMDDXX - Fix remaining issues, localize hardcoded strings
 $plugin->requires = 2022041900; // Moodle 4.0
 $plugin->maturity = MATURITY_STABLE;
-$plugin->release = 'v3.0.2';
+$plugin->release = 'v3.0.3';

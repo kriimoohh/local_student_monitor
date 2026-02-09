@@ -196,6 +196,10 @@ class custom_report_builder {
         $select[] = 'u.firstname';
         $select[] = 'u.lastname';
         $select[] = 'u.email';
+        $select[] = 'u.firstnamephonetic';
+        $select[] = 'u.lastnamephonetic';
+        $select[] = 'u.middlename';
+        $select[] = 'u.alternatename';
 
         // Add student tracking fields.
         if (in_array('risk_level', $columns)) {
@@ -326,7 +330,7 @@ class custom_report_builder {
     protected function format_column_value($column, $row) {
         switch ($column) {
             case 'student_name':
-                return $row->firstname . ' ' . $row->lastname;
+                return fullname($row);
 
             case 'student_email':
                 return $row->email;

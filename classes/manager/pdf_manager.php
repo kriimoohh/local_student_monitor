@@ -260,7 +260,7 @@ class pdf_manager {
         // Table content.
         $pdf->SetFont('helvetica', '', 8);
         foreach ($notifications as $notification) {
-            $fullname = $notification->firstname . ' ' . $notification->lastname;
+            $fullname = fullname($notification);
             $pdf->Cell(50, 6, $fullname, 1, 0, 'L');
             $pdf->Cell(40, 6, $notification->notification_type, 1, 0, 'L');
             $pdf->Cell(30, 6, userdate($notification->timecreated, get_string('strftimedatetimeshort')), 1, 0, 'C');

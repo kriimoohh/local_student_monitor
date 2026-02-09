@@ -72,16 +72,16 @@ class reporting_manager {
         // Header.
         $csv[] = [
             'ID',
-            'Prénom',
-            'Nom',
+            get_string('csv_firstname', 'local_student_monitor'),
+            get_string('csv_lastname', 'local_student_monitor'),
             'Email',
-            'Niveau de risque',
-            'Jours d\'inactivité',
-            'Devoirs manquants',
-            'Notifications envoyées',
-            'Intervention nécessaire',
-            'Dernière activité',
-            'Dernière mise à jour',
+            get_string('csv_risklevel', 'local_student_monitor'),
+            get_string('csv_inactivitydays', 'local_student_monitor'),
+            get_string('csv_missingactivities', 'local_student_monitor'),
+            get_string('csv_notificationssent', 'local_student_monitor'),
+            get_string('csv_interventionneeded', 'local_student_monitor'),
+            get_string('csv_lastactivity', 'local_student_monitor'),
+            get_string('csv_lastupdated', 'local_student_monitor'),
         ];
 
         // Data rows.
@@ -95,8 +95,8 @@ class reporting_manager {
                 $student->inactivity_days,
                 $student->missing_activities,
                 $student->notification_count,
-                $student->intervention_needed ? 'Oui' : 'Non',
-                $student->last_activity ? userdate($student->last_activity) : 'Jamais',
+                $student->intervention_needed ? get_string('yes', 'local_student_monitor') : get_string('no', 'local_student_monitor'),
+                $student->last_activity ? userdate($student->last_activity) : get_string('never', 'local_student_monitor'),
                 userdate($student->timeupdated),
             ];
         }
@@ -157,7 +157,7 @@ class reporting_manager {
         foreach ($notifications as $notif) {
             $csv[] = [
                 $notif->id,
-                $notif->firstname . ' ' . $notif->lastname,
+                fullname($notif),
                 $notif->email,
                 $notif->type,
                 $notif->status,

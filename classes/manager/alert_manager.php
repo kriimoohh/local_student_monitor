@@ -387,15 +387,15 @@ class alert_manager {
             // Check if it's an email.
             if (filter_var($identifier, FILTER_VALIDATE_EMAIL)) {
                 $user = $DB->get_record('user', ['email' => $identifier, 'deleted' => 0],
-                    'id, firstname, lastname, email');
+                    'id, firstname, lastname, email, firstnamephonetic, lastnamephonetic, middlename, alternatename');
             } else if (is_numeric($identifier)) {
                 // Check if it's a user ID.
                 $user = $DB->get_record('user', ['id' => $identifier, 'deleted' => 0],
-                    'id, firstname, lastname, email');
+                    'id, firstname, lastname, email, firstnamephonetic, lastnamephonetic, middlename, alternatename');
             } else {
                 // Try as username.
                 $user = $DB->get_record('user', ['username' => $identifier, 'deleted' => 0],
-                    'id, firstname, lastname, email');
+                    'id, firstname, lastname, email, firstnamephonetic, lastnamephonetic, middlename, alternatename');
             }
 
             if ($user) {

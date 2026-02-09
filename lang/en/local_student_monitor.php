@@ -969,3 +969,32 @@ $string['refreshtrackingbtn'] = '🔄 Refresh Analysis';
 $string['refreshtrackingconfirm'] = 'Do you want to run a complete analysis of all students?';
 $string['refreshtrackinginfo'] = 'This operation will recalculate risk levels, inactivity days, and missing activities for all active students. This may take several minutes depending on the number of students.';
 $string['refreshtrackingsuccess'] = 'Analysis completed: {$a->updated}/{$a->total} students updated ({$a->failed} failures). {$a->courses} course trackings refreshed.';
+
+// Weekly report strings.
+$string['automaticalerts_label'] = 'Automatic alerts';
+$string['manualalerts_label'] = 'Manual alerts';
+$string['autoalertdetails'] = 'Automatic alerts breakdown';
+$string['additionalstatistics'] = 'Additional statistics';
+$string['averageinactivity'] = 'Average inactivity';
+$string['days_unit'] = 'days';
+$string['inactivityleveltype'] = 'Inactivity level {$a}';
+$string['assignmentremindertype'] = 'Assignment reminder';
+$string['risktype'] = 'Risk {$a}';
+$string['totalcount'] = 'Total';
+$string['sentcount'] = 'Sent';
+$string['readcount'] = 'Read';
+$string['failedcount'] = 'Failed';
+
+// CSV export headers.
+$string['csv_firstname'] = 'First name';
+$string['csv_lastname'] = 'Last name';
+$string['csv_risklevel'] = 'Risk level';
+$string['csv_inactivitydays'] = 'Inactivity days';
+$string['csv_missingactivities'] = 'Missing activities';
+$string['csv_notificationssent'] = 'Notifications sent';
+$string['csv_interventionneeded'] = 'Intervention needed';
+$string['csv_lastactivity'] = 'Last activity';
+$string['csv_lastupdated'] = 'Last updated';
+$string['yes'] = 'Yes';
+$string['no'] = 'No';
+$string['never'] = 'Never';

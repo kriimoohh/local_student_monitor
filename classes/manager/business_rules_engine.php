@@ -348,7 +348,7 @@ class business_rules_engine {
                         $notificationmanager = new notification_manager();
                         $subject = get_string('supervisornotification', 'local_student_monitor');
                         $message = get_string('studentneedsattention', 'local_student_monitor', [
-                            'studentname' => $DB->get_field('user', 'CONCAT(firstname, " ", lastname)', ['id' => $userid]),
+                            'studentname' => fullname($DB->get_record('user', ['id' => $userid])),
                             'risklevel' => $tracking->risk_level
                         ]);
 

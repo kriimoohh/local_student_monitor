@@ -94,7 +94,7 @@ if ($automaticalerts > 0) {
 echo $OUTPUT->header();
 
 // Page title with icon.
-echo html_writer::tag('h2', '📊 ' . get_string('weeklyreport', 'local_student_monitor'));
+echo html_writer::tag('h2', get_string('weeklyreport', 'local_student_monitor'));
 
 // Overview cards.
 echo html_writer::start_div('row mb-4');
@@ -124,9 +124,9 @@ echo html_writer::end_div();
 echo html_writer::start_div('col-md-3');
 echo html_writer::start_div('card bg-success text-white');
 echo html_writer::start_div('card-body text-center');
-echo html_writer::tag('h6', 'Alertes automatiques', ['class' => 'card-title']);
+echo html_writer::tag('h6', get_string('automaticalerts_label', 'local_student_monitor'), ['class' => 'card-title']);
 echo html_writer::tag('div', $automaticalerts, ['class' => 'display-4']);
-echo html_writer::tag('small', 'Cette semaine');
+echo html_writer::tag('small', get_string('thisweek', 'local_student_monitor'));
 echo html_writer::end_div();
 echo html_writer::end_div();
 echo html_writer::end_div();
@@ -135,9 +135,9 @@ echo html_writer::end_div();
 echo html_writer::start_div('col-md-3');
 echo html_writer::start_div('card bg-warning text-dark');
 echo html_writer::start_div('card-body text-center');
-echo html_writer::tag('h6', 'Alertes manuelles', ['class' => 'card-title']);
+echo html_writer::tag('h6', get_string('manualalerts_label', 'local_student_monitor'), ['class' => 'card-title']);
 echo html_writer::tag('div', $manualalerts, ['class' => 'display-4']);
-echo html_writer::tag('small', 'Cette semaine');
+echo html_writer::tag('small', get_string('thisweek', 'local_student_monitor'));
 echo html_writer::end_div();
 echo html_writer::end_div();
 echo html_writer::end_div();
@@ -147,35 +147,35 @@ echo html_writer::end_div(); // row.
 // Risk Level Distribution.
 echo html_writer::start_div('card mb-4');
 echo html_writer::start_div('card-body');
-echo html_writer::tag('h4', 'Distribution des niveaux de risque', ['class' => 'card-title']);
+echo html_writer::tag('h4', get_string('riskdistribution', 'local_student_monitor'), ['class' => 'card-title']);
 
 echo html_writer::start_div('row text-center mt-4');
 
-// CRITIQUE.
+// CRITICAL.
 echo html_writer::start_div('col-md-3');
-echo html_writer::tag('h5', get_string('risk_critique', 'local_student_monitor'), ['class' => 'text-danger']);
-echo html_writer::tag('div', $stats->critique, ['class' => 'display-3 text-danger']);
+echo html_writer::tag('h5', get_string('risk_critical', 'local_student_monitor'), ['class' => 'text-danger']);
+echo html_writer::tag('div', $stats->critical, ['class' => 'display-3 text-danger']);
 echo html_writer::tag('small', get_string('students', 'local_student_monitor'), ['class' => 'text-muted']);
 echo html_writer::end_div();
 
-// ÉLEVÉ.
+// HIGH.
 echo html_writer::start_div('col-md-3');
-echo html_writer::tag('h5', get_string('risk_eleve', 'local_student_monitor'), ['class' => 'text-warning']);
-echo html_writer::tag('div', $stats->eleve, ['class' => 'display-3 text-warning']);
+echo html_writer::tag('h5', get_string('risk_high', 'local_student_monitor'), ['class' => 'text-warning']);
+echo html_writer::tag('div', $stats->high, ['class' => 'display-3 text-warning']);
 echo html_writer::tag('small', get_string('students', 'local_student_monitor'), ['class' => 'text-muted']);
 echo html_writer::end_div();
 
-// MOYEN.
+// MEDIUM.
 echo html_writer::start_div('col-md-3');
-echo html_writer::tag('h5', get_string('risk_moyen', 'local_student_monitor'), ['class' => 'text-info']);
-echo html_writer::tag('div', $stats->moyen, ['class' => 'display-3 text-info']);
+echo html_writer::tag('h5', get_string('risk_medium', 'local_student_monitor'), ['class' => 'text-info']);
+echo html_writer::tag('div', $stats->medium, ['class' => 'display-3 text-info']);
 echo html_writer::tag('small', get_string('students', 'local_student_monitor'), ['class' => 'text-muted']);
 echo html_writer::end_div();
 
-// FAIBLE.
+// LOW.
 echo html_writer::start_div('col-md-3');
-echo html_writer::tag('h5', get_string('risk_faible', 'local_student_monitor'), ['class' => 'text-success']);
-echo html_writer::tag('div', $stats->faible, ['class' => 'display-3 text-success']);
+echo html_writer::tag('h5', get_string('risk_low', 'local_student_monitor'), ['class' => 'text-success']);
+echo html_writer::tag('div', $stats->low, ['class' => 'display-3 text-success']);
 echo html_writer::tag('small', get_string('students', 'local_student_monitor'), ['class' => 'text-muted']);
 echo html_writer::end_div();
 
@@ -187,17 +187,17 @@ echo html_writer::end_div(); // card.
 if (!empty($autostats)) {
     echo html_writer::start_div('card mb-4');
     echo html_writer::start_div('card-body');
-    echo html_writer::tag('h4', 'Détail des alertes automatiques', ['class' => 'card-title']);
+    echo html_writer::tag('h4', get_string('autoalertdetails', 'local_student_monitor'), ['class' => 'card-title']);
 
     $table = new html_table();
     $table->attributes['class'] = 'table table-striped';
     $table->head = [
-        'Type d\'alerte',
-        'Total',
-        'Envoyées',
-        'Lues',
-        'Taux de lecture',
-        'Échecs',
+        get_string('alerttype', 'local_student_monitor'),
+        get_string('totalcount', 'local_student_monitor'),
+        get_string('sentcount', 'local_student_monitor'),
+        get_string('readcount', 'local_student_monitor'),
+        get_string('readrate', 'local_student_monitor'),
+        get_string('failedcount', 'local_student_monitor'),
     ];
 
     foreach ($autostats as $autostat) {
@@ -205,15 +205,13 @@ if (!empty($autostats)) {
 
         // Format type name.
         $typename = $autostat->type;
-        if (strpos($typename, 'inactivity_level') === 0) {
-            $typename = str_replace('inactivity_level', 'Inactivité niveau ', $typename);
+        if (preg_match('/^inactivity_level(\d+)$/', $typename, $matches)) {
+            $typename = get_string('inactivityleveltype', 'local_student_monitor', $matches[1]);
         } else if (strpos($typename, 'risk_') === 0) {
-            $typename = str_replace('risk_', 'Risque ', $typename);
-            $typename = str_replace(['critique', 'eleve', 'moyen', 'faible'],
-                                   ['CRITICAL', 'HIGH', 'MEDIUM', 'LOW'],
-                                   $typename);
+            $risklabel = strtoupper(str_replace('risk_', '', $typename));
+            $typename = get_string('risktype', 'local_student_monitor', $risklabel);
         } else if ($typename === 'assignment_reminder') {
-            $typename = 'Rappel de devoir';
+            $typename = get_string('assignmentremindertype', 'local_student_monitor');
         }
 
         $row = [
@@ -240,19 +238,19 @@ if (!empty($autostats)) {
 // Additional statistics.
 echo html_writer::start_div('card mb-4');
 echo html_writer::start_div('card-body');
-echo html_writer::tag('h4', 'Statistiques supplémentaires', ['class' => 'card-title']);
+echo html_writer::tag('h4', get_string('additionalstatistics', 'local_student_monitor'), ['class' => 'card-title']);
 
 echo html_writer::start_div('row');
 
 echo html_writer::start_div('col-md-6');
-echo html_writer::tag('h6', 'Interventions nécessaires', ['class' => 'text-muted']);
+echo html_writer::tag('h6', get_string('interventionsneeded', 'local_student_monitor'), ['class' => 'text-muted']);
 echo html_writer::tag('div', $stats->intervention_needed . ' ' . get_string('students', 'local_student_monitor'),
     ['class' => 'h4']);
 echo html_writer::end_div();
 
 echo html_writer::start_div('col-md-6');
-echo html_writer::tag('h6', 'Inactivité moyenne', ['class' => 'text-muted']);
-echo html_writer::tag('div', round($stats->avg_inactivity, 1) . ' jours', ['class' => 'h4']);
+echo html_writer::tag('h6', get_string('averageinactivity', 'local_student_monitor'), ['class' => 'text-muted']);
+echo html_writer::tag('div', round($stats->avg_inactivity, 1) . ' ' . get_string('days_unit', 'local_student_monitor'), ['class' => 'h4']);
 echo html_writer::end_div();
 
 echo html_writer::end_div(); // row.
@@ -261,7 +259,7 @@ echo html_writer::end_div(); // card.
 
 // Back button.
 $dashboardurl = new moodle_url('/local/student_monitor/dashboard.php');
-echo html_writer::link($dashboardurl, '← ' . get_string('backtodashboard', 'local_student_monitor'),
+echo html_writer::link($dashboardurl, get_string('backtodashboard', 'local_student_monitor'),
     ['class' => 'btn btn-secondary']);
 
 echo $OUTPUT->footer();

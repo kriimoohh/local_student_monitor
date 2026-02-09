@@ -393,7 +393,7 @@ class gamification_manager {
             $entry = new \stdClass();
             $entry->rank = $rank++;
             $entry->userid = $record->userid;
-            $entry->fullname = $record->firstname . ' ' . $record->lastname;
+            $entry->fullname = fullname($record);
             $entry->points = $record->total_points;
             $entry->level = $record->level;
             $entry->streak = $record->current_streak;

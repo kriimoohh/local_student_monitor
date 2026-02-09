@@ -970,3 +970,32 @@ $string['refreshtrackingbtn'] = '🔄 Actualiser l\'analyse';
 $string['refreshtrackingconfirm'] = 'Voulez-vous lancer une analyse complète de tous les étudiants ?';
 $string['refreshtrackinginfo'] = 'Cette opération va recalculer les niveaux de risque, les jours d\'inactivité et les activités manquantes pour tous les étudiants actifs. Cela peut prendre plusieurs minutes selon le nombre d\'étudiants.';
 $string['refreshtrackingsuccess'] = 'Analyse terminée : {$a->updated}/{$a->total} étudiants mis à jour ({$a->failed} échecs). {$a->courses} suivis de cours actualisés.';
+
+// Weekly report strings.
+$string['automaticalerts_label'] = 'Alertes automatiques';
+$string['manualalerts_label'] = 'Alertes manuelles';
+$string['autoalertdetails'] = 'Détail des alertes automatiques';
+$string['additionalstatistics'] = 'Statistiques supplémentaires';
+$string['averageinactivity'] = 'Inactivité moyenne';
+$string['days_unit'] = 'jours';
+$string['inactivityleveltype'] = 'Inactivité niveau {$a}';
+$string['assignmentremindertype'] = 'Rappel de devoir';
+$string['risktype'] = 'Risque {$a}';
+$string['totalcount'] = 'Total';
+$string['sentcount'] = 'Envoyées';
+$string['readcount'] = 'Lues';
+$string['failedcount'] = 'Échecs';
+
+// CSV export headers.
+$string['csv_firstname'] = 'Prénom';
+$string['csv_lastname'] = 'Nom';
+$string['csv_risklevel'] = 'Niveau de risque';
+$string['csv_inactivitydays'] = 'Jours d\'inactivité';
+$string['csv_missingactivities'] = 'Activités manquantes';
+$string['csv_notificationssent'] = 'Notifications envoyées';
+$string['csv_interventionneeded'] = 'Intervention nécessaire';
+$string['csv_lastactivity'] = 'Dernière activité';
+$string['csv_lastupdated'] = 'Dernière mise à jour';
+$string['yes'] = 'Oui';
+$string['no'] = 'Non';
+$string['never'] = 'Jamais';

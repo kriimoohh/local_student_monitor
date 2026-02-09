@@ -119,4 +119,9 @@ if (empty($schedules)) {
     echo html_writer::end_tag('table');
 }
 
+// Back to dashboard.
+$backurl = new moodle_url('/local/student_monitor/dashboard.php');
+echo html_writer::link($backurl, get_string('backtodashboard', 'local_student_monitor'),
+    ['class' => 'btn btn-secondary mt-3']);
+
 echo $OUTPUT->footer();

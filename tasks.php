@@ -68,6 +68,10 @@ $tasks = $DB->get_records_sql("
            u.firstname,
            u.lastname,
            u.email,
+           u.firstnamephonetic,
+           u.lastnamephonetic,
+           u.middlename,
+           u.alternatename,
            st.risk_level,
            st.inactivity_days,
            st.missing_activities
@@ -206,7 +210,7 @@ if (empty($tasks)) {
     echo html_writer::start_tag('tbody');
 
     foreach ($tasks as $task) {
-        $studentname = $task->firstname . ' ' . $task->lastname;
+        $studentname = fullname($task);
         $isoverdue = ($task->status != 'completed' && $task->due_date < time());
 
         echo html_writer::start_tag('tr', ['class' => $isoverdue ? 'table-danger' : '']);
