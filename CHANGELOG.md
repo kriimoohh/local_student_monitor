@@ -5,6 +5,28 @@ All notable changes to the Student Monitor plugin will be documented in this fil
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.0.0] - 2026-02-07
+
+### Added
+- **Simplified risk calculation**: Direct threshold-based risk levels (no more scoring system)
+  - `risk_level::from_criteria()` — "highest criterion wins" between inactivity and missing activities
+  - Configurable thresholds for missing activities (defaults: 1/3/5)
+- **Track all course activities**: Uses Moodle's completion tracking + assign submissions + quiz attempts (not just assignments)
+- **Database migration**: Automatic field rename `missing_assignments` → `missing_activities` and French-to-English risk level migration
+
+### Changed
+- Risk levels now use English constants: LOW, MEDIUM, HIGH, CRITICAL (previously FAIBLE, MOYEN, ÉLEVÉ, CRITIQUE)
+- `missing_assignments` renamed to `missing_activities` throughout the entire codebase
+- `notification_count` no longer affects risk level calculation
+- Admin settings: replaced risk score thresholds with missing activities thresholds
+
+### Removed
+- **Business Intelligence module**: `bi_dashboard.php`, `bi_analytics_engine.php`, `bi_charts.js` and all BI-related references
+- Score-based risk calculation (`from_score()` method and `DEFAULT_THRESHOLD_*` constants)
+- Obsolete config keys (`threshold_critical`, `threshold_high`, `threshold_medium`)
+
+---
+
 ## [2.1.0] - 2025-11-19
 
 ### Added

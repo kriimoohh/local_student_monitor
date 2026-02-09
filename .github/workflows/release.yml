@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
     inputs:
       version:
-        description: 'Version tag (e.g., v1.13.0)'
+        description: 'Version tag (e.g., v3.0.0)'
         required: true
         type: string
 
@@ -30,6 +30,37 @@ jobs:
             echo "version=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
           fi
 
+      - name: Extract changelog notes
+        id: changelog
+        run: |
+          VERSION="${{ steps.version.outputs.version }}"
+          # Strip leading 'v' to match CHANGELOG format (e.g., v3.0.0 -> 3.0.0)
+          SEMVER="${VERSION#v}"
+
+          # Extract the section for this version from CHANGELOG.md
+          # Matches from "## [X.Y.Z]" until the next "## [" or end of file
+          NOTES=$(awk "/^## \\[${SEMVER}\\]/{found=1; next} /^## \\[/{if(found) exit} found{print}" CHANGELOG.md)
+
+          if [ -z "$NOTES" ]; then
+            NOTES="No changelog entry found for ${VERSION}. See [CHANGELOG.md](https://github.com/${{ github.repository }}/blob/main/CHANGELOG.md) for details."
+          fi
+
+          # Write to file to preserve multiline content
+          echo "$NOTES" > /tmp/release_notes.md
+
+          # Append installation instructions
+          cat >> /tmp/release_notes.md << 'INSTALL_EOF'
+
+          ---
+
+          ## Installation
+
+          1. Telecharger le fichier `student_monitor.zip`
+          2. Extraire le contenu dans le dossier `local/` de votre installation Moodle
+          3. Le dossier doit s'appeler `student_monitor` (deja correct dans le ZIP)
+          4. Aller dans Administration du site > Notifications pour finaliser l'installation
+          INSTALL_EOF
+
       - name: Create plugin ZIP
         run: |
           # Create temporary directory with correct plugin name
@@ -50,17 +81,7 @@ jobs:
         with:
           tag_name: ${{ steps.version.outputs.version }}
           name: "Student Monitor ${{ steps.version.outputs.version }}"
-          body: |
-            ## Installation
-
-            1. Telecharger le fichier `student_monitor.zip`
-            2. Extraire le contenu dans le dossier `local/` de votre installation Moodle
-            3. Le dossier doit s'appeler `student_monitor` (deja correct dans le ZIP)
-            4. Aller dans Administration du site > Notifications pour finaliser l'installation
-
-            ## Changelog
-
-            Voir [CHANGELOG.md](https://github.com/${{ github.repository }}/blob/main/CHANGELOG.md) pour les details.
+          body_path: /tmp/release_notes.md
           files: student_monitor.zip
           draft: false
           prerelease: false
