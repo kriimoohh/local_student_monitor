@@ -26,7 +26,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'local_student_monitor';
-$plugin->version = 2026020701;  // YYYYMMDDXX - Simplify risk calculation, track all activities, remove BI
+$plugin->version = 2026020702;  // YYYYMMDDXX - Fix duplicate userid in predictive analytics
 $plugin->requires = 2022041900; // Moodle 4.0
 $plugin->maturity = MATURITY_STABLE;
-$plugin->release = 'v3.0.0';
+$plugin->release = 'v3.0.1';

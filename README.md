@@ -1,6 +1,6 @@
 # Student Monitor - Plugin Moodle
 
-**Version:** 3.0.0
+**Version:** 3.0.1
 **Compatible Moodle:** 4.0+
 **PHP:** 8.0+
 **Licence:** GNU GPL v3
