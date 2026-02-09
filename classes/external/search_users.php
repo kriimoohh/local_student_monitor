@@ -76,7 +76,8 @@ class search_users extends external_api {
         require_capability('local/student_monitor:sendmanual', $context);
 
         // Search for users (students only).
-        $sql = "SELECT DISTINCT u.id, u.firstname, u.lastname, u.email, u.username
+        $sql = "SELECT DISTINCT u.id, u.firstname, u.lastname, u.email, u.username,
+                       u.firstnamephonetic, u.lastnamephonetic, u.middlename, u.alternatename
                   FROM {user} u
                   JOIN {role_assignments} ra ON ra.userid = u.id
                   JOIN {role} r ON r.id = ra.roleid

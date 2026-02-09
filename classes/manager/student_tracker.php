@@ -306,7 +306,8 @@ class student_tracker {
     public function get_students_at_risk($risklevel = null, $limit = 100, $search = null, $usehierarchy = true) {
         global $DB;
 
-        $sql = "SELECT st.*, u.firstname, u.lastname, u.email
+        $sql = "SELECT st.*, u.firstname, u.lastname, u.email,
+                       u.firstnamephonetic, u.lastnamephonetic, u.middlename, u.alternatename
                   FROM {local_sm_student_tracking} st
                   JOIN {user} u ON u.id = st.userid
                  WHERE u.deleted = 0 AND u.suspended = 0";

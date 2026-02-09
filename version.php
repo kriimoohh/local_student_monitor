@@ -26,7 +26,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'local_student_monitor';
-$plugin->version = 2026020702;  // YYYYMMDDXX - Fix duplicate userid in predictive analytics
+$plugin->version = 2026020703;  // YYYYMMDDXX - Add missing user name fields for fullname()
 $plugin->requires = 2022041900; // Moodle 4.0
 $plugin->maturity = MATURITY_STABLE;
-$plugin->release = 'v3.0.1';
+$plugin->release = 'v3.0.2';

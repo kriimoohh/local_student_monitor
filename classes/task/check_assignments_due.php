@@ -91,7 +91,7 @@ class check_assignments_due extends \core\task\scheduled_task {
             foreach ($assignments as $assignment) {
                 // Get enrolled students in this course.
                 $context = \context_course::instance($assignment->course);
-                $students = get_enrolled_users($context, 'mod/assign:submit', 0, 'u.id, u.firstname, u.lastname, u.email');
+                $students = get_enrolled_users($context, 'mod/assign:submit', 0, 'u.id, u.firstname, u.lastname, u.email, u.firstnamephonetic, u.lastnamephonetic, u.middlename, u.alternatename');
 
                 $remindercount = 0;
 

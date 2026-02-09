@@ -379,7 +379,8 @@ class gamification_manager {
             return [];
         }
 
-        $sql = "SELECT g.*, u.firstname, u.lastname, u.picture, u.imagealt
+        $sql = "SELECT g.*, u.firstname, u.lastname, u.picture, u.imagealt,
+                       u.firstnamephonetic, u.lastnamephonetic, u.middlename, u.alternatename
                 FROM {local_sm_gamification} g
                 JOIN {user} u ON u.id = g.userid
                 ORDER BY g.total_points DESC";

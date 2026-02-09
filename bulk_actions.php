@@ -172,7 +172,7 @@ echo html_writer::tag('p', get_string('bulkactionsdesc', 'local_student_monitor'
 $supervisors = get_users_by_capability(
     context_system::instance(),
     'local/student_monitor:intervene',
-    'u.id, u.firstname, u.lastname'
+    'u.id, u.firstname, u.lastname, u.firstnamephonetic, u.lastnamephonetic, u.middlename, u.alternatename'
 );
 
 echo html_writer::start_tag('form', [

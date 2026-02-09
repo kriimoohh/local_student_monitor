@@ -5,6 +5,15 @@ All notable changes to the Student Monitor plugin will be documented in this fil
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.0.2] - 2026-02-07
+
+### Fixed
+- Fix "missing name fields from user object" warnings when calling `fullname()` across all pages and managers
+- Add `firstnamephonetic`, `lastnamephonetic`, `middlename`, `alternatename` to all SQL queries and API calls that select user data
+- Affected files: dashboard, student_tracker, reporting_manager, report_scheduler, alert_manager, gamification_manager, pdf_manager, search_users, check_inactivity, check_assignments_due, course_settings_form, refresh_tracking, bulk_actions, effectiveness
+
+---
+
 ## [3.0.1] - 2026-02-07
 
 ### Fixed

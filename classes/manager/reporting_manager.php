@@ -42,7 +42,8 @@ class reporting_manager {
     public function export_students_csv($risklevel = null) {
         global $DB;
 
-        $sql = "SELECT st.*, u.firstname, u.lastname, u.email, u.lastaccess
+        $sql = "SELECT st.*, u.firstname, u.lastname, u.email, u.lastaccess,
+                       u.firstnamephonetic, u.lastnamephonetic, u.middlename, u.alternatename
                   FROM {local_sm_student_tracking} st
                   JOIN {user} u ON u.id = st.userid
                  WHERE 1=1";
@@ -113,7 +114,8 @@ class reporting_manager {
     public function export_notifications_csv($startdate = null, $enddate = null) {
         global $DB;
 
-        $sql = "SELECT n.*, u.firstname, u.lastname, u.email
+        $sql = "SELECT n.*, u.firstname, u.lastname, u.email,
+                       u.firstnamephonetic, u.lastnamephonetic, u.middlename, u.alternatename
                   FROM {local_sm_notifications} n
                   JOIN {user} u ON u.id = n.userid
                  WHERE 1=1";

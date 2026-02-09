@@ -223,7 +223,8 @@ class pdf_manager {
 
         // Get notifications.
         $notifications = $DB->get_records_sql("
-            SELECT n.*, n.type as notification_type, u.firstname, u.lastname
+            SELECT n.*, n.type as notification_type, u.firstname, u.lastname,
+                   u.firstnamephonetic, u.lastnamephonetic, u.middlename, u.alternatename
             FROM {local_sm_notifications} n
             JOIN {user} u ON u.id = n.userid
             WHERE n.timecreated >= :startdate AND n.timecreated <= :enddate

@@ -157,7 +157,7 @@ class course_settings_form extends \moodleform {
         $supervisors = [0 => get_string('none')];
 
         // Get teachers and managers.
-        $teachers = get_enrolled_users($context, 'local/student_monitor:intervene', 0, 'u.id, u.firstname, u.lastname');
+        $teachers = get_enrolled_users($context, 'local/student_monitor:intervene', 0, 'u.id, u.firstname, u.lastname, u.firstnamephonetic, u.lastnamephonetic, u.middlename, u.alternatename');
 
         foreach ($teachers as $teacher) {
             $supervisors[$teacher->id] = fullname($teacher);

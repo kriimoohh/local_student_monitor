@@ -81,7 +81,8 @@ $tracker = new \local_student_monitor\manager\student_tracker();
 
 // Get all active students.
 $students = $DB->get_records_sql(
-    "SELECT DISTINCT u.id, u.firstname, u.lastname
+    "SELECT DISTINCT u.id, u.firstname, u.lastname,
+            u.firstnamephonetic, u.lastnamephonetic, u.middlename, u.alternatename
        FROM {user} u
        JOIN {role_assignments} ra ON ra.userid = u.id
        JOIN {role} r ON r.id = ra.roleid

@@ -77,7 +77,7 @@ if ($supervisorid > 0) {
 $supervisors = get_users_by_capability(
     context_system::instance(),
     'local/student_monitor:intervene',
-    'u.id, u.firstname, u.lastname',
+    'u.id, u.firstname, u.lastname, u.firstnamephonetic, u.lastnamephonetic, u.middlename, u.alternatename',
     'u.lastname, u.firstname'
 );
 

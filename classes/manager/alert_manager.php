@@ -205,7 +205,8 @@ class alert_manager {
 
                     $threshold = $thresholds[$data->inactivity_level] ?? 3;
 
-                    $sql = "SELECT DISTINCT u.id, u.firstname, u.lastname, u.email
+                    $sql = "SELECT DISTINCT u.id, u.firstname, u.lastname, u.email,
+                                       u.firstnamephonetic, u.lastnamephonetic, u.middlename, u.alternatename
                               FROM {user} u
                               JOIN {local_sm_student_tracking} st ON st.userid = u.id
                              WHERE st.inactivity_days >= :threshold
@@ -225,7 +226,8 @@ class alert_manager {
 
                     $risklevel = $risklevelmap[$data->inactivity_level] ?? 'MEDIUM';
 
-                    $sql = "SELECT DISTINCT u.id, u.firstname, u.lastname, u.email
+                    $sql = "SELECT DISTINCT u.id, u.firstname, u.lastname, u.email,
+                                       u.firstnamephonetic, u.lastnamephonetic, u.middlename, u.alternatename
                               FROM {user} u
                               JOIN {local_sm_student_tracking} st ON st.userid = u.id
                              WHERE st.risk_level = :risklevel
@@ -249,7 +251,8 @@ class alert_manager {
 
                 // Get all courses in this category and subcategories.
                 $categorypath = $category->path . '/%';
-                $sql = "SELECT DISTINCT u.id, u.firstname, u.lastname, u.email
+                $sql = "SELECT DISTINCT u.id, u.firstname, u.lastname, u.email,
+                                       u.firstnamephonetic, u.lastnamephonetic, u.middlename, u.alternatename
                           FROM {user} u
                           JOIN {user_enrolments} ue ON ue.userid = u.id
                           JOIN {enrol} e ON e.id = ue.enrolid
@@ -276,14 +279,14 @@ class alert_manager {
                     return [];
                 }
                 $context = \context_course::instance($data->courseid);
-                $recipients = get_enrolled_users($context, '', 0, 'u.id, u.firstname, u.lastname, u.email');
+                $recipients = get_enrolled_users($context, '', 0, 'u.id, u.firstname, u.lastname, u.email, u.firstnamephonetic, u.lastnamephonetic, u.middlename, u.alternatename');
                 break;
 
             case 'group':
                 if (empty($data->groupid)) {
                     return [];
                 }
-                $members = groups_get_members($data->groupid, 'u.id, u.firstname, u.lastname, u.email');
+                $members = groups_get_members($data->groupid, 'u.id, u.firstname, u.lastname, u.email, u.firstnamephonetic, u.lastnamephonetic, u.middlename, u.alternatename');
                 $recipients = $members;
                 break;
 
@@ -298,7 +301,7 @@ class alert_manager {
                     if (empty($userid)) {
                         continue;
                     }
-                    $user = $DB->get_record('user', ['id' => $userid], 'id, firstname, lastname, email');
+                    $user = $DB->get_record('user', ['id' => $userid], 'id, firstname, lastname, email, firstnamephonetic, lastnamephonetic, middlename, alternatename');
                     if ($user) {
                         $recipients[] = $user;
                     }
@@ -309,7 +312,8 @@ class alert_manager {
                 // Get all students.
                 $studentrole = $DB->get_record('role', ['shortname' => 'student']);
                 if ($studentrole) {
-                    $sql = "SELECT DISTINCT u.id, u.firstname, u.lastname, u.email
+                    $sql = "SELECT DISTINCT u.id, u.firstname, u.lastname, u.email,
+                                       u.firstnamephonetic, u.lastnamephonetic, u.middlename, u.alternatename
                               FROM {user} u
                               JOIN {role_assignments} ra ON ra.userid = u.id
                              WHERE ra.roleid = :roleid
@@ -526,7 +530,8 @@ class alert_manager {
         // Get all alerts (manual and automatic) with sender information.
         // Group by subject and timecreated to show unique alert campaigns.
         $sql = "SELECT n.id, n.subject, n.timecreated, n.sentby, n.type, n.status,
-                       u.firstname, u.lastname,
+                       u.firstname, u.lastname, u.firstnamephonetic, u.lastnamephonetic,
+                       u.middlename, u.alternatename,
                        COUNT(DISTINCT n2.id) as recipient_count
                   FROM {local_sm_notifications} n
                   LEFT JOIN {user} u ON u.id = n.sentby
@@ -543,7 +548,7 @@ class alert_manager {
                          AND ABS(n3.timecreated - n.timecreated) < 60
                          AND n3.type = n.type
                    )
-              GROUP BY n.id, n.subject, n.timecreated, n.sentby, n.type, n.status, u.firstname, u.lastname
+              GROUP BY n.id, n.subject, n.timecreated, n.sentby, n.type, n.status, u.firstname, u.lastname, u.firstnamephonetic, u.lastnamephonetic, u.middlename, u.alternatename
               ORDER BY n.timecreated DESC";
 
         return $DB->get_records_sql($sql, [], 0, $limit);

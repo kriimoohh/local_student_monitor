@@ -82,7 +82,8 @@ $studentsatrisk = $tracker->get_students_at_risk($risklevel, 50, $search);
 
 // Get critical alerts.
 $criticalalerts = $DB->get_records_sql(
-    "SELECT st.*, u.firstname, u.lastname, u.email
+    "SELECT st.*, u.firstname, u.lastname, u.email,
+            u.firstnamephonetic, u.lastnamephonetic, u.middlename, u.alternatename
        FROM {local_sm_student_tracking} st
        JOIN {user} u ON u.id = st.userid
       WHERE st.intervention_needed = 1

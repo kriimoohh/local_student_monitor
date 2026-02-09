@@ -148,7 +148,8 @@ class check_inactivity extends \core\task\scheduled_task {
         }
 
         // Get all users with student role who are not suspended or deleted.
-        $sql = "SELECT DISTINCT u.id, u.firstname, u.lastname, u.email, u.lastaccess
+        $sql = "SELECT DISTINCT u.id, u.firstname, u.lastname, u.email, u.lastaccess,
+                       u.firstnamephonetic, u.lastnamephonetic, u.middlename, u.alternatename
                   FROM {user} u
                   JOIN {role_assignments} ra ON ra.userid = u.id
                  WHERE ra.roleid = :roleid
