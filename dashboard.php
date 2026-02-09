@@ -48,7 +48,7 @@ $courseid = optional_param('course', 0, PARAM_INT);
 $search = optional_param('search', '', PARAM_TEXT);
 
 // Validate risk level to prevent SQL injection and ensure only valid values.
-if ($risklevel && !in_array($risklevel, ['CRITIQUE', 'ÉLEVÉ', 'MOYEN', 'FAIBLE'])) {
+if ($risklevel && !in_array($risklevel, ['CRITICAL', 'HIGH', 'MEDIUM', 'LOW'])) {
     $risklevel = '';
 }
 
@@ -86,10 +86,10 @@ $criticalalerts = $DB->get_records_sql(
        FROM {local_sm_student_tracking} st
        JOIN {user} u ON u.id = st.userid
       WHERE st.intervention_needed = 1
-        AND st.risk_level IN ('CRITIQUE', 'ÉLEVÉ')
+        AND st.risk_level IN ('CRITICAL', 'HIGH')
    ORDER BY CASE st.risk_level
-                WHEN 'CRITIQUE' THEN 1
-                WHEN 'ÉLEVÉ' THEN 2
+                WHEN 'CRITICAL' THEN 1
+                WHEN 'HIGH' THEN 2
                 ELSE 3
             END,
             st.inactivity_days DESC
@@ -146,8 +146,6 @@ echo html_writer::start_div('dropdown-menu', ['aria-labelledby' => 'dashboardDro
 $dashboardurl = new moodle_url('/local/student_monitor/dashboard.php');
 echo html_writer::link($dashboardurl, 'Dashboard principal', ['class' => 'dropdown-item']);
 if (has_capability('local/student_monitor:viewreports', $context)) {
-    $bidashboardurl = new moodle_url('/local/student_monitor/bi_dashboard.php');
-    echo html_writer::link($bidashboardurl, 'Tableau de bord BI', ['class' => 'dropdown-item']);
     $weeklyreporturl = new moodle_url('/local/student_monitor/weekly_report.php');
     echo html_writer::link($weeklyreporturl, 'Rapport hebdomadaire', ['class' => 'dropdown-item']);
 }
@@ -435,10 +433,10 @@ echo html_writer::tag('label', get_string('risklevel', 'local_student_monitor') 
 echo html_writer::select(
     [
         '' => get_string('all'),
-        'CRITIQUE' => get_string('risk_critique', 'local_student_monitor'),
-        'ÉLEVÉ' => get_string('risk_eleve', 'local_student_monitor'),
-        'MOYEN' => get_string('risk_moyen', 'local_student_monitor'),
-        'FAIBLE' => get_string('risk_faible', 'local_student_monitor'),
+        'CRITICAL' => get_string('risk_critique', 'local_student_monitor'),
+        'HIGH' => get_string('risk_eleve', 'local_student_monitor'),
+        'MEDIUM' => get_string('risk_moyen', 'local_student_monitor'),
+        'LOW' => get_string('risk_faible', 'local_student_monitor'),
     ],
     'risk',
     $risklevel,
@@ -494,13 +492,13 @@ if (!empty($studentsatrisk)) {
         // Risk badge.
         $riskclass = 'badge ';
         switch ($student->risk_level) {
-            case 'CRITIQUE':
+            case 'CRITICAL':
                 $riskclass .= 'badge-danger';
                 break;
-            case 'ÉLEVÉ':
+            case 'HIGH':
                 $riskclass .= 'badge-warning';
                 break;
-            case 'MOYEN':
+            case 'MEDIUM':
                 $riskclass .= 'badge-info';
                 break;
             default:
@@ -522,7 +520,7 @@ if (!empty($studentsatrisk)) {
             $student->email,
             $lastactivity,
             $student->inactivity_days,
-            $student->missing_assignments,
+            $student->missing_activities,
             $student->notification_count,
             $actions,
         ];

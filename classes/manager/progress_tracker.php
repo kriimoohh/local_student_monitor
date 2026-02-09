@@ -223,14 +223,12 @@ class progress_tracker {
 
         if ($tracking) {
             $snapshot->risk_level = $tracking->risk_level;
-            $snapshot->risk_score = $tracking->risk_score;
             $snapshot->inactivity_days = $tracking->inactivity_days;
-            $snapshot->missing_assignments = $tracking->missing_assignments;
+            $snapshot->missing_activities = $tracking->missing_activities;
         } else {
             $snapshot->risk_level = 'UNKNOWN';
-            $snapshot->risk_score = 0;
             $snapshot->inactivity_days = 0;
-            $snapshot->missing_assignments = 0;
+            $snapshot->missing_activities = 0;
         }
 
         // Get gamification data.
@@ -397,10 +395,10 @@ class progress_tracker {
         }
 
         $riskvalues = [
-            'FAIBLE' => 1,
-            'MOYEN' => 2,
-            'ÉLEVÉ' => 3,
-            'CRITIQUE' => 4
+            'LOW' => 1,
+            'MEDIUM' => 2,
+            'HIGH' => 3,
+            'CRITICAL' => 4
         ];
 
         $values = array_map(function($s) use ($riskvalues) {
@@ -500,13 +498,13 @@ class progress_tracker {
             return [];
         }
 
-        // Suggest assignment goal if missing assignments.
-        if ($tracking->missing_assignments > 0) {
+        // Suggest assignment goal if missing activities.
+        if ($tracking->missing_activities > 0) {
             $suggestions[] = (object)[
                 'type' => self::GOAL_ASSIGNMENT,
                 'title' => get_string('goal_complete_assignments', 'local_student_monitor'),
                 'description' => get_string('goal_complete_assignments_desc', 'local_student_monitor'),
-                'target_value' => $tracking->missing_assignments,
+                'target_value' => $tracking->missing_activities,
                 'suggested_deadline' => time() + (14 * 24 * 3600) // 2 weeks
             ];
         }

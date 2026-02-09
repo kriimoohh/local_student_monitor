@@ -62,10 +62,10 @@ $riskchartdata = [
         get_string('risk_faible', 'local_student_monitor')
     ],
     'data' => [
-        $report->risk_distribution['CRITIQUE'],
-        $report->risk_distribution['ÉLEVÉ'],
-        $report->risk_distribution['MOYEN'],
-        $report->risk_distribution['FAIBLE']
+        $report->risk_distribution['CRITICAL'],
+        $report->risk_distribution['HIGH'],
+        $report->risk_distribution['MEDIUM'],
+        $report->risk_distribution['LOW']
     ],
     'colors' => ['#dc3545', '#fd7e14', '#ffc107', '#28a745']
 ];
@@ -226,10 +226,10 @@ if (!empty($report->warnings)) {
 
         // Current risk.
         $currentclass = [
-            'CRITIQUE' => 'badge-danger',
-            'ÉLEVÉ' => 'badge-warning',
-            'MOYEN' => 'badge-info',
-            'FAIBLE' => 'badge-success'
+            'CRITICAL' => 'badge-danger',
+            'HIGH' => 'badge-warning',
+            'MEDIUM' => 'badge-info',
+            'LOW' => 'badge-success'
         ][$warning->current_risk] ?? 'badge-secondary';
 
         echo html_writer::start_tag('td');
@@ -238,10 +238,10 @@ if (!empty($report->warnings)) {
 
         // Predicted risk.
         $predictedclass = [
-            'CRITIQUE' => 'badge-danger',
-            'ÉLEVÉ' => 'badge-warning',
-            'MOYEN' => 'badge-info',
-            'FAIBLE' => 'badge-success'
+            'CRITICAL' => 'badge-danger',
+            'HIGH' => 'badge-warning',
+            'MEDIUM' => 'badge-info',
+            'LOW' => 'badge-success'
         ][$warning->predicted_risk] ?? 'badge-secondary';
 
         echo html_writer::start_tag('td');

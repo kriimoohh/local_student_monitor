@@ -67,15 +67,6 @@ function local_student_monitor_extend_navigation(global_navigation $navigation) 
 
         if (has_capability('local/student_monitor:viewreports', $context)) {
             $dashboardsnode->add(
-                get_string('bidashboard', 'local_student_monitor'),
-                new moodle_url('/local/student_monitor/bi_dashboard.php'),
-                navigation_node::TYPE_CUSTOM,
-                null,
-                'sm_bi_dashboard',
-                new pix_icon('i/report', '')
-            );
-
-            $dashboardsnode->add(
                 get_string('weeklyreport', 'local_student_monitor'),
                 new moodle_url('/local/student_monitor/weekly_report.php'),
                 navigation_node::TYPE_CUSTOM,

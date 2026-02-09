@@ -184,7 +184,7 @@ class gamification_manager {
         }
 
         // Check all assignments completed.
-        if ($tracking->missing_assignments == 0 && $tracking->intervention_count > 0) {
+        if ($tracking->missing_activities == 0 && $tracking->intervention_count > 0) {
             $this->check_achievement($userid, 'all_assignments', true);
         }
 
@@ -264,7 +264,7 @@ class gamification_manager {
     protected function check_risk_recovery($userid) {
         global $DB;
 
-        // Check if student went from CRITIQUE/ÉLEVÉ to FAIBLE/MOYEN.
+        // Check if student went from CRITICAL/HIGH to LOW/MEDIUM.
         $logs = $DB->get_records_sql("
             SELECT *
             FROM {local_sm_logs}
@@ -283,8 +283,8 @@ class gamification_manager {
         $previous = json_decode($logs[1]->details);
 
         if ($latest && $previous) {
-            if (in_array($previous->old_level, ['CRITIQUE', 'ÉLEVÉ']) &&
-                in_array($latest->new_level, ['FAIBLE', 'MOYEN'])) {
+            if (in_array($previous->old_level, ['CRITICAL', 'HIGH']) &&
+                in_array($latest->new_level, ['LOW', 'MEDIUM'])) {
                 $this->check_achievement($userid, 'risk_recovery', true);
             }
         }

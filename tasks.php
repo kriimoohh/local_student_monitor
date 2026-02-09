@@ -70,7 +70,7 @@ $tasks = $DB->get_records_sql("
            u.email,
            st.risk_level,
            st.inactivity_days,
-           st.missing_assignments
+           st.missing_activities
     FROM {local_sm_tasks} t
     JOIN {user} u ON u.id = t.student_id
     LEFT JOIN {local_sm_student_tracking} st ON st.userid = u.id
@@ -237,10 +237,10 @@ if (empty($tasks)) {
 
         // Risk level badge.
         $riskclass = [
-            'CRITIQUE' => 'badge-danger',
-            'ÉLEVÉ' => 'badge-warning',
-            'MOYEN' => 'badge-info',
-            'FAIBLE' => 'badge-success'
+            'CRITICAL' => 'badge-danger',
+            'HIGH' => 'badge-warning',
+            'MEDIUM' => 'badge-info',
+            'LOW' => 'badge-success'
         ][$task->risk_level] ?? 'badge-secondary';
 
         echo html_writer::start_tag('td');

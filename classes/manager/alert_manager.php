@@ -217,13 +217,13 @@ class alert_manager {
                 } else if (strpos($data->inactivity_level, 'risk_') === 0) {
                     // Handle risk levels.
                     $risklevelmap = [
-                        'risk_critique' => 'CRITIQUE',
-                        'risk_eleve' => 'ÉLEVÉ',
-                        'risk_moyen' => 'MOYEN',
-                        'risk_faible' => 'FAIBLE',
+                        'risk_critique' => 'CRITICAL',
+                        'risk_eleve' => 'HIGH',
+                        'risk_moyen' => 'MEDIUM',
+                        'risk_faible' => 'LOW',
                     ];
 
-                    $risklevel = $risklevelmap[$data->inactivity_level] ?? 'MOYEN';
+                    $risklevel = $risklevelmap[$data->inactivity_level] ?? 'MEDIUM';
 
                     $sql = "SELECT DISTINCT u.id, u.firstname, u.lastname, u.email
                               FROM {user} u

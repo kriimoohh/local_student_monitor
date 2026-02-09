@@ -417,7 +417,7 @@ class intervention_tracker {
             FROM {local_sm_student_tracking} st
             WHERE st.last_intervention >= :startdate
               AND st.last_intervention <= :enddate
-              AND st.risk_level IN ('FAIBLE', 'MOYEN')
+              AND st.risk_level IN ('LOW', 'MEDIUM')
         ", ['startdate' => $startdate, 'enddate' => $enddate]);
 
         // Students who remained at risk.
@@ -426,7 +426,7 @@ class intervention_tracker {
             FROM {local_sm_student_tracking} st
             WHERE st.last_intervention >= :startdate
               AND st.last_intervention <= :enddate
-              AND st.risk_level IN ('ÉLEVÉ', 'CRITIQUE')
+              AND st.risk_level IN ('HIGH', 'CRITICAL')
         ", ['startdate' => $startdate, 'enddate' => $enddate]);
 
         // Intervention success rate.

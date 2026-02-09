@@ -50,6 +50,17 @@ $string['inactivitythreshold2_desc'] = 'Nombre de jours d\'inactivité pour déc
 $string['inactivitythreshold3'] = 'Seuil niveau 3 (jours)';
 $string['inactivitythreshold3_desc'] = 'Nombre de jours d\'inactivité pour déclencher une alerte de niveau 3 (défaut: 14 jours)';
 
+// Missing activities thresholds.
+$string['missingactivitiessettings'] = 'Seuils d\'activités manquantes';
+$string['missingactivitiessettingsdesc'] = 'Configurez les seuils de détection de risque basés sur les activités manquantes';
+$string['missingactivitiesthreshold1'] = 'Seuil niveau 1 (activités)';
+$string['missingactivitiesthreshold1_desc'] = 'Nombre d\'activités manquantes pour un risque moyen (défaut : 1)';
+$string['missingactivitiesthreshold2'] = 'Seuil niveau 2 (activités)';
+$string['missingactivitiesthreshold2_desc'] = 'Nombre d\'activités manquantes pour un risque élevé (défaut : 3)';
+$string['missingactivitiesthreshold3'] = 'Seuil niveau 3 (activités)';
+$string['missingactivitiesthreshold3_desc'] = 'Nombre d\'activités manquantes pour un risque critique (défaut : 5)';
+$string['missingactivities'] = 'Activités manquantes';
+
 // Assignment reminder settings.
 $string['assignmentremindersettings'] = 'Paramètres des rappels de devoirs';
 $string['assignmentremindersettingsdesc'] = 'Configuration des rappels automatiques pour les devoirs';
@@ -107,28 +118,18 @@ $string['quickactions'] = 'Actions rapides';
 
 // Risk levels.
 $string['risklevel'] = 'Niveau de risque';
-$string['risk_faible'] = 'FAIBLE';
-$string['risk_moyen'] = 'MOYEN';
-$string['risk_eleve'] = 'ÉLEVÉ';
-$string['risk_critique'] = 'CRITIQUE';
-$string['risk_low'] = 'Faible';
-$string['risk_medium'] = 'Moyen';
-$string['risk_high'] = 'Élevé';
-$string['risk_critical'] = 'Critique';
+$string['risk_faible'] = 'LOW';
+$string['risk_moyen'] = 'MEDIUM';
+$string['risk_eleve'] = 'HIGH';
+$string['risk_critique'] = 'CRITICAL';
+$string['risk_low'] = 'Low';
+$string['risk_medium'] = 'Medium';
+$string['risk_high'] = 'High';
+$string['risk_critical'] = 'Critical';
 
 // Paramètres de l\'institution.
 $string['institutionname'] = 'Nom de l\'institution';
 $string['institutionname_desc'] = 'Nom de votre institution (affiché dans les notifications)';
-
-// Seuils de score de risque.
-$string['riskscoresettings'] = 'Seuils de score de risque';
-$string['riskscoresettingsdesc'] = 'Configurez les seuils de score pour chaque niveau de risque';
-$string['thresholdcritical'] = 'Seuil critique';
-$string['thresholdcritical_desc'] = 'Score minimum pour le niveau de risque critique (défaut : 60)';
-$string['thresholdhigh'] = 'Seuil élevé';
-$string['thresholdhigh_desc'] = 'Score minimum pour le niveau de risque élevé (défaut : 40)';
-$string['thresholdmedium'] = 'Seuil moyen';
-$string['thresholdmedium_desc'] = 'Score minimum pour le niveau de risque moyen (défaut : 20)';
 
 // Notification types.
 $string['notificationtype'] = 'Type de notification';
@@ -177,7 +178,7 @@ $string['sendalert'] = 'Envoyer l\'alerte';
 $string['studentname'] = 'Nom de l\'étudiant';
 $string['lastactivity'] = 'Dernière activité';
 $string['inactivitydays'] = 'Jours d\'inactivité';
-$string['missingassignments'] = 'Devoirs manquants';
+$string['missingassignments'] = 'Activités manquantes';
 $string['notificationcount'] = 'Nombre de notifications';
 $string['interventionneeded'] = 'Intervention nécessaire';
 $string['assignedto'] = 'Assigné à';
@@ -323,7 +324,7 @@ $string['interventionsbyrisk'] = 'Interventions par risque';
 $string['totalstudents'] = 'Total étudiants';
 $string['totalnotifications'] = 'Total notifications';
 $string['last30days'] = 'Derniers 30 jours';
-$string['criticalandhigh'] = 'Critique et Élevé';
+$string['criticalandhigh'] = 'Critical et High';
 $string['notificationsread'] = 'Notifications lues';
 $string['notifications'] = 'Notifications';
 $string['interventions'] = 'Interventions';
@@ -369,7 +370,7 @@ $string['advancedfilters'] = 'Filtres avancés';
 $string['searchstudents'] = 'Rechercher des étudiants';
 $string['searchplaceholder'] = 'Nom ou email...';
 $string['filterbyinactivity'] = 'Filtrer par inactivité';
-$string['filterbymissingassignments'] = 'Filtrer par devoirs manquants';
+$string['filterbymissingassignments'] = 'Filtrer par activités manquantes';
 $string['filterbyassigned'] = 'Filtrer par assignation';
 $string['assigned'] = 'Assigné';
 $string['unassigned'] = 'Non assigné';
@@ -509,7 +510,7 @@ $string['highriskmessage'] = 'Votre activité académique nécessite une attenti
 $string['preventivereminder'] = 'Rappel préventif';
 $string['mediumriskmessage'] = 'Nous avons remarqué une baisse de votre activité. N\'hésitez pas à nous contacter si vous avez besoin d\'aide.';
 $string['escalationsubject'] = 'Escalade - Étudiant en situation critique';
-$string['escalationmessage'] = 'L\'étudiant {$a->studentname} est en situation critique (Niveau: {$a->risklevel}). Inactivité: {$a->inactivity} jours, Devoirs manquants: {$a->missing}.';
+$string['escalationmessage'] = 'L\'étudiant {$a->studentname} est en situation critique (Niveau: {$a->risklevel}). Inactivité: {$a->inactivity} jours, Activités manquantes: {$a->missing}.';
 $string['automatednotification'] = 'Notification automatique';
 $string['risknotificationmessage'] = 'Alerte automatique: Niveau de risque {$a->risklevel}, Inactivité: {$a->inactivity} jours.';
 $string['supervisornotification'] = 'Notification superviseur';
@@ -575,7 +576,7 @@ $string['studentswitparents'] = 'Étudiants avec parents enregistrés';
 $string['noparentsregistered'] = 'Aucun parent/tuteur enregistré';
 $string['notifyparents'] = 'Notifier les parents';
 $string['parentnotificationsubject'] = 'Information importante concernant votre enfant';
-$string['parentnotificationtemplate'] = 'Bonjour {$a->parentname},\n\nNous vous contactons concernant {$a->studentname}.\n\nNiveau de risque: {$a->risklevel}\nJours d\'inactivité: {$a->inactivitydays}\nDevoirs manquants: {$a->missingassignments}\n\nContact support: {$a->supportemail} / {$a->supportphone}';
+$string['parentnotificationtemplate'] = 'Bonjour {$a->parentname},\n\nNous vous contactons concernant {$a->studentname}.\n\nNiveau de risque: {$a->risklevel}\nJours d\'inactivité: {$a->inactivitydays}\nActivités manquantes: {$a->missingassignments}\n\nContact support: {$a->supportemail} / {$a->supportphone}';
 $string['recommendations'] = 'Recommandations';
 $string['recommendcontactstudent'] = 'Contacter votre enfant pour comprendre la situation';
 $string['recommendassignmenthelp'] = 'Aider avec les devoirs en retard';
@@ -604,7 +605,7 @@ $string['column_student_name'] = 'Nom étudiant';
 $string['column_student_email'] = 'Email étudiant';
 $string['column_risk_level'] = 'Niveau de risque';
 $string['column_inactivity_days'] = 'Jours d\'inactivité';
-$string['column_missing_assignments'] = 'Devoirs manquants';
+$string['column_missing_activities'] = 'Activités manquantes';
 $string['column_notification_count'] = 'Notifications envoyées';
 $string['column_last_login'] = 'Dernière connexion';
 $string['column_assigned_to'] = 'Superviseur assigné';
@@ -724,7 +725,7 @@ $string['endpoint_getcampaignstats'] = 'Obtenir les statistiques de campagne';
 $string['backtodashboard'] = 'Retour au tableau de bord';
 $string['filter_risklevel'] = 'Niveau de risque';
 $string['filter_inactivitydays'] = 'Jours d\'inactivité';
-$string['filter_missingassignments'] = 'Devoirs manquants';
+$string['filter_missingassignments'] = 'Activités manquantes';
 $string['filter_lastlogin'] = 'Dernière connexion';
 $string['filter_supervisor'] = 'Superviseur';
 $string['filter_course'] = 'Cours';
@@ -852,7 +853,7 @@ $string['deadline'] = 'Échéance';
 $string['creategoal'] = 'Créer l\'objectif';
 $string['goalcreated'] = 'Objectif créé avec succès!';
 $string['goal_complete_assignments'] = 'Rattraper les devoirs en retard';
-$string['goal_complete_assignments_desc'] = 'Completez tous vos devoirs manquants pour améliorer votre performance.';
+$string['goal_complete_assignments_desc'] = 'Completez toutes vos activités manquantes pour améliorer votre performance.';
 $string['goal_increase_logins'] = 'Augmenter la fréquence de connexion';
 $string['goal_increase_logins_desc'] = 'Connectez-vous plus régulièrement pour rester engagé dans vos cours.';
 $string['goal_completed'] = 'Objectif completé: {$a}';
@@ -870,37 +871,6 @@ $string['tip3'] = '🎯 Motivation: Chaque petit progrès compte. Célébrez vos
 $string['tip4'] = '🤝 Conseil: N\'hésitez pas à demander de l\'aide à vos camarades ou enseignants.';
 $string['tip5'] = '⏰ Rappel: Gérez votre temps efficacement en priorisant les tâches importantes.';
 
-
-// Business Intelligence & Advanced Analytics (Phase 10).
-$string['bidashboard'] = 'Tableau de bord BI';
-$string['institutionaloverview'] = 'Vue d\'ensemble institutionnelle';
-$string['totalstudents'] = 'Total étudiants';
-$string['needsintervention'] = 'Besoin d\'intervention';
-$string['successrate'] = 'Taux de réussite';
-$string['avgresponsetime'] = 'Temps de réponse moyen';
-$string['studentsimproved'] = 'étudiants améliorés';
-$string['hoursaverage'] = 'heures en moyenne';
-$string['riskdistribution'] = 'Distribution du risque';
-$string['trendsandcharts'] = 'Tendances et graphiques';
-$string['dailyinterventions'] = 'Interventions quotidiennes';
-$string['successratetrend'] = 'Tendance taux de réussite';
-$string['retentionanalytics'] = 'Analytiques de rétention';
-$string['retentionrate'] = 'Taux de rétention';
-$string['activestudents'] = 'étudiants actifs';
-$string['atriskdropout'] = 'Risque d\'abandon';
-$string['dropoutprediction'] = 'Prédiction d\'abandon';
-$string['highriskinactive'] = 'Haut risque inactif';
-$string['retentiontrend'] = 'Tendance de rétention';
-$string['supervisorperformance'] = 'Performance des superviseurs';
-$string['assignedstudents'] = 'Étudiants assignés';
-$string['avgresponse'] = 'Réponse moyenne';
-$string['nosupervisordata'] = 'Aucune donnée de superviseur';
-$string['cohortanalysis'] = 'Analyse de cohortes';
-$string['cohort'] = 'Cohorte';
-$string['avgriskscore'] = 'Score de risque moyen';
-$string['nocohortdata'] = 'Aucune donnée de cohorte';
-$string['exportexecutivesummary'] = 'Exporter le résumé exécutif';
-$string['backtobidashboard'] = 'Retour au tableau de bord BI';
 
 // Report Scheduler.
 $string['reportschedules'] = 'Planifications de rapports';
@@ -935,16 +905,16 @@ $string['freq_quarterly'] = 'Trimestriel';
 $string['scheduledreport'] = 'Rapport programmé';
 $string['scheduledreportbody'] = 'Veuillez trouver ci-joint le rapport {$a->reporttype} généré le {$a->date}.';
 $string['generatedon'] = 'Généré le';
-$string['critical'] = 'Critique';
-$string['high'] = 'Élevé';
-$string['medium'] = 'Moyen';
-$string['low'] = 'Faible';
+$string['critical'] = 'Critical';
+$string['high'] = 'High';
+$string['medium'] = 'Medium';
+$string['low'] = 'Low';
 
 // Students at risk page.
 $string['viewstudents'] = 'Voir les étudiants';
 $string['currentfilter'] = 'Filtre actuel';
 $string['clearfilter'] = 'Effacer le filtre';
-$string['showingatrisk'] = 'Affichage des étudiants à risque (MOYEN et plus)';
+$string['showingatrisk'] = 'Affichage des étudiants à risque (MEDIUM et plus)';
 $string['nostudentsatrisk'] = 'Aucun étudiant à risque trouvé - Excellent travail !';
 $string['viewprofile'] = 'Voir le profil';
 $string['sendnotification'] = 'Envoyer une notification';
@@ -998,5 +968,5 @@ $string['error_no_preview_data'] = 'Aucune donnée de prévisualisation disponib
 $string['refreshtracking'] = 'Actualiser l\'analyse des étudiants';
 $string['refreshtrackingbtn'] = '🔄 Actualiser l\'analyse';
 $string['refreshtrackingconfirm'] = 'Voulez-vous lancer une analyse complète de tous les étudiants ?';
-$string['refreshtrackinginfo'] = 'Cette opération va recalculer les niveaux de risque, les jours d\'inactivité et les devoirs manquants pour tous les étudiants actifs. Cela peut prendre plusieurs minutes selon le nombre d\'étudiants.';
+$string['refreshtrackinginfo'] = 'Cette opération va recalculer les niveaux de risque, les jours d\'inactivité et les activités manquantes pour tous les étudiants actifs. Cela peut prendre plusieurs minutes selon le nombre d\'étudiants.';
 $string['refreshtrackingsuccess'] = 'Analyse terminée : {$a->updated}/{$a->total} étudiants mis à jour ({$a->failed} échecs). {$a->courses} suivis de cours actualisés.';

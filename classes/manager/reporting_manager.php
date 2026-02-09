@@ -56,9 +56,9 @@ class reporting_manager {
 
         $sql .= " ORDER BY
                     CASE st.risk_level
-                        WHEN 'CRITIQUE' THEN 1
-                        WHEN 'ÉLEVÉ' THEN 2
-                        WHEN 'MOYEN' THEN 3
+                        WHEN 'CRITICAL' THEN 1
+                        WHEN 'HIGH' THEN 2
+                        WHEN 'MEDIUM' THEN 3
                         ELSE 4
                     END,
                     st.inactivity_days DESC";
@@ -92,7 +92,7 @@ class reporting_manager {
                 $student->email,
                 $student->risk_level,
                 $student->inactivity_days,
-                $student->missing_assignments,
+                $student->missing_activities,
                 $student->notification_count,
                 $student->intervention_needed ? 'Oui' : 'Non',
                 $student->last_activity ? userdate($student->last_activity) : 'Jamais',
@@ -197,7 +197,7 @@ class reporting_manager {
         $report->notification_stats = $DB->get_records_sql($sql, ['weekago' => $weekago]);
 
         // Top at-risk students.
-        $report->top_at_risk = $tracker->get_students_at_risk('CRITIQUE', 10);
+        $report->top_at_risk = $tracker->get_students_at_risk('CRITICAL', 10);
 
         // Recent interventions.
         $sql = "SELECT COUNT(*) as count

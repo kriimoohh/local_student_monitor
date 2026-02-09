@@ -87,9 +87,8 @@ class get_student_stats extends external_api {
             return [
                 'userid' => $params['userid'],
                 'risk_level' => 'UNKNOWN',
-                'risk_score' => 0,
                 'inactivity_days' => 0,
-                'missing_assignments' => 0,
+                'missing_activities' => 0,
                 'notification_count' => 0,
                 'last_updated' => 0
             ];
@@ -98,9 +97,8 @@ class get_student_stats extends external_api {
         return [
             'userid' => $tracking->userid,
             'risk_level' => $tracking->risk_level,
-            'risk_score' => (int)$tracking->risk_score,
             'inactivity_days' => (int)$tracking->inactivity_days,
-            'missing_assignments' => (int)$tracking->missing_assignments,
+            'missing_activities' => (int)$tracking->missing_activities,
             'notification_count' => (int)$tracking->notification_count,
             'last_updated' => (int)$tracking->timemodified
         ];
@@ -115,9 +113,8 @@ class get_student_stats extends external_api {
         return new external_single_structure([
             'userid' => new external_value(PARAM_INT, 'User ID'),
             'risk_level' => new external_value(PARAM_TEXT, 'Risk level'),
-            'risk_score' => new external_value(PARAM_INT, 'Risk score'),
             'inactivity_days' => new external_value(PARAM_INT, 'Inactivity days'),
-            'missing_assignments' => new external_value(PARAM_INT, 'Missing assignments'),
+            'missing_activities' => new external_value(PARAM_INT, 'Missing activities'),
             'notification_count' => new external_value(PARAM_INT, 'Notification count'),
             'last_updated' => new external_value(PARAM_INT, 'Last updated timestamp')
         ]);

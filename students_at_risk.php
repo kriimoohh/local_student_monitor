@@ -39,7 +39,7 @@ $sort = optional_param('sort', 'risk', PARAM_ALPHA);
 $dir = optional_param('dir', 'ASC', PARAM_ALPHA);
 
 // Validate risk level to prevent SQL injection and ensure only valid values.
-if ($risklevel && !in_array($risklevel, ['CRITIQUE', 'ÉLEVÉ', 'MOYEN', 'FAIBLE'])) {
+if ($risklevel && !in_array($risklevel, ['CRITICAL', 'HIGH', 'MEDIUM', 'LOW'])) {
     $risklevel = '';
 }
 
@@ -82,9 +82,9 @@ if ($risklevel) {
     $countsql .= " AND st.risk_level = :risklevel";
     $params['risklevel'] = $risklevel;
 } else {
-    // Only show students with at least MOYEN risk.
-    $sql .= " AND st.risk_level IN ('MOYEN', 'ÉLEVÉ', 'CRITIQUE')";
-    $countsql .= " AND st.risk_level IN ('MOYEN', 'ÉLEVÉ', 'CRITIQUE')";
+    // Only show students with at least MEDIUM risk.
+    $sql .= " AND st.risk_level IN ('MEDIUM', 'HIGH', 'CRITICAL')";
+    $countsql .= " AND st.risk_level IN ('MEDIUM', 'HIGH', 'CRITICAL')";
 }
 
 // Add sorting.
@@ -99,7 +99,7 @@ switch ($sort) {
         $sql .= " ORDER BY st.inactivity_days $dir";
         break;
     case 'assignments':
-        $sql .= " ORDER BY st.missing_assignments $dir";
+        $sql .= " ORDER BY st.missing_activities $dir";
         break;
     case 'notifications':
         $sql .= " ORDER BY st.notification_count $dir";
@@ -108,9 +108,9 @@ switch ($sort) {
     default:
         $sql .= " ORDER BY
                     CASE st.risk_level
-                        WHEN 'CRITIQUE' THEN 1
-                        WHEN 'ÉLEVÉ' THEN 2
-                        WHEN 'MOYEN' THEN 3
+                        WHEN 'CRITICAL' THEN 1
+                        WHEN 'HIGH' THEN 2
+                        WHEN 'MEDIUM' THEN 3
                         ELSE 4
                     END $dir,
                     st.inactivity_days DESC";
@@ -138,7 +138,7 @@ echo html_writer::start_div('card border-danger');
 echo html_writer::start_div('card-body text-center');
 echo html_writer::tag('h6', get_string('risk_critique', 'local_student_monitor'), ['class' => 'card-title text-danger']);
 echo html_writer::tag('div', $stats->critique, ['class' => 'display-4 text-danger']);
-$url = new moodle_url($PAGE->url, ['risk' => 'CRITIQUE']);
+$url = new moodle_url($PAGE->url, ['risk' => 'CRITICAL']);
 echo html_writer::link($url, get_string('viewstudents', 'local_student_monitor'), ['class' => 'btn btn-sm btn-danger mt-2']);
 echo html_writer::end_div();
 echo html_writer::end_div();
@@ -150,7 +150,7 @@ echo html_writer::start_div('card border-warning');
 echo html_writer::start_div('card-body text-center');
 echo html_writer::tag('h6', get_string('risk_eleve', 'local_student_monitor'), ['class' => 'card-title text-warning']);
 echo html_writer::tag('div', $stats->eleve, ['class' => 'display-4 text-warning']);
-$url = new moodle_url($PAGE->url, ['risk' => 'ÉLEVÉ']);
+$url = new moodle_url($PAGE->url, ['risk' => 'HIGH']);
 echo html_writer::link($url, get_string('viewstudents', 'local_student_monitor'), ['class' => 'btn btn-sm btn-warning mt-2']);
 echo html_writer::end_div();
 echo html_writer::end_div();
@@ -162,7 +162,7 @@ echo html_writer::start_div('card border-info');
 echo html_writer::start_div('card-body text-center');
 echo html_writer::tag('h6', get_string('risk_moyen', 'local_student_monitor'), ['class' => 'card-title text-info']);
 echo html_writer::tag('div', $stats->moyen, ['class' => 'display-4 text-info']);
-$url = new moodle_url($PAGE->url, ['risk' => 'MOYEN']);
+$url = new moodle_url($PAGE->url, ['risk' => 'MEDIUM']);
 echo html_writer::link($url, get_string('viewstudents', 'local_student_monitor'), ['class' => 'btn btn-sm btn-info mt-2']);
 echo html_writer::end_div();
 echo html_writer::end_div();
@@ -174,7 +174,7 @@ echo html_writer::start_div('card border-success');
 echo html_writer::start_div('card-body text-center');
 echo html_writer::tag('h6', get_string('risk_faible', 'local_student_monitor'), ['class' => 'card-title text-success']);
 echo html_writer::tag('div', $stats->faible, ['class' => 'display-4 text-success']);
-$url = new moodle_url($PAGE->url, ['risk' => 'FAIBLE']);
+$url = new moodle_url($PAGE->url, ['risk' => 'LOW']);
 echo html_writer::link($url, get_string('viewstudents', 'local_student_monitor'), ['class' => 'btn btn-sm btn-success mt-2']);
 echo html_writer::end_div();
 echo html_writer::end_div();
@@ -300,13 +300,13 @@ if (!empty($students)) {
         // Risk badge.
         $riskclass = 'badge ';
         switch ($student->risk_level) {
-            case 'CRITIQUE':
+            case 'CRITICAL':
                 $riskclass .= 'badge-danger';
                 break;
-            case 'ÉLEVÉ':
+            case 'HIGH':
                 $riskclass .= 'badge-warning';
                 break;
-            case 'MOYEN':
+            case 'MEDIUM':
                 $riskclass .= 'badge-info';
                 break;
             default:
@@ -327,13 +327,13 @@ if (!empty($students)) {
                 ['class' => 'text-warning font-weight-bold']);
         }
 
-        // Missing assignments with icon.
-        $assignmentstext = $student->missing_assignments;
-        if ($student->missing_assignments >= 5) {
-            $assignmentstext = html_writer::tag('span', '❗ ' . $student->missing_assignments,
+        // Missing activities with icon.
+        $assignmentstext = $student->missing_activities;
+        if ($student->missing_activities >= 5) {
+            $assignmentstext = html_writer::tag('span', '❗ ' . $student->missing_activities,
                 ['class' => 'text-danger font-weight-bold']);
-        } else if ($student->missing_assignments >= 3) {
-            $assignmentstext = html_writer::tag('span', '⚠️ ' . $student->missing_assignments,
+        } else if ($student->missing_activities >= 3) {
+            $assignmentstext = html_writer::tag('span', '⚠️ ' . $student->missing_activities,
                 ['class' => 'text-warning']);
         }
 

@@ -210,7 +210,7 @@ if (!empty($autostats)) {
         } else if (strpos($typename, 'risk_') === 0) {
             $typename = str_replace('risk_', 'Risque ', $typename);
             $typename = str_replace(['critique', 'eleve', 'moyen', 'faible'],
-                                   ['CRITIQUE', 'ÉLEVÉ', 'MOYEN', 'FAIBLE'],
+                                   ['CRITICAL', 'HIGH', 'MEDIUM', 'LOW'],
                                    $typename);
         } else if ($typename === 'assignment_reminder') {
             $typename = 'Rappel de devoir';

@@ -26,7 +26,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'local_student_monitor';
-$plugin->version = 2025120301;  // YYYYMMDDXX - Fix risk level hierarchy, add caching, improve notifications
+$plugin->version = 2026020701;  // YYYYMMDDXX - Simplify risk calculation, track all activities, remove BI
 $plugin->requires = 2022041900; // Moodle 4.0
 $plugin->maturity = MATURITY_STABLE;
-$plugin->release = 'v1.14.0';
+$plugin->release = 'v2.0.0';

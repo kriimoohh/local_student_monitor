@@ -47,19 +47,19 @@ class workflow_manager {
         $actions = [];
 
         switch ($risklevel) {
-            case 'CRITIQUE':
+            case 'CRITICAL':
                 $actions = array_merge($actions, $this->execute_critical_workflow($userid, $tracking));
                 break;
 
-            case 'ÉLEVÉ':
+            case 'HIGH':
                 $actions = array_merge($actions, $this->execute_high_workflow($userid, $tracking));
                 break;
 
-            case 'MOYEN':
+            case 'MEDIUM':
                 $actions = array_merge($actions, $this->execute_medium_workflow($userid, $tracking));
                 break;
 
-            case 'FAIBLE':
+            case 'LOW':
                 // No automatic workflow for low risk.
                 break;
         }
@@ -89,9 +89,9 @@ class workflow_manager {
 
                 // Create task for supervisor.
                 $this->create_supervisor_task($supervisor->id, $userid, 'urgent_intervention', [
-                    'risk_level' => 'CRITIQUE',
+                    'risk_level' => 'CRITICAL',
                     'inactivity_days' => $tracking->inactivity_days,
-                    'missing_assignments' => $tracking->missing_assignments
+                    'missing_activities' => $tracking->missing_activities
                 ]);
                 $actions[] = 'task_created';
             }
@@ -151,7 +151,7 @@ class workflow_manager {
 
                 // Create task.
                 $this->create_supervisor_task($supervisor->id, $userid, 'follow_up', [
-                    'risk_level' => 'ÉLEVÉ',
+                    'risk_level' => 'HIGH',
                     'inactivity_days' => $tracking->inactivity_days
                 ]);
                 $actions[] = 'task_created';
@@ -381,7 +381,7 @@ class workflow_manager {
             'studentname' => fullname($user),
             'risklevel' => $tracking->risk_level,
             'inactivity' => $tracking->inactivity_days,
-            'missing' => $tracking->missing_assignments
+            'missing' => $tracking->missing_activities
         ]);
 
         // Create coordinator user object.

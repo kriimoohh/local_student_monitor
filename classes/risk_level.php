@@ -75,19 +75,18 @@ class risk_level {
     ];
 
     /**
-     * Score thresholds for risk level calculation.
-     * These are the default values that can be overridden by configuration.
-     */
-    const DEFAULT_THRESHOLD_CRITICAL = 60;
-    const DEFAULT_THRESHOLD_HIGH = 40;
-    const DEFAULT_THRESHOLD_MEDIUM = 20;
-
-    /**
      * Inactivity days thresholds (default values).
      */
     const DEFAULT_INACTIVITY_LEVEL1 = 3;
     const DEFAULT_INACTIVITY_LEVEL2 = 7;
     const DEFAULT_INACTIVITY_LEVEL3 = 14;
+
+    /**
+     * Missing activities thresholds (default values).
+     */
+    const DEFAULT_MISSING_ACTIVITIES_LEVEL1 = 1;
+    const DEFAULT_MISSING_ACTIVITIES_LEVEL2 = 3;
+    const DEFAULT_MISSING_ACTIVITIES_LEVEL3 = 5;
 
     /**
      * Special value for users who never logged in.
@@ -311,28 +310,44 @@ class risk_level {
     }
 
     /**
-     * Calculate risk level from a score.
+     * Calculate risk level from inactivity days and missing activities.
+     * The highest criterion wins.
      *
-     * @param int $score The calculated score
+     * @param int $inactivitydays Days of inactivity
+     * @param int $missingactivities Number of missing/incomplete activities
      * @return string Risk level constant
      */
-    public static function from_score(int $score): string {
-        $thresholdcritical = (int) get_config('local_student_monitor', 'threshold_critical')
-            ?: self::DEFAULT_THRESHOLD_CRITICAL;
-        $thresholdhigh = (int) get_config('local_student_monitor', 'threshold_high')
-            ?: self::DEFAULT_THRESHOLD_HIGH;
-        $thresholdmedium = (int) get_config('local_student_monitor', 'threshold_medium')
-            ?: self::DEFAULT_THRESHOLD_MEDIUM;
+    public static function from_criteria(int $inactivitydays, int $missingactivities): string {
+        $inactthresholds = self::get_inactivity_thresholds();
+        $actthresholds = self::get_missing_activities_thresholds();
 
-        if ($score >= $thresholdcritical) {
-            return self::CRITICAL;
-        } else if ($score >= $thresholdhigh) {
-            return self::HIGH;
-        } else if ($score >= $thresholdmedium) {
-            return self::MEDIUM;
+        // Determine inactivity-based risk level.
+        if ($inactivitydays >= $inactthresholds['level3']) {
+            $inactivityrisk = self::CRITICAL;
+        } else if ($inactivitydays >= $inactthresholds['level2']) {
+            $inactivityrisk = self::HIGH;
+        } else if ($inactivitydays >= $inactthresholds['level1']) {
+            $inactivityrisk = self::MEDIUM;
+        } else {
+            $inactivityrisk = self::LOW;
         }
 
-        return self::LOW;
+        // Determine activity-based risk level.
+        if ($missingactivities >= $actthresholds['level3']) {
+            $activityrisk = self::CRITICAL;
+        } else if ($missingactivities >= $actthresholds['level2']) {
+            $activityrisk = self::HIGH;
+        } else if ($missingactivities >= $actthresholds['level1']) {
+            $activityrisk = self::MEDIUM;
+        } else {
+            $activityrisk = self::LOW;
+        }
+
+        // Highest wins.
+        if (self::get_hierarchy_value($inactivityrisk) >= self::get_hierarchy_value($activityrisk)) {
+            return $inactivityrisk;
+        }
+        return $activityrisk;
     }
 
     /**
@@ -352,16 +367,33 @@ class risk_level {
     }
 
     /**
+     * Get configured missing activities thresholds.
+     *
+     * @return array Associative array with level1, level2, level3 thresholds
+     */
+    public static function get_missing_activities_thresholds(): array {
+        return [
+            'level1' => (int) get_config('local_student_monitor', 'missing_activities_threshold_1')
+                ?: self::DEFAULT_MISSING_ACTIVITIES_LEVEL1,
+            'level2' => (int) get_config('local_student_monitor', 'missing_activities_threshold_2')
+                ?: self::DEFAULT_MISSING_ACTIVITIES_LEVEL2,
+            'level3' => (int) get_config('local_student_monitor', 'missing_activities_threshold_3')
+                ?: self::DEFAULT_MISSING_ACTIVITIES_LEVEL3,
+        ];
+    }
+
+    /**
      * Determine if intervention is needed based on risk level and tracking data.
      *
      * @param string $risklevel Current risk level
      * @param int $inactivitydays Days of inactivity
-     * @param int $missingassignments Number of missing assignments
+     * @param int $missingactivities Number of missing activities
      * @return bool True if intervention is needed
      */
-    public static function needs_intervention(string $risklevel, int $inactivitydays, int $missingassignments): bool {
+    public static function needs_intervention(string $risklevel, int $inactivitydays, int $missingactivities): bool {
         $normalized = self::normalize($risklevel);
         $thresholds = self::get_inactivity_thresholds();
+        $actthresholds = self::get_missing_activities_thresholds();
 
         // Intervention needed if risk is HIGH or CRITICAL.
         if (self::is_at_least($normalized, self::HIGH)) {
@@ -373,8 +405,8 @@ class risk_level {
             return true;
         }
 
-        // Or if too many missing assignments.
-        if ($missingassignments >= 5) {
+        // Or if missing activities at level 3.
+        if ($missingactivities >= $actthresholds['level3']) {
             return true;
         }
 

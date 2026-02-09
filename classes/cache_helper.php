@@ -44,9 +44,6 @@ class cache_helper {
     /** @var string Cache area for student tracking */
     const AREA_STUDENT_TRACKING = 'student_tracking';
 
-    /** @var string Cache area for BI analytics */
-    const AREA_BI_ANALYTICS = 'bi_analytics';
-
     /** @var string Cache area for supervisor performance */
     const AREA_SUPERVISOR_PERFORMANCE = 'supervisor_performance';
 
@@ -141,7 +138,6 @@ class cache_helper {
             self::AREA_DASHBOARD_STATS,
             self::AREA_RISK_DISTRIBUTION,
             self::AREA_STUDENT_TRACKING,
-            self::AREA_BI_ANALYTICS,
             self::AREA_SUPERVISOR_PERFORMANCE,
         ];
 
@@ -213,17 +209,6 @@ class cache_helper {
         // Note: MUC doesn't support wildcard deletion, so we purge the whole area.
         // In production, consider using a more targeted approach.
         return self::purge(self::AREA_STUDENT_TRACKING);
-    }
-
-    /**
-     * Get BI analytics data with caching.
-     *
-     * @param string $type Analytics type (e.g., 'retention', 'cohort')
-     * @param callable $computefn Function to compute analytics if not cached
-     * @return mixed Analytics data
-     */
-    public static function get_bi_analytics(string $type, callable $computefn) {
-        return self::get_or_set(self::AREA_BI_ANALYTICS, $type, $computefn);
     }
 
     /**

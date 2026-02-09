@@ -257,10 +257,10 @@ if (empty($studentswitparents)) {
 
         // Risk level.
         $riskclass = [
-            'CRITIQUE' => 'badge-danger',
-            'ÉLEVÉ' => 'badge-warning',
-            'MOYEN' => 'badge-info',
-            'FAIBLE' => 'badge-success'
+            'CRITICAL' => 'badge-danger',
+            'HIGH' => 'badge-warning',
+            'MEDIUM' => 'badge-info',
+            'LOW' => 'badge-success'
         ][$student->risk_level] ?? 'badge-secondary';
 
         echo html_writer::start_tag('td');

@@ -43,15 +43,15 @@ $stats = $studenttracker->get_statistics();
 
 // Get risk distribution for chart.
 $riskdistribution = [
-    'faible' => $stats->faible,
-    'moyen' => $stats->moyen,
-    'eleve' => $stats->eleve,
-    'critique' => $stats->critique,
+    'low' => $stats->low,
+    'medium' => $stats->medium,
+    'high' => $stats->high,
+    'critical' => $stats->critical,
     'labels' => [
-        'faible' => get_string('risk_faible', 'local_student_monitor'),
-        'moyen' => get_string('risk_moyen', 'local_student_monitor'),
-        'eleve' => get_string('risk_eleve', 'local_student_monitor'),
-        'critique' => get_string('risk_critique', 'local_student_monitor'),
+        'low' => get_string('risk_low', 'local_student_monitor'),
+        'medium' => get_string('risk_medium', 'local_student_monitor'),
+        'high' => get_string('risk_high', 'local_student_monitor'),
+        'critical' => get_string('risk_critical', 'local_student_monitor'),
     ],
     'title' => get_string('riskdistribution', 'local_student_monitor')
 ];
@@ -109,10 +109,10 @@ $interventions = $DB->get_records_sql("
     GROUP BY risk_level
     ORDER BY
         CASE risk_level
-            WHEN 'CRITIQUE' THEN 1
-            WHEN 'ÉLEVÉ' THEN 2
-            WHEN 'MOYEN' THEN 3
-            WHEN 'FAIBLE' THEN 4
+            WHEN 'CRITICAL' THEN 1
+            WHEN 'HIGH' THEN 2
+            WHEN 'MEDIUM' THEN 3
+            WHEN 'LOW' THEN 4
         END
 ");
 
@@ -175,7 +175,7 @@ echo html_writer::start_div('col-md-3');
 echo html_writer::start_div('card kpi-card bg-warning text-dark');
 echo html_writer::start_div('card-body');
 echo html_writer::tag('h5', get_string('studentsatrisk', 'local_student_monitor'), ['class' => 'card-title']);
-echo html_writer::tag('div', ($stats->critique + $stats->eleve), ['class' => 'kpi-number']);
+echo html_writer::tag('div', ($stats->critical + $stats->high), ['class' => 'kpi-number']);
 echo html_writer::tag('small', get_string('criticalandhigh', 'local_student_monitor'));
 echo html_writer::end_div(); // Card-body.
 echo html_writer::end_div(); // Card.

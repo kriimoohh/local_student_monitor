@@ -124,9 +124,9 @@ define(['jquery', 'https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.mi
     var highlightHighRisk = function() {
         $('tbody tr').each(function() {
             var predictedRisk = $(this).find('td:nth-child(3) .badge').text().trim();
-            if (predictedRisk === 'CRITIQUE') {
+            if (predictedRisk === 'CRITICAL') {
                 $(this).addClass('table-danger');
-            } else if (predictedRisk === 'ÉLEVÉ') {
+            } else if (predictedRisk === 'HIGH') {
                 $(this).addClass('table-warning');
             }
         });

@@ -119,9 +119,4 @@ if (empty($schedules)) {
     echo html_writer::end_tag('table');
 }
 
-// Back to BI dashboard.
-$bidashboardurl = new moodle_url('/local/student_monitor/bi_dashboard.php');
-echo html_writer::link($bidashboardurl, get_string('backtobidashboard', 'local_student_monitor'),
-    ['class' => 'btn btn-secondary mt-3']);
-
 echo $OUTPUT->footer();

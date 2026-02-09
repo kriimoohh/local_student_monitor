@@ -49,14 +49,6 @@ $definitions = [
         'ttl' => 120, // 2 minutes.
     ],
 
-    // Cache for BI analytics data.
-    'bi_analytics' => [
-        'mode' => cache_store::MODE_APPLICATION,
-        'simplekeys' => true,
-        'simpledata' => false,
-        'ttl' => 600, // 10 minutes.
-    ],
-
     // Cache for supervisor performance data.
     'supervisor_performance' => [
         'mode' => cache_store::MODE_APPLICATION,

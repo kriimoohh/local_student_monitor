@@ -85,37 +85,37 @@ if ($hassiteconfig) {
         PARAM_INT
     ));
 
-    // Risk Score Thresholds.
+    // Missing Activities Thresholds.
     $settings->add(new admin_setting_heading(
-        'local_student_monitor/riskscoresettings',
-        get_string('riskscoresettings', 'local_student_monitor'),
-        get_string('riskscoresettingsdesc', 'local_student_monitor')
+        'local_student_monitor/missingactivitiessettings',
+        get_string('missingactivitiessettings', 'local_student_monitor'),
+        get_string('missingactivitiessettingsdesc', 'local_student_monitor')
     ));
 
-    // Critical risk threshold.
+    // Missing activities threshold level 1.
     $settings->add(new admin_setting_configtext(
-        'local_student_monitor/threshold_critical',
-        get_string('thresholdcritical', 'local_student_monitor'),
-        get_string('thresholdcritical_desc', 'local_student_monitor'),
-        60,
+        'local_student_monitor/missing_activities_threshold_1',
+        get_string('missingactivitiesthreshold1', 'local_student_monitor'),
+        get_string('missingactivitiesthreshold1_desc', 'local_student_monitor'),
+        1,
         PARAM_INT
     ));
 
-    // High risk threshold.
+    // Missing activities threshold level 2.
     $settings->add(new admin_setting_configtext(
-        'local_student_monitor/threshold_high',
-        get_string('thresholdhigh', 'local_student_monitor'),
-        get_string('thresholdhigh_desc', 'local_student_monitor'),
-        40,
+        'local_student_monitor/missing_activities_threshold_2',
+        get_string('missingactivitiesthreshold2', 'local_student_monitor'),
+        get_string('missingactivitiesthreshold2_desc', 'local_student_monitor'),
+        3,
         PARAM_INT
     ));
 
-    // Medium risk threshold.
+    // Missing activities threshold level 3.
     $settings->add(new admin_setting_configtext(
-        'local_student_monitor/threshold_medium',
-        get_string('thresholdmedium', 'local_student_monitor'),
-        get_string('thresholdmedium_desc', 'local_student_monitor'),
-        20,
+        'local_student_monitor/missing_activities_threshold_3',
+        get_string('missingactivitiesthreshold3', 'local_student_monitor'),
+        get_string('missingactivitiesthreshold3_desc', 'local_student_monitor'),
+        5,
         PARAM_INT
     ));
 

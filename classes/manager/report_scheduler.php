@@ -38,11 +38,7 @@ class report_scheduler {
     /**
      * Report types.
      */
-    const REPORT_EXECUTIVE_SUMMARY = 'executive_summary';
-    const REPORT_SUPERVISOR_PERFORMANCE = 'supervisor_performance';
     const REPORT_STUDENT_RISK = 'student_risk';
-    const REPORT_RETENTION = 'retention';
-    const REPORT_COHORT_ANALYSIS = 'cohort_analysis';
 
     /**
      * Frequency options.
@@ -195,34 +191,14 @@ class report_scheduler {
      * @return object Report data
      */
     protected function generate_report_data($reporttype, $parameters) {
-        $biengine = new bi_analytics_engine();
-
         $reportdata = new \stdClass();
         $reportdata->report_type = $reporttype;
         $reportdata->generated_at = time();
         $reportdata->parameters = $parameters;
 
         switch ($reporttype) {
-            case self::REPORT_EXECUTIVE_SUMMARY:
-                $reportdata->data = $biengine->generate_executive_summary();
-                break;
-
-            case self::REPORT_SUPERVISOR_PERFORMANCE:
-                $reportdata->data = $biengine->get_supervisor_performance();
-                break;
-
             case self::REPORT_STUDENT_RISK:
                 $reportdata->data = $this->generate_student_risk_report($parameters);
-                break;
-
-            case self::REPORT_RETENTION:
-                $days = $parameters['days'] ?? 90;
-                $reportdata->data = $biengine->get_retention_analytics($days);
-                break;
-
-            case self::REPORT_COHORT_ANALYSIS:
-                $groupby = $parameters['groupby'] ?? 'course';
-                $reportdata->data = $biengine->get_cohort_analysis($groupby);
                 break;
 
             default:
@@ -250,9 +226,8 @@ class report_scheduler {
                     u.lastname,
                     u.email,
                     st.risk_level,
-                    st.risk_score,
                     st.inactivity_days,
-                    st.missing_assignments,
+                    st.missing_activities,
                     st.notification_count,
                     st.last_login_time,
                     st.assigned_to
@@ -267,7 +242,7 @@ class report_scheduler {
             $params['risklevel'] = $risklevel;
         }
 
-        $sql .= " ORDER BY st.risk_score DESC, st.inactivity_days DESC";
+        $sql .= " ORDER BY st.inactivity_days DESC";
 
         return (object)[
             'students' => $DB->get_records_sql($sql, $params, 0, $limit),
@@ -398,18 +373,7 @@ class report_scheduler {
     protected function format_report_content($reportdata) {
         $content = '';
 
-        switch ($reportdata->report_type) {
-            case self::REPORT_EXECUTIVE_SUMMARY:
-                $data = $reportdata->data;
-                $content .= "Total Students: {$data->overview->total_students}\n";
-                $content .= "Needs Intervention: {$data->overview->needs_intervention}\n";
-                $content .= "Success Rate: {$data->overview->success_rate}%\n";
-                $content .= "Avg Response Time: {$data->overview->avg_response_time}h\n";
-                break;
-
-            default:
-                $content = print_r($reportdata->data, true);
-        }
+        $content = print_r($reportdata->data, true);
 
         return $content;
     }
@@ -423,15 +387,14 @@ class report_scheduler {
     protected function write_csv_data($fp, $reportdata) {
         switch ($reportdata->report_type) {
             case self::REPORT_STUDENT_RISK:
-                fputcsv($fp, ['Name', 'Email', 'Risk Level', 'Risk Score', 'Inactivity Days', 'Missing Assignments']);
+                fputcsv($fp, ['Name', 'Email', 'Risk Level', 'Inactivity Days', 'Missing Activities']);
                 foreach ($reportdata->data->students as $student) {
                     fputcsv($fp, [
                         fullname($student),
                         $student->email,
                         $student->risk_level,
-                        $student->risk_score,
                         $student->inactivity_days,
-                        $student->missing_assignments
+                        $student->missing_activities
                     ]);
                 }
                 break;
@@ -447,19 +410,7 @@ class report_scheduler {
     protected function format_html_content($reportdata) {
         $html = '';
 
-        switch ($reportdata->report_type) {
-            case self::REPORT_EXECUTIVE_SUMMARY:
-                $data = $reportdata->data;
-                $html .= '<h2>Overview</h2>';
-                $html .= '<table>';
-                $html .= '<tr><th>Metric</th><th>Value</th></tr>';
-                $html .= "<tr><td>Total Students</td><td>{$data->overview->total_students}</td></tr>";
-                $html .= "<tr><td>Needs Intervention</td><td>{$data->overview->needs_intervention}</td></tr>";
-                $html .= "<tr><td>Success Rate</td><td>{$data->overview->success_rate}%</td></tr>";
-                $html .= "<tr><td>Avg Response Time</td><td>{$data->overview->avg_response_time}h</td></tr>";
-                $html .= '</table>';
-                break;
-        }
+        $html .= '<p>' . nl2br(s(print_r($reportdata->data, true))) . '</p>';
 
         return $html;
     }

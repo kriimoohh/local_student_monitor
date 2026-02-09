@@ -34,7 +34,7 @@ $type = optional_param('type', 'students', PARAM_ALPHA);
 $risklevel = optional_param('risk', '', PARAM_TEXT);
 
 // Validate risk level to prevent SQL injection and ensure only valid values.
-if ($risklevel && !in_array($risklevel, ['CRITIQUE', 'ÉLEVÉ', 'MOYEN', 'FAIBLE'])) {
+if ($risklevel && !in_array($risklevel, ['CRITICAL', 'HIGH', 'MEDIUM', 'LOW'])) {
     $risklevel = '';
 }
 

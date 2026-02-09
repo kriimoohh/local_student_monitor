@@ -116,7 +116,7 @@ $improved = 0;
 $deteriorated = 0;
 $stable = 0;
 
-$riskhierarchy = ['FAIBLE' => 1, 'MOYEN' => 2, 'ÉLEVÉ' => 3, 'CRITIQUE' => 4];
+$riskhierarchy = ['LOW' => 1, 'MEDIUM' => 2, 'HIGH' => 3, 'CRITICAL' => 4];
 
 foreach ($risktransitions as $transition) {
     if (!$transition->old_level || !$transition->new_level) {

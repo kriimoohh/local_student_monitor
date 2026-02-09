@@ -413,13 +413,13 @@ class recommendation_engine {
         $recommendations = [];
 
         // Check if student has many missing assignments.
-        if ($tracking->missing_assignments > 3) {
+        if ($tracking->missing_activities > 3) {
             $recommendations[] = (object)[
                 'type' => self::TYPE_TIME_MANAGEMENT,
                 'priority' => self::PRIORITY_HIGH,
                 'title' => get_string('rec_catch_up_plan', 'local_student_monitor'),
                 'description' => get_string('rec_catch_up_plan_desc', 'local_student_monitor', [
-                    'count' => $tracking->missing_assignments
+                    'count' => $tracking->missing_activities
                 ]),
                 'impact_score' => 90,
                 'action_url' => new \moodle_url('/calendar/view.php'),

@@ -95,7 +95,7 @@ class pdf_manager {
             $pdf->Cell(60, 6, $student->fullname, 1, 0, 'L');
             $pdf->Cell(30, 6, $student->risk_level, 1, 0, 'C');
             $pdf->Cell(25, 6, $student->inactivity_days, 1, 0, 'C');
-            $pdf->Cell(25, 6, $student->missing_assignments, 1, 0, 'C');
+            $pdf->Cell(25, 6, $student->missing_activities, 1, 0, 'C');
             $pdf->Cell(25, 6, $student->notification_count, 1, 1, 'C');
         }
 
@@ -160,7 +160,7 @@ class pdf_manager {
         $pdf->SetFont('helvetica', '', 11);
         $pdf->Cell(80, 7, get_string('studentsatrisk', 'local_student_monitor') . ':', 0, 0, 'L');
         $pdf->SetFont('helvetica', 'B', 11);
-        $pdf->Cell(0, 7, ($stats->critique + $stats->eleve), 0, 1, 'L');
+        $pdf->Cell(0, 7, ($stats->critical + $stats->high), 0, 1, 'L');
 
         $pdf->Ln(5);
 
@@ -172,26 +172,26 @@ class pdf_manager {
         $pdf->SetFont('helvetica', '', 11);
         $pdf->SetFillColor(220, 53, 69);
         $pdf->SetTextColor(255, 255, 255);
-        $pdf->Cell(60, 7, get_string('risk_critique', 'local_student_monitor'), 1, 0, 'C', true);
+        $pdf->Cell(60, 7, get_string('risk_critical', 'local_student_monitor'), 1, 0, 'C', true);
         $pdf->SetTextColor(0, 0, 0);
-        $pdf->Cell(0, 7, $stats->critique, 1, 1, 'C');
+        $pdf->Cell(0, 7, $stats->critical, 1, 1, 'C');
 
         $pdf->SetFillColor(253, 126, 20);
         $pdf->SetTextColor(255, 255, 255);
-        $pdf->Cell(60, 7, get_string('risk_eleve', 'local_student_monitor'), 1, 0, 'C', true);
+        $pdf->Cell(60, 7, get_string('risk_high', 'local_student_monitor'), 1, 0, 'C', true);
         $pdf->SetTextColor(0, 0, 0);
-        $pdf->Cell(0, 7, $stats->eleve, 1, 1, 'C');
+        $pdf->Cell(0, 7, $stats->high, 1, 1, 'C');
 
         $pdf->SetFillColor(255, 193, 7);
         $pdf->SetTextColor(0, 0, 0);
-        $pdf->Cell(60, 7, get_string('risk_moyen', 'local_student_monitor'), 1, 0, 'C', true);
-        $pdf->Cell(0, 7, $stats->moyen, 1, 1, 'C');
+        $pdf->Cell(60, 7, get_string('risk_medium', 'local_student_monitor'), 1, 0, 'C', true);
+        $pdf->Cell(0, 7, $stats->medium, 1, 1, 'C');
 
         $pdf->SetFillColor(40, 167, 69);
         $pdf->SetTextColor(255, 255, 255);
-        $pdf->Cell(60, 7, get_string('risk_faible', 'local_student_monitor'), 1, 0, 'C', true);
+        $pdf->Cell(60, 7, get_string('risk_low', 'local_student_monitor'), 1, 0, 'C', true);
         $pdf->SetTextColor(0, 0, 0);
-        $pdf->Cell(0, 7, $stats->faible, 1, 1, 'C');
+        $pdf->Cell(0, 7, $stats->low, 1, 1, 'C');
 
         $pdf->Ln(10);
 

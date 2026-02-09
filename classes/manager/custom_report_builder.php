@@ -43,7 +43,7 @@ class custom_report_builder {
         'student_email' => 'Student email',
         'risk_level' => 'Risk level',
         'inactivity_days' => 'Inactivity days',
-        'missing_assignments' => 'Missing assignments',
+        'missing_activities' => 'Missing activities',
         'notification_count' => 'Notifications sent',
         'last_login' => 'Last login',
         'assigned_to' => 'Assigned supervisor',
@@ -58,9 +58,9 @@ class custom_report_builder {
      * Available filters for reports.
      */
     const AVAILABLE_FILTERS = [
-        'risk_level' => ['type' => 'select', 'options' => ['FAIBLE', 'MOYEN', 'ÉLEVÉ', 'CRITIQUE']],
+        'risk_level' => ['type' => 'select', 'options' => ['LOW', 'MEDIUM', 'HIGH', 'CRITICAL']],
         'inactivity_days' => ['type' => 'range', 'min' => 0, 'max' => 30],
-        'missing_assignments' => ['type' => 'range', 'min' => 0, 'max' => 20],
+        'missing_activities' => ['type' => 'range', 'min' => 0, 'max' => 20],
         'assigned_status' => ['type' => 'select', 'options' => ['assigned', 'unassigned', 'all']],
         'date_range' => ['type' => 'daterange'],
         'supervisor' => ['type' => 'select_user']
@@ -204,8 +204,8 @@ class custom_report_builder {
         if (in_array('inactivity_days', $columns)) {
             $select[] = 'st.inactivity_days';
         }
-        if (in_array('missing_assignments', $columns)) {
-            $select[] = 'st.missing_assignments';
+        if (in_array('missing_activities', $columns)) {
+            $select[] = 'st.missing_activities';
         }
         if (in_array('notification_count', $columns)) {
             $select[] = 'st.notification_count';
@@ -246,12 +246,12 @@ class custom_report_builder {
             }
 
             if (isset($filters['missing_min'])) {
-                $where[] = 'st.missing_assignments >= :missingmin';
+                $where[] = 'st.missing_activities >= :missingmin';
                 $params['missingmin'] = $filters['missing_min'];
             }
 
             if (isset($filters['missing_max'])) {
-                $where[] = 'st.missing_assignments <= :missingmax';
+                $where[] = 'st.missing_activities <= :missingmax';
                 $params['missingmax'] = $filters['missing_max'];
             }
 
@@ -306,7 +306,7 @@ class custom_report_builder {
             'student_email' => 'u.email',
             'risk_level' => 'st.risk_level',
             'inactivity_days' => 'st.inactivity_days',
-            'missing_assignments' => 'st.missing_assignments',
+            'missing_activities' => 'st.missing_activities',
             'notification_count' => 'st.notification_count',
             'last_login' => 'u.lastaccess',
             'intervention_count' => 'st.intervention_count',
@@ -390,10 +390,10 @@ class custom_report_builder {
         $stats = new \stdClass();
         $stats->total_rows = count($data);
         $stats->risk_distribution = [
-            'CRITIQUE' => 0,
-            'ÉLEVÉ' => 0,
-            'MOYEN' => 0,
-            'FAIBLE' => 0
+            'CRITICAL' => 0,
+            'HIGH' => 0,
+            'MEDIUM' => 0,
+            'LOW' => 0
         ];
 
         $totalinactivity = 0;
@@ -408,8 +408,8 @@ class custom_report_builder {
                 $totalinactivity += $row['inactivity_days'];
             }
 
-            if (isset($row['missing_assignments'])) {
-                $totalmissing += $row['missing_assignments'];
+            if (isset($row['missing_activities'])) {
+                $totalmissing += $row['missing_activities'];
             }
         }
 

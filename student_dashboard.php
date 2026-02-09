@@ -60,10 +60,10 @@ echo html_writer::start_div('card-body text-center');
 if ($tracking) {
     $risklevel = $tracking->risk_level;
     $riskclass = [
-        'FAIBLE' => 'success',
-        'MOYEN' => 'warning',
-        'ÉLEVÉ' => 'danger',
-        'CRITIQUE' => 'dark'
+        'LOW' => 'success',
+        'MEDIUM' => 'warning',
+        'HIGH' => 'danger',
+        'CRITICAL' => 'dark'
     ][$risklevel] ?? 'info';
 
     echo html_writer::tag('h5', get_string('yourrisk', 'local_student_monitor'), ['class' => 'card-title']);
@@ -113,7 +113,7 @@ if ($gamificationstats) {
     echo html_writer::start_div('card-body text-center');
     echo html_writer::tag('h5', get_string('assignments', 'local_student_monitor'), ['class' => 'card-title');
     if ($tracking) {
-        echo html_writer::tag('div', $tracking->missing_assignments, ['class' => 'display-4']);
+        echo html_writer::tag('div', $tracking->missing_activities, ['class' => 'display-4']);
         echo html_writer::tag('small', get_string('missing', 'local_student_monitor'));
     } else {
         echo html_writer::tag('div', '0', ['class' => 'display-4']);

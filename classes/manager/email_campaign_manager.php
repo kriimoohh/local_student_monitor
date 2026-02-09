@@ -110,7 +110,7 @@ class email_campaign_manager {
 
         // Apply missing assignments filter.
         if (isset($criteria['missing_min'])) {
-            $sql .= " AND st.missing_assignments >= :missingmin";
+            $sql .= " AND st.missing_activities >= :missingmin";
             $params['missingmin'] = $criteria['missing_min'];
         }
 

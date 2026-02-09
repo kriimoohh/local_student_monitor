@@ -33,7 +33,7 @@ $startdate = optional_param('startdate', 0, PARAM_INT);
 $enddate = optional_param('enddate', 0, PARAM_INT);
 
 // Validate risk level to prevent SQL injection and ensure only valid values.
-if ($risklevel && !in_array($risklevel, ['CRITIQUE', 'ÉLEVÉ', 'MOYEN', 'FAIBLE'])) {
+if ($risklevel && !in_array($risklevel, ['CRITICAL', 'HIGH', 'MEDIUM', 'LOW'])) {
     $risklevel = '';
 }
 

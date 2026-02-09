@@ -63,10 +63,10 @@ class generate_weekly_report extends \core\task\scheduled_task {
         mtrace('Total students tracked: ' . $stats->total_students);
         mtrace('');
         mtrace('Risk Level Distribution:');
-        mtrace('  CRITIQUE: ' . $stats->critique);
-        mtrace('  ÉLEVÉ: ' . $stats->eleve);
-        mtrace('  MOYEN: ' . $stats->moyen);
-        mtrace('  FAIBLE: ' . $stats->faible);
+        mtrace('  CRITICAL: ' . $stats->critical);
+        mtrace('  HIGH: ' . $stats->high);
+        mtrace('  MEDIUM: ' . $stats->medium);
+        mtrace('  LOW: ' . $stats->low);
         mtrace('');
         mtrace('Students needing intervention: ' . $stats->intervention_needed);
         mtrace('Average inactivity days: ' . $stats->avg_inactivity);

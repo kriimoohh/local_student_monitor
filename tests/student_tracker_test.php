@@ -61,33 +61,59 @@ class student_tracker_test extends \advanced_testcase {
     }
 
     /**
-     * Test risk level calculation.
+     * Test risk level calculation — highest criterion wins.
      */
     public function test_calculate_risk_level() {
         $tracker = new \local_student_monitor\manager\student_tracker();
 
-        // Test FAIBLE.
+        // Test LOW: no inactivity, no missing activities.
         $tracking = new \stdClass();
         $tracking->inactivity_days = 2;
-        $tracking->missing_assignments = 0;
+        $tracking->missing_activities = 0;
         $tracking->notification_count = 0;
-        $this->assertEquals('FAIBLE', $tracker->calculate_risk_level($tracking));
+        $this->assertEquals(risk_level::LOW, $tracker->calculate_risk_level($tracking));
 
-        // Test MOYEN.
+        // Test MEDIUM from inactivity only.
         $tracking->inactivity_days = 5;
-        $tracking->missing_assignments = 1;
-        $this->assertEquals('MOYEN', $tracker->calculate_risk_level($tracking));
+        $tracking->missing_activities = 0;
+        $this->assertEquals(risk_level::MEDIUM, $tracker->calculate_risk_level($tracking));
 
-        // Test ÉLEVÉ.
+        // Test MEDIUM from missing activities only.
+        $tracking->inactivity_days = 0;
+        $tracking->missing_activities = 1;
+        $this->assertEquals(risk_level::MEDIUM, $tracker->calculate_risk_level($tracking));
+
+        // Test HIGH from inactivity.
         $tracking->inactivity_days = 10;
-        $tracking->missing_assignments = 3;
-        $this->assertEquals('ÉLEVÉ', $tracker->calculate_risk_level($tracking));
+        $tracking->missing_activities = 0;
+        $this->assertEquals(risk_level::HIGH, $tracker->calculate_risk_level($tracking));
 
-        // Test CRITIQUE.
+        // Test HIGH from missing activities.
+        $tracking->inactivity_days = 0;
+        $tracking->missing_activities = 4;
+        $this->assertEquals(risk_level::HIGH, $tracker->calculate_risk_level($tracking));
+
+        // Test CRITICAL: both criteria high.
         $tracking->inactivity_days = 15;
-        $tracking->missing_assignments = 6;
+        $tracking->missing_activities = 6;
         $tracking->notification_count = 12;
-        $this->assertEquals('CRITIQUE', $tracker->calculate_risk_level($tracking));
+        $this->assertEquals(risk_level::CRITICAL, $tracker->calculate_risk_level($tracking));
+
+        // Test highest wins: critical inactivity, low activities.
+        $tracking->inactivity_days = 15;
+        $tracking->missing_activities = 0;
+        $this->assertEquals(risk_level::CRITICAL, $tracker->calculate_risk_level($tracking));
+
+        // Test highest wins: low inactivity, critical activities.
+        $tracking->inactivity_days = 0;
+        $tracking->missing_activities = 6;
+        $this->assertEquals(risk_level::CRITICAL, $tracker->calculate_risk_level($tracking));
+
+        // Test notification_count does NOT affect risk.
+        $tracking->inactivity_days = 2;
+        $tracking->missing_activities = 0;
+        $tracking->notification_count = 100;
+        $this->assertEquals(risk_level::LOW, $tracker->calculate_risk_level($tracking));
     }
 
     /**
@@ -162,9 +188,9 @@ class student_tracker_test extends \advanced_testcase {
 
         $this->assertIsObject($stats);
         $this->assertObjectHasAttribute('total_students', $stats);
-        $this->assertObjectHasAttribute('critique', $stats);
-        $this->assertObjectHasAttribute('eleve', $stats);
-        $this->assertObjectHasAttribute('moyen', $stats);
-        $this->assertObjectHasAttribute('faible', $stats);
+        $this->assertObjectHasAttribute('critical', $stats);
+        $this->assertObjectHasAttribute('high', $stats);
+        $this->assertObjectHasAttribute('medium', $stats);
+        $this->assertObjectHasAttribute('low', $stats);
     }
 }

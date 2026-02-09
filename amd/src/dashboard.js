@@ -28,7 +28,7 @@ define(['jquery', 'core/ajax', 'core/notification'], function($, Ajax, Notificat
      * Allowed risk level values for validation.
      * @type {string[]}
      */
-    var ALLOWED_RISK_LEVELS = ['', 'LOW', 'MEDIUM', 'HIGH', 'CRITICAL', 'FAIBLE', 'MOYEN', 'ÉLEVÉ', 'CRITIQUE'];
+    var ALLOWED_RISK_LEVELS = ['', 'LOW', 'MEDIUM', 'HIGH', 'CRITICAL'];
 
     /**
      * Validate and sanitize the risk level parameter.

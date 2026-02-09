@@ -57,9 +57,9 @@ class student_tracker {
         // Calculate inactivity days.
         $tracking->inactivity_days = $this->calculate_inactivity_days($tracking->last_activity);
 
-        // Count missing assignments.
+        // Count missing activities.
         if ($courseid) {
-            $tracking->missing_assignments = $this->count_missing_assignments($userid, $courseid);
+            $tracking->missing_activities = $this->count_missing_activities($userid, $courseid);
         }
 
         // Count notifications sent.
@@ -72,7 +72,7 @@ class student_tracker {
         $tracking->intervention_needed = risk_level::needs_intervention(
             $tracking->risk_level,
             $tracking->inactivity_days,
-            $tracking->missing_assignments ?? 0
+            $tracking->missing_activities ?? 0
         ) ? 1 : 0;
 
         // Update timestamp.
@@ -108,7 +108,7 @@ class student_tracker {
             $tracking->risk_level = risk_level::LOW;
             $tracking->last_activity = time();
             $tracking->inactivity_days = 0;
-            $tracking->missing_assignments = 0;
+            $tracking->missing_activities = 0;
             $tracking->notification_count = 0;
             $tracking->intervention_needed = 0;
             $tracking->timeupdated = time();
@@ -172,38 +172,86 @@ class student_tracker {
     }
 
     /**
-     * Count missing assignments for a student in a course.
+     * Count missing/incomplete activities for a student in a course.
+     * Tracks all activity types: completion-based, assignments past due, quizzes past close.
      *
      * @param int $userid User ID
      * @param int $courseid Course ID
-     * @return int Number of missing assignments
+     * @return int Number of missing activities
      */
-    protected function count_missing_assignments($userid, $courseid) {
+    protected function count_missing_activities($userid, $courseid) {
         global $DB;
 
-        // Get all assignments in the course that are past due.
-        $sql = "SELECT a.id
-                  FROM {assign} a
-                 WHERE a.course = :courseid
-                   AND a.duedate > 0
-                   AND a.duedate < :now
-                   AND NOT EXISTS (
-                       SELECT 1
-                         FROM {assign_submission} asub
-                        WHERE asub.assignment = a.id
-                          AND asub.userid = :userid
-                          AND asub.status = 'submitted'
-                   )";
+        $now = time();
 
-        $params = [
+        // Part 1: Activities with completion enabled but NOT completed.
+        $sql1 = "SELECT COUNT(cm.id)
+                   FROM {course_modules} cm
+                  WHERE cm.course = :courseid
+                    AND cm.visible = 1
+                    AND cm.deletioninprogress = 0
+                    AND cm.completion > 0
+                    AND NOT EXISTS (
+                        SELECT 1 FROM {course_modules_completion} cmc
+                         WHERE cmc.coursemoduleid = cm.id
+                           AND cmc.userid = :userid
+                           AND cmc.completionstate > 0
+                    )";
+
+        $completionmissing = (int) $DB->count_records_sql($sql1, [
             'courseid' => $courseid,
-            'now' => time(),
             'userid' => $userid,
-        ];
+        ]);
 
-        $missing = $DB->get_records_sql($sql, $params);
+        // Part 2: Assignments past due without submission (only those WITHOUT completion tracking).
+        $sql2 = "SELECT COUNT(a.id)
+                   FROM {assign} a
+                   JOIN {course_modules} cm ON cm.instance = a.id
+                        AND cm.module = (SELECT id FROM {modules} WHERE name = 'assign')
+                        AND cm.course = a.course
+                  WHERE a.course = :courseid
+                    AND a.duedate > 0 AND a.duedate < :now
+                    AND cm.visible = 1
+                    AND cm.deletioninprogress = 0
+                    AND cm.completion = 0
+                    AND NOT EXISTS (
+                        SELECT 1 FROM {assign_submission} asub
+                         WHERE asub.assignment = a.id
+                           AND asub.userid = :userid
+                           AND asub.status = 'submitted'
+                    )";
 
-        return count($missing);
+        $assignmentmissing = (int) $DB->count_records_sql($sql2, [
+            'courseid' => $courseid,
+            'now' => $now,
+            'userid' => $userid,
+        ]);
+
+        // Part 3: Quizzes past close date without finished attempt (only those WITHOUT completion tracking).
+        $sql3 = "SELECT COUNT(q.id)
+                   FROM {quiz} q
+                   JOIN {course_modules} cm ON cm.instance = q.id
+                        AND cm.module = (SELECT id FROM {modules} WHERE name = 'quiz')
+                        AND cm.course = q.course
+                  WHERE q.course = :courseid
+                    AND q.timeclose > 0 AND q.timeclose < :now
+                    AND cm.visible = 1
+                    AND cm.deletioninprogress = 0
+                    AND cm.completion = 0
+                    AND NOT EXISTS (
+                        SELECT 1 FROM {quiz_attempts} qa
+                         WHERE qa.quiz = q.id
+                           AND qa.userid = :userid
+                           AND qa.state = 'finished'
+                    )";
+
+        $quizmissing = (int) $DB->count_records_sql($sql3, [
+            'courseid' => $courseid,
+            'now' => $now,
+            'userid' => $userid,
+        ]);
+
+        return $completionmissing + $assignmentmissing + $quizmissing;
     }
 
     /**
@@ -220,45 +268,15 @@ class student_tracker {
 
     /**
      * Calculate risk level based on tracking data.
-     * Uses configured thresholds from plugin settings.
+     * Uses direct threshold comparison — highest criterion wins.
      *
      * @param \stdClass $tracking Tracking record
      * @return string Risk level constant
      */
     public function calculate_risk_level($tracking) {
-        $score = 0;
-
-        // Get configured thresholds.
-        $thresholds = risk_level::get_inactivity_thresholds();
-
-        // Inactivity score (max 40 points).
-        if ($tracking->inactivity_days >= $thresholds['level3']) {
-            $score += 40;
-        } else if ($tracking->inactivity_days >= $thresholds['level2']) {
-            $score += 25;
-        } else if ($tracking->inactivity_days >= $thresholds['level1']) {
-            $score += 10;
-        }
-
-        // Missing assignments score (max 30 points).
-        if ($tracking->missing_assignments >= 5) {
-            $score += 30;
-        } else if ($tracking->missing_assignments >= 3) {
-            $score += 20;
-        } else if ($tracking->missing_assignments >= 1) {
-            $score += 10;
-        }
-
-        // Notification count (many notifications might indicate persistent issues).
-        // Max 20 points.
-        if ($tracking->notification_count >= 10) {
-            $score += 20;
-        } else if ($tracking->notification_count >= 5) {
-            $score += 10;
-        }
-
-        // Determine risk level based on score.
-        return risk_level::from_score($score);
+        $inactivitydays = (int) ($tracking->inactivity_days ?? 0);
+        $missingactivities = (int) ($tracking->missing_activities ?? 0);
+        return risk_level::from_criteria($inactivitydays, $missingactivities);
     }
 
     /**
@@ -272,7 +290,7 @@ class student_tracker {
         return risk_level::needs_intervention(
             $tracking->risk_level,
             $tracking->inactivity_days,
-            $tracking->missing_assignments ?? 0
+            $tracking->missing_activities ?? 0
         ) ? 1 : 0;
     }
 

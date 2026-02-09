@@ -53,10 +53,10 @@ class predictive_analytics {
                 'predicted_risk' => 'UNKNOWN',
                 'confidence' => 0,
                 'probability' => [
-                    'CRITIQUE' => 0,
-                    'ÉLEVÉ' => 0,
-                    'MOYEN' => 0,
-                    'FAIBLE' => 0
+                    'CRITICAL' => 0,
+                    'HIGH' => 0,
+                    'MEDIUM' => 0,
+                    'LOW' => 0
                 ],
                 'factors' => []
             ];
@@ -111,7 +111,7 @@ class predictive_analytics {
                     'date' => $log->timecreated,
                     'risk_level' => $details->risk_level ?? null,
                     'inactivity_days' => $details->inactivity_days ?? 0,
-                    'missing_assignments' => $details->missing_assignments ?? 0,
+                    'missing_activities' => $details->missing_activities ?? 0,
                     'login_count' => $details->login_count ?? 0,
                     'grade_average' => $details->grade_average ?? 0
                 ];
@@ -126,7 +126,7 @@ class predictive_analytics {
                     'date' => time(),
                     'risk_level' => $current->risk_level,
                     'inactivity_days' => $current->inactivity_days,
-                    'missing_assignments' => $current->missing_assignments,
+                    'missing_activities' => $current->missing_activities,
                     'login_count' => 0,
                     'grade_average' => 0
                 ];
@@ -164,7 +164,7 @@ class predictive_analytics {
 
         // Calculate linear regression for missing assignments.
         $assignment_data = array_map(function($h) {
-            return $h->missing_assignments;
+            return $h->missing_activities;
         }, $history);
         $trends['assignment_trend'] = $this->calculate_slope($assignment_data);
 
@@ -175,7 +175,7 @@ class predictive_analytics {
         $trends['engagement_trend'] = $this->calculate_slope($engagement_data);
 
         // Calculate risk level trend.
-        $risk_hierarchy = ['FAIBLE' => 1, 'MOYEN' => 2, 'ÉLEVÉ' => 3, 'CRITIQUE' => 4];
+        $risk_hierarchy = ['LOW' => 1, 'MEDIUM' => 2, 'HIGH' => 3, 'CRITICAL' => 4];
         $risk_data = array_map(function($h) use ($risk_hierarchy) {
             return $risk_hierarchy[$h->risk_level] ?? 0;
         }, $history);
@@ -236,10 +236,10 @@ class predictive_analytics {
     protected function apply_prediction_model($trends, $daysahead) {
         // Initialize probabilities.
         $probabilities = [
-            'CRITIQUE' => 0,
-            'ÉLEVÉ' => 0,
-            'MOYEN' => 0,
-            'FAIBLE' => 0
+            'CRITICAL' => 0,
+            'HIGH' => 0,
+            'MEDIUM' => 0,
+            'LOW' => 0
         ];
 
         $factors = [];
@@ -247,10 +247,10 @@ class predictive_analytics {
         // Base probability on current trend direction.
         if ($trends['direction'] === 'deteriorating') {
             // Increasing risk.
-            $probabilities['CRITIQUE'] = min(40 + ($trends['velocity'] * 20), 80);
-            $probabilities['ÉLEVÉ'] = min(30 + ($trends['velocity'] * 15), 60);
-            $probabilities['MOYEN'] = 20;
-            $probabilities['FAIBLE'] = 10;
+            $probabilities['CRITICAL'] = min(40 + ($trends['velocity'] * 20), 80);
+            $probabilities['HIGH'] = min(30 + ($trends['velocity'] * 15), 60);
+            $probabilities['MEDIUM'] = 20;
+            $probabilities['LOW'] = 10;
 
             $factors[] = [
                 'factor' => 'Trend deteriorating',
@@ -259,10 +259,10 @@ class predictive_analytics {
             ];
         } else if ($trends['direction'] === 'improving') {
             // Decreasing risk.
-            $probabilities['FAIBLE'] = min(50 + ($trends['velocity'] * 20), 80);
-            $probabilities['MOYEN'] = min(30 + ($trends['velocity'] * 10), 50);
-            $probabilities['ÉLEVÉ'] = 15;
-            $probabilities['CRITIQUE'] = 5;
+            $probabilities['LOW'] = min(50 + ($trends['velocity'] * 20), 80);
+            $probabilities['MEDIUM'] = min(30 + ($trends['velocity'] * 10), 50);
+            $probabilities['HIGH'] = 15;
+            $probabilities['CRITICAL'] = 5;
 
             $factors[] = [
                 'factor' => 'Trend improving',
@@ -271,10 +271,10 @@ class predictive_analytics {
             ];
         } else {
             // Stable.
-            $probabilities['MOYEN'] = 40;
-            $probabilities['FAIBLE'] = 30;
-            $probabilities['ÉLEVÉ'] = 20;
-            $probabilities['CRITIQUE'] = 10;
+            $probabilities['MEDIUM'] = 40;
+            $probabilities['LOW'] = 30;
+            $probabilities['HIGH'] = 20;
+            $probabilities['CRITICAL'] = 10;
 
             $factors[] = [
                 'factor' => 'Trend stable',
@@ -285,8 +285,8 @@ class predictive_analytics {
 
         // Adjust based on inactivity trend.
         if ($trends['inactivity_trend'] > 0.5) {
-            $probabilities['CRITIQUE'] += 15;
-            $probabilities['ÉLEVÉ'] += 10;
+            $probabilities['CRITICAL'] += 15;
+            $probabilities['HIGH'] += 10;
             $factors[] = [
                 'factor' => 'Inactivity increasing',
                 'impact' => 'high',
@@ -296,8 +296,8 @@ class predictive_analytics {
 
         // Adjust based on assignment trend.
         if ($trends['assignment_trend'] > 0.3) {
-            $probabilities['CRITIQUE'] += 10;
-            $probabilities['ÉLEVÉ'] += 15;
+            $probabilities['CRITICAL'] += 10;
+            $probabilities['HIGH'] += 15;
             $factors[] = [
                 'factor' => 'Missing assignments increasing',
                 'impact' => 'high',
@@ -307,8 +307,8 @@ class predictive_analytics {
 
         // Adjust based on engagement trend.
         if ($trends['engagement_trend'] < -0.2) {
-            $probabilities['CRITIQUE'] += 5;
-            $probabilities['ÉLEVÉ'] += 10;
+            $probabilities['CRITICAL'] += 5;
+            $probabilities['HIGH'] += 10;
             $factors[] = [
                 'factor' => 'Engagement decreasing',
                 'impact' => 'medium',
@@ -412,7 +412,7 @@ class predictive_analytics {
         foreach ($predictions as $userid => $prediction) {
             // Check if predicted risk is high/critical and confidence is sufficient.
             if ($prediction->confidence >= $minconfidence &&
-                in_array($prediction->predicted_risk, ['ÉLEVÉ', 'CRITIQUE'])) {
+                in_array($prediction->predicted_risk, ['HIGH', 'CRITICAL'])) {
 
                 $user = $DB->get_record('user', ['id' => $userid]);
                 $current = $DB->get_record('local_sm_student_tracking', ['userid' => $userid]);
@@ -448,10 +448,10 @@ class predictive_analytics {
             'total_students' => count($predictions),
             'early_warnings' => count($warnings),
             'risk_distribution' => [
-                'CRITIQUE' => 0,
-                'ÉLEVÉ' => 0,
-                'MOYEN' => 0,
-                'FAIBLE' => 0
+                'CRITICAL' => 0,
+                'HIGH' => 0,
+                'MEDIUM' => 0,
+                'LOW' => 0
             ],
             'avg_confidence' => 0,
             'trend_summary' => [

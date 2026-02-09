@@ -38,10 +38,10 @@
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
         <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="User ID of the student"/>
         <FIELD NAME="courseid" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="Course ID (optional, null for global)"/>
-        <FIELD NAME="risk_level" TYPE="char" LENGTH="20" NOTNULL="false" SEQUENCE="false" COMMENT="Risk level: FAIBLE, MOYEN, ÉLEVÉ, CRITIQUE"/>
+        <FIELD NAME="risk_level" TYPE="char" LENGTH="20" NOTNULL="false" SEQUENCE="false" COMMENT="Risk level: LOW, MEDIUM, HIGH, CRITICAL"/>
         <FIELD NAME="last_activity" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="Timestamp of last activity"/>
         <FIELD NAME="inactivity_days" TYPE="int" LENGTH="5" NOTNULL="false" DEFAULT="0" SEQUENCE="false" COMMENT="Number of days inactive"/>
-        <FIELD NAME="missing_assignments" TYPE="int" LENGTH="5" NOTNULL="false" DEFAULT="0" SEQUENCE="false" COMMENT="Number of missing assignments"/>
+        <FIELD NAME="missing_activities" TYPE="int" LENGTH="5" NOTNULL="false" DEFAULT="0" SEQUENCE="false" COMMENT="Number of missing or incomplete activities"/>
         <FIELD NAME="notification_count" TYPE="int" LENGTH="5" NOTNULL="false" DEFAULT="0" SEQUENCE="false" COMMENT="Number of notifications sent"/>
         <FIELD NAME="intervention_needed" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Flag for intervention needed"/>
         <FIELD NAME="assigned_to" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="Supervisor user ID assigned to this student"/>

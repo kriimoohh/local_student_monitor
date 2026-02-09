@@ -137,7 +137,7 @@ class parent_guardian_manager {
             }
 
             // Check notification frequency.
-            if ($parent->notify_frequency === 'critical' && !in_array($risklevel, ['CRITIQUE', 'ÉLEVÉ'])) {
+            if ($parent->notify_frequency === 'critical' && !in_array($risklevel, ['CRITICAL', 'HIGH'])) {
                 continue;
             }
 
@@ -191,7 +191,7 @@ class parent_guardian_manager {
             'studentname' => fullname($student),
             'risklevel' => get_string('risk_' . $riskkey, 'local_student_monitor'),
             'inactivitydays' => $tracking->inactivity_days,
-            'missingassignments' => $tracking->missing_assignments,
+            'missingassignments' => $tracking->missing_activities,
             'supportemail' => get_config('local_student_monitor', 'supportemail'),
             'supportphone' => get_config('local_student_monitor', 'supportphone')
         ];
@@ -222,11 +222,11 @@ class parent_guardian_manager {
             $recommendations[] = get_string('recommendcontactstudent', 'local_student_monitor');
         }
 
-        if ($tracking->missing_assignments > 3) {
+        if ($tracking->missing_activities > 3) {
             $recommendations[] = get_string('recommendassignmenthelp', 'local_student_monitor');
         }
 
-        if ($risklevel === 'CRITIQUE') {
+        if ($risklevel === 'CRITICAL') {
             $recommendations[] = get_string('recommendurgencontact', 'local_student_monitor');
             $recommendations[] = get_string('recommendcontactsupervisor', 'local_student_monitor');
         }
@@ -412,7 +412,7 @@ class parent_guardian_manager {
 
         // Missing assignments.
         $message .= "• " . get_string('missingassignments', 'local_student_monitor') . ": " .
-                    $tracking->missing_assignments . "\n";
+                    $tracking->missing_activities . "\n";
 
         // Notifications sent.
         $message .= "• " . get_string('notificationssent', 'local_student_monitor') . ": " .

@@ -35,12 +35,28 @@ function xmldb_local_student_monitor_upgrade($oldversion) {
 
     $dbman = $DB->get_manager();
 
-    // Add upgrade steps here as the plugin evolves.
-    // Example:
-    // if ($oldversion < 2025111701) {
-    //     // Upgrade code here.
-    //     upgrade_plugin_savepoint(true, 2025111701, 'local', 'student_monitor');
-    // }
+    if ($oldversion < 2026020701) {
+        $table = new xmldb_table('local_sm_student_tracking');
+
+        // Rename 'missing_assignments' to 'missing_activities'.
+        $field = new xmldb_field('missing_assignments', XMLDB_TYPE_INTEGER, '5', null, null, null, '0', 'inactivity_days');
+        if ($dbman->field_exists($table, $field)) {
+            $dbman->rename_field($table, $field, 'missing_activities');
+        }
+
+        // Migrate risk_level values from French to English.
+        $DB->execute("UPDATE {local_sm_student_tracking} SET risk_level = 'LOW' WHERE risk_level = 'FAIBLE'");
+        $DB->execute("UPDATE {local_sm_student_tracking} SET risk_level = 'MEDIUM' WHERE risk_level = 'MOYEN'");
+        $DB->execute("UPDATE {local_sm_student_tracking} SET risk_level = 'HIGH' WHERE risk_level IN ('ÉLEVÉ', 'ELEVE')");
+        $DB->execute("UPDATE {local_sm_student_tracking} SET risk_level = 'CRITICAL' WHERE risk_level = 'CRITIQUE'");
+
+        // Clean up obsolete config keys.
+        unset_config('threshold_critical', 'local_student_monitor');
+        unset_config('threshold_high', 'local_student_monitor');
+        unset_config('threshold_medium', 'local_student_monitor');
+
+        upgrade_plugin_savepoint(true, 2026020701, 'local', 'student_monitor');
+    }
 
     return true;
 }

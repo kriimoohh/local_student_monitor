@@ -89,7 +89,7 @@ class business_rules_engine {
                 'rule_name' => 'Critical inactivity auto-assign',
                 'conditions' => json_encode([
                     'inactivity_days' => ['operator' => '>=', 'value' => 14],
-                    'risk_level' => ['operator' => '==', 'value' => 'CRITIQUE'],
+                    'risk_level' => ['operator' => '==', 'value' => 'CRITICAL'],
                     'assigned_to' => ['operator' => '==', 'value' => null]
                 ]),
                 'actions' => json_encode([
@@ -105,7 +105,7 @@ class business_rules_engine {
                 'rule_name' => 'High risk follow-up',
                 'conditions' => json_encode([
                     'inactivity_days' => ['operator' => '>=', 'value' => 7],
-                    'risk_level' => ['operator' => '==', 'value' => 'ÉLEVÉ'],
+                    'risk_level' => ['operator' => '==', 'value' => 'HIGH'],
                     'notification_count' => ['operator' => '<', 'value' => 3]
                 ]),
                 'actions' => json_encode([
@@ -119,7 +119,7 @@ class business_rules_engine {
                 'id' => 3,
                 'rule_name' => 'Escalate after 48h no response',
                 'conditions' => json_encode([
-                    'risk_level' => ['operator' => '==', 'value' => 'CRITIQUE'],
+                    'risk_level' => ['operator' => '==', 'value' => 'CRITICAL'],
                     'hours_since_intervention' => ['operator' => '>=', 'value' => 48],
                     'response_received' => ['operator' => '==', 'value' => false]
                 ]),
@@ -134,7 +134,7 @@ class business_rules_engine {
                 'id' => 4,
                 'rule_name' => 'Missing assignments alert',
                 'conditions' => json_encode([
-                    'missing_assignments' => ['operator' => '>=', 'value' => 3],
+                    'missing_activities' => ['operator' => '>=', 'value' => 3],
                     'notification_count' => ['operator' => '<', 'value' => 2]
                 ]),
                 'actions' => json_encode([
