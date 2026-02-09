@@ -118,9 +118,16 @@ class predictive_analytics {
             }
         }
 
-        // If no history, get current state.
+        // If no history, get current state (pick worst tracking entry if multiple courses).
         if (empty($history)) {
-            $current = $DB->get_record('local_sm_student_tracking', ['userid' => $userid]);
+            $current = $DB->get_records_sql("
+                SELECT *
+                FROM {local_sm_student_tracking}
+                WHERE userid = :userid
+                ORDER BY inactivity_days DESC
+                LIMIT 1
+            ", ['userid' => $userid]);
+            $current = reset($current);
             if ($current) {
                 $history[] = (object)[
                     'date' => time(),
@@ -383,7 +390,7 @@ class predictive_analytics {
     public function get_all_predictions($daysahead = 7) {
         global $DB;
 
-        $students = $DB->get_records('local_sm_student_tracking', null, '', 'userid');
+        $students = $DB->get_records_sql("SELECT DISTINCT userid FROM {local_sm_student_tracking}");
         $predictions = [];
 
         foreach ($students as $student) {
@@ -415,7 +422,14 @@ class predictive_analytics {
                 in_array($prediction->predicted_risk, ['HIGH', 'CRITICAL'])) {
 
                 $user = $DB->get_record('user', ['id' => $userid]);
-                $current = $DB->get_record('local_sm_student_tracking', ['userid' => $userid]);
+                $records = $DB->get_records_sql("
+                    SELECT *
+                    FROM {local_sm_student_tracking}
+                    WHERE userid = :userid
+                    ORDER BY inactivity_days DESC
+                    LIMIT 1
+                ", ['userid' => $userid]);
+                $current = reset($records);
 
                 $warnings[] = (object)[
                     'userid' => $userid,
