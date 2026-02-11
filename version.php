@@ -26,7 +26,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'local_student_monitor';
-$plugin->version = 2026020707;  // YYYYMMDDXX - Fix key/index collisions in XMLDB
+$plugin->version = 2026020708;  // YYYYMMDDXX - Fix template_type property references
 $plugin->requires = 2022041900; // Moodle 4.0
 $plugin->maturity = MATURITY_STABLE;
-$plugin->release = 'v3.0.5';
+$plugin->release = 'v3.0.6';

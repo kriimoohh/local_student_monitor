@@ -158,8 +158,8 @@ L\'équipe UNCHK'
         ]
     ];
 
-    if (isset($defaulttemplates[$template->template_type])) {
-        $default = $defaulttemplates[$template->template_type];
+    if (isset($defaulttemplates[$template->type])) {
+        $default = $defaulttemplates[$template->type];
         $template->subject = $default['subject'];
         $template->body = $default['body'];
         $template->timemodified = time();
@@ -184,7 +184,7 @@ if ($action === 'edit' && $templateid) {
     $template = $DB->get_record('local_sm_templates', ['id' => $templateid], '*', MUST_EXIST);
 
     echo html_writer::tag('h3', get_string('edittemplate', 'local_student_monitor') . ': ' .
-        get_string($template->template_type, 'local_student_monitor'));
+        get_string($template->type, 'local_student_monitor'));
 
     echo html_writer::start_tag('form', [
         'method' => 'post',
@@ -233,11 +233,11 @@ if ($action === 'edit' && $templateid) {
     ];
 
     // Template-specific placeholders.
-    if (strpos($template->template_type, 'inactivity') !== false) {
+    if (strpos($template->type, 'inactivity') !== false) {
         $placeholders = array_merge($placeholders, ['{days}', '{lastaccess}', '{riskLevel}']);
-    } else if ($template->template_type === 'assignmentreminder') {
+    } else if ($template->type === 'assignmentreminder') {
         $placeholders = array_merge($placeholders, ['{assignmentname}', '{duedate}', '{submissionlink}']);
-    } else if ($template->template_type === 'newcontent') {
+    } else if ($template->type === 'newcontent') {
         $placeholders = array_merge($placeholders, ['{coursename}', '{modulename}', '{modulelink}']);
     }
 
@@ -290,7 +290,7 @@ if ($action === 'edit' && $templateid) {
 
         foreach ($templates as $template) {
             echo html_writer::start_tag('tr');
-            echo html_writer::tag('td', get_string($template->template_type, 'local_student_monitor'));
+            echo html_writer::tag('td', get_string($template->type, 'local_student_monitor'));
             echo html_writer::tag('td', $template->subject);
             echo html_writer::tag('td', userdate($template->timemodified));
 
