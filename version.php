@@ -26,7 +26,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'local_student_monitor';
-$plugin->version = 2026020704;  // YYYYMMDDXX - Fix remaining issues, localize hardcoded strings
+$plugin->version = 2026020705;  // YYYYMMDDXX - Fix undefined fullname property
 $plugin->requires = 2022041900; // Moodle 4.0
 $plugin->maturity = MATURITY_STABLE;
-$plugin->release = 'v3.0.3';
+$plugin->release = 'v3.0.4';
