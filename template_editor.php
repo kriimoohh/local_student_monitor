@@ -272,7 +272,7 @@ if ($action === 'edit' && $templateid) {
     // List all templates.
     echo html_writer::tag('p', get_string('templateeditordesc', 'local_student_monitor'), ['class' => 'alert alert-info']);
 
-    $templates = $DB->get_records('local_sm_templates', ['lang' => 'fr'], 'template_type');
+    $templates = $DB->get_records('local_sm_templates', ['language' => 'fr'], 'type');
 
     if (empty($templates)) {
         echo html_writer::tag('p', get_string('notemplates', 'local_student_monitor'), ['class' => 'text-muted']);

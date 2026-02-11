@@ -5,6 +5,20 @@ All notable changes to the Student Monitor plugin will be documented in this fil
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.0.5] - 2026-02-11
+
+### Added
+- Add 11 missing database tables to `install.xml` and `upgrade.php`: `local_sm_report_schedules`, `local_sm_campaigns`, `local_sm_campaign_recipients`, `local_sm_parents`, `local_sm_tasks`, `local_sm_achievements`, `local_sm_gamification`, `local_sm_interventions`, `local_sm_sms_costs`, `local_sm_goals`, `local_sm_custom_reports`
+- Add missing lang strings for notification types: `manual_alert`, `assignment_reminder`, `new_content`, `forum_announcement`
+
+### Fixed
+- Fix `Unknown column 'st.last_intervention'` error in `intervention_tracker.php` — column does not exist, replaced with `timeupdated`
+- Fix `Table 'local_sm_report_schedules' doesn't exist` and similar errors for 10 other tables missing from database schema
+- Fix `Invalid get_string() identifier: 'manual_alert'` in `reports.php` — added missing lang strings for DB notification types
+- Fix `Field 'lang' doesn't exist` in `template_editor.php` — correct field name is `language`, also fix sort column `template_type` → `type`
+
+---
+
 ## [3.0.4] - 2026-02-09
 
 ### Fixed

@@ -229,16 +229,12 @@ class intervention_tracker {
             return;
         }
 
-        // Update last intervention time.
-        $tracking->last_intervention = time();
-        $tracking->intervention_count = ($tracking->intervention_count ?? 0) + 1;
-
         // Reset notification count if intervention was effective.
         if (in_array($interventiontype, ['phone_call', 'meeting', 'email_response'])) {
             $tracking->notification_count = 0;
         }
 
-        $tracking->timemodified = time();
+        $tracking->timeupdated = time();
         $DB->update_record('local_sm_student_tracking', $tracking);
     }
 
@@ -411,12 +407,12 @@ class intervention_tracker {
 
         $metrics = new \stdClass();
 
-        // Students who improved after intervention.
+        // Students who improved after intervention (using timeupdated).
         $metrics->students_improved = $DB->count_records_sql("
             SELECT COUNT(DISTINCT st.userid)
             FROM {local_sm_student_tracking} st
-            WHERE st.last_intervention >= :startdate
-              AND st.last_intervention <= :enddate
+            WHERE st.timeupdated >= :startdate
+              AND st.timeupdated <= :enddate
               AND st.risk_level IN ('LOW', 'MEDIUM')
         ", ['startdate' => $startdate, 'enddate' => $enddate]);
 
@@ -424,8 +420,8 @@ class intervention_tracker {
         $metrics->students_at_risk = $DB->count_records_sql("
             SELECT COUNT(DISTINCT st.userid)
             FROM {local_sm_student_tracking} st
-            WHERE st.last_intervention >= :startdate
-              AND st.last_intervention <= :enddate
+            WHERE st.timeupdated >= :startdate
+              AND st.timeupdated <= :enddate
               AND st.risk_level IN ('HIGH', 'CRITICAL')
         ", ['startdate' => $startdate, 'enddate' => $enddate]);
 
@@ -433,15 +429,15 @@ class intervention_tracker {
         $total = $metrics->students_improved + $metrics->students_at_risk;
         $metrics->success_rate = $total > 0 ? round(($metrics->students_improved / $total) * 100, 1) : 0;
 
-        // Average interventions per student.
+        // Average notifications per student.
         $avgresult = $DB->get_record_sql("
-            SELECT AVG(intervention_count) as avg_count
+            SELECT AVG(notification_count) as avg_count
             FROM {local_sm_student_tracking}
-            WHERE last_intervention >= :startdate
-              AND last_intervention <= :enddate
+            WHERE timeupdated >= :startdate
+              AND timeupdated <= :enddate
         ", ['startdate' => $startdate, 'enddate' => $enddate]);
 
-        $metrics->avg_interventions_per_student = $avgresult ? round($avgresult->avg_count, 1) : 0;
+        $metrics->avg_interventions_per_student = $avgresult ? round($avgresult->avg_count ?? 0, 1) : 0;
 
         return $metrics;
     }

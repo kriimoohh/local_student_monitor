@@ -140,6 +140,10 @@ $string['newcontent'] = 'Nouveau contenu';
 $string['assignmentreminder'] = 'Rappel de devoir';
 $string['institutionalannouncement'] = 'Annonce institutionnelle';
 $string['manualalert'] = 'Alerte manuelle';
+$string['manual_alert'] = 'Alerte manuelle';
+$string['assignment_reminder'] = 'Rappel de devoir';
+$string['new_content'] = 'Nouveau contenu';
+$string['forum_announcement'] = 'Annonce de forum';
 
 // Notification status.
 $string['status'] = 'Statut';
