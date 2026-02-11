@@ -260,7 +260,7 @@ if (empty($students)) {
             'class' => 'student-checkbox'
         ]);
         echo html_writer::end_tag('td');
-        echo html_writer::tag('td', $student->fullname);
+        echo html_writer::tag('td', fullname($student));
         $riskclass = local_student_monitor_get_risk_class($student->risk_level);
         echo html_writer::tag('td', html_writer::tag('span', $student->risk_level, ['class' => 'badge ' . $riskclass]));
         echo html_writer::tag('td', $student->inactivity_days);

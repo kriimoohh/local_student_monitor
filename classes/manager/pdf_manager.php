@@ -92,7 +92,7 @@ class pdf_manager {
         $pdf->SetFont('helvetica', '', 9);
 
         foreach ($students as $student) {
-            $pdf->Cell(60, 6, $student->fullname, 1, 0, 'L');
+            $pdf->Cell(60, 6, fullname($student), 1, 0, 'L');
             $pdf->Cell(30, 6, $student->risk_level, 1, 0, 'C');
             $pdf->Cell(25, 6, $student->inactivity_days, 1, 0, 'C');
             $pdf->Cell(25, 6, $student->missing_activities, 1, 0, 'C');
