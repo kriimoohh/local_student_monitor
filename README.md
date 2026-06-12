@@ -4,7 +4,7 @@
 **Compatible Moodle:** 4.0+
 **PHP:** 8.0+
 **Licence:** GNU GPL v3
-**Auteur:** KPlus
+**Auteur:** kriimoohh
 
 ---
 
@@ -14,7 +14,7 @@ Student Monitor est un plugin Moodle complet développé initialement pour l'**U
 
 > **🌍 Plugin universel** : Bien que conçu pour l'UNCHK, ce plugin est entièrement adaptable et utilisable par **toute autre institution éducative** (universités, écoles, centres de formation) souhaitant améliorer le suivi et la rétention de ses étudiants.
 
-Il améliore la rétention des étudiants grâce à un système automatisé de suivi, d'analyse et de notifications multicanaux.
+Il améliore la rétention des étudiants grâce à un système automatisé de suivi, d'analyse, de prédiction et de notifications multicanaux, ainsi qu'à un espace de self-service (gamification, objectifs, comparaison entre pairs, recommandations IA) pour les étudiants eux-mêmes.
 
 ### Fonctionnalités principales
 
@@ -22,51 +22,86 @@ Il améliore la rétention des étudiants grâce à un système automatisé de s
 1. Détection d'inactivité multi-niveaux (3, 7, 14 jours - configurables)
 2. Notifications de nouveau contenu pédagogique
 3. Rappels automatiques de devoirs (J-7, J-3, J-1, H-6)
-4. Annonces institutionnelles depuis forum dédié
+4. Annonces institutionnelles depuis un forum dédié
 5. **Configuration graphique** - Activation/désactivation et paramétrage sans code
 
 ✅ **Gestion avancée des alertes manuelles :**
 - Création d'alertes personnalisées par type (examen, devoir, événement, annonce)
 - **Sélection ciblée par niveau d'inactivité** (3+, 7+, 14+ jours)
-- **Sélection par niveau de risque** (CRITIQUE, ÉLEVÉ, MOYEN)
-- Destinataires multiples (catégories, cours, groupes, sélection manuelle, CSV)
+- **Sélection par niveau de risque** (CRITICAL, HIGH, MEDIUM)
+- Destinataires multiples (catégories, cours, groupes, sélection manuelle, import CSV)
 - Rappels automatiques programmables
+- Aperçu de l'alerte avant envoi (`preview_alert.php`)
+
+✅ **Évaluation des risques (simplifiée depuis v3.0.0) :**
+- 4 niveaux : **LOW, MEDIUM, HIGH, CRITICAL**
+- Calcul "le critère le plus élevé l'emporte" entre :
+  - Jours d'inactivité (seuils configurables : niveaux 1/2/3)
+  - Activités manquantes (devoirs, quiz, activités à compléter — seuils configurables : 1/3/5 par défaut)
+- Suivi de **toutes** les activités du cours (achèvement d'activité Moodle, soumissions de devoirs, tentatives de quiz), pas seulement les devoirs
+- Migration automatique des anciennes valeurs françaises (FAIBLE/MOYEN/ÉLEVÉ/CRITIQUE) vers les nouvelles valeurs anglaises
 
 ✅ **Page dédiée Étudiants à Risque :**
-- Vue d'ensemble avec statistiques par niveau de risque
+- Vue d'ensemble avec statistiques cliquables par niveau de risque
 - Filtrage avancé et tri multi-critères
 - Pagination flexible (25, 50, 100, 200 par page)
-- Indicateurs visuels avec icônes de criticité
+- Indicateurs visuels (icônes de criticité, badges colorés)
 - Actions rapides (profil, notification)
+- Export CSV avec filtres appliqués
 
 ✅ **Dashboard interactif et complet :**
 - KPI en temps réel (étudiants à risque, notifications, interventions)
-- Widget de configuration des alertes automatiques
-- Accès rapide à toutes les fonctionnalités
+- Widget de configuration des alertes automatiques (administrateurs)
+- Accès rapide à toutes les fonctionnalités via un menu structuré
 - Alertes critiques en temps réel
 
 ✅ **Multi-canaux intelligent :**
 - Email (natif Moodle)
 - Notifications Moodle
-- SMS (avec suivi des coûts)
+- SMS (avec suivi des coûts et budget mensuel)
 - WhatsApp Business (templates pré-approuvés)
-- Configuration par canal pour alertes automatiques
+- Configuration par canal pour les alertes automatiques
 
-✅ **Évaluation et prédiction des risques :**
-- Calcul automatique sur 4 niveaux (FAIBLE, MOYEN, ÉLEVÉ, CRITIQUE)
-- Analyse multi-facteurs (inactivité, devoirs, notifications)
-- Prédiction par IA (3, 7, 14, 30 jours)
-- Identification proactive des étudiants à risque
+✅ **Analytics, prédictions et rapports avancés :**
+- Graphiques Chart.js (répartition des risques, tendances, types de notifications, interventions)
+- **Analyse prédictive** (`predictions.php`) : alertes précoces et prédictions à 3, 7, 14, 30 jours
+- **Rapports d'efficacité** (`effectiveness.php`) : impact des interventions et notifications
+- **Générateur de rapports personnalisés** et **planificateur de rapports** (PDF/CSV/HTML, envoi par email programmé)
+- Export PDF (liste étudiants, rapport détaillé, historique des notifications)
+- Rapport hebdomadaire automatique (`weekly_report.php`)
 
-✅ **Analytics et Business Intelligence :**
-- Dashboard BI pour administrateurs
-- Rapports de performance superviseurs
-- Analyse de cohortes et rétention
-- Tendances et métriques institutionnelles
+✅ **Espace étudiant (self-service) :**
+- **Tableau de bord étudiant** personnalisé (`student_dashboard.php`)
+- **Gamification** : points, niveaux, séries (streaks), badges/réalisations, classement (`leaderboard.php`)
+- **Mes objectifs** (`my_goals.php`) : objectifs personnels (notes, présence, devoirs, engagement, personnalisés) avec suivi de progression
+- **Comparaison anonyme entre pairs** (`peer_comparison.php`) : graphique radar, percentiles sur 4 métriques
+- **Recommandations personnalisées par IA** intégrées au tableau de bord étudiant
+- **Préférences de notification** (`preferences.php`) : choix des canaux et historique
+
+✅ **Campagnes email & engagement :**
+- Création et gestion de campagnes email ciblées (`campaigns.php`)
+- Tests A/B avec répartition automatique des destinataires
+- Statistiques de campagne (taux d'ouverture, de clic, de conversion) (`campaign_stats.php`)
+
+✅ **Gestion des parents/tuteurs :**
+- Page de gestion des parents/tuteurs (`parent_management.php`)
+- Notifications aux parents sur le suivi de leurs enfants
+
+✅ **Suivi des interventions et tâches :**
+- Suivi des interventions auprès des étudiants (assignation, notes, historique)
+- Gestion de tâches de suivi (`tasks.php`)
+- Actions en masse (`bulk_actions.php`)
+
+✅ **API mobile (Web Services) :**
+- `local_student_monitor_get_student_stats` - statistiques de suivi d'un étudiant
+- `local_student_monitor_get_gamification_data` - points, niveau, séries, réalisations
+- `local_student_monitor_get_leaderboard` - classement gamification
+- `local_student_monitor_get_campaign_stats` - statistiques de campagnes (admin)
+- `local_student_monitor_search_users` - recherche d'utilisateurs pour les alertes
 
 ✅ **RGPD et sécurité :**
 - Conformité Privacy API Moodle
-- Export/suppression données personnelles
+- Export/suppression des données personnelles
 - Logs d'actions traçables
 - Permissions granulaires (8 capabilities)
 
@@ -87,7 +122,7 @@ Il améliore la rétention des étudiants grâce à un système automatisé de s
 
 ```bash
 cd /path/to/moodle/local/
-git clone https://github.com/sakai-sn/local_student_monitor.git student_monitor
+git clone https://github.com/kriimoohh/local_student_monitor.git student_monitor
 ```
 
 > **Important :** Le dossier doit s'appeler `student_monitor` (sans le prefixe `local_`)
@@ -105,26 +140,36 @@ git clone https://github.com/sakai-sn/local_student_monitor.git student_monitor
 
 ## ⚙️ Configuration
 
-### Configuration de base
+### Configuration de base (Administration du site > Plugins > Local plugins > Student Monitor)
 
-1. Allez dans **Administration du site > Plugins > Local plugins > Student Monitor**
-
-2. **Paramètres généraux :**
+1. **Général** :
    - Activer le plugin
-   - Configurer les seuils d'inactivité (3j, 7j, 14j par défaut)
+   - Nom de l'institution (utilisé dans les templates de message)
 
-3. **Rappels de devoirs :**
+2. **Seuils d'inactivité (en jours)** :
+   - Niveau 1 (par défaut : 3)
+   - Niveau 2 (par défaut : 7)
+   - Niveau 3 (par défaut : 14)
+
+3. **Seuils d'activités manquantes** :
+   - Niveau 1 (par défaut : 1)
+   - Niveau 2 (par défaut : 3)
+   - Niveau 3 (par défaut : 5)
+
+4. **Rappels de devoirs** :
    - Activer les rappels automatiques
    - Définir les jours de rappel (ex: 7,3,1)
 
-4. **Forum institutionnel :**
+5. **Forum institutionnel** :
    - Indiquer l'ID du forum pour les annonces
 
-5. **Canaux de notification :**
+6. **Canaux de notification** :
    - Email : ✅ Activé par défaut
    - Notifications Moodle : ✅ Activé par défaut
    - SMS : Configuration API requise
    - WhatsApp : Configuration API requise
+
+7. **Email/téléphone de support** : utilisés dans les placeholders `{supportemail}` / `{supportphone}`
 
 ### Configuration SMS (optionnelle)
 
@@ -132,222 +177,71 @@ Pour activer les SMS, configurez :
 - **URL de l'API SMS** : Endpoint de votre fournisseur (Orange, Twilio, etc.)
 - **Clé API SMS** : Clé d'authentification
 
+Le coût des SMS est suivi automatiquement (table `local_sm_sms_costs`), avec un budget mensuel configurable et un blocage automatique en cas de dépassement.
+
 ### Configuration WhatsApp (optionnelle)
 
 Pour activer WhatsApp Business :
 - **ID du numéro WhatsApp** : Phone Number ID depuis Meta Business
 - **Token d'accès** : Access Token de l'API WhatsApp
 
-### Configuration Email de support
-
-- **Email du support** : support@unchk.edu.sn
-- **Téléphone du support** : +221 XX XXX XX XX
-
 ---
 
 ## 📊 Utilisation
 
-### Pour les superviseurs/managers
+Le plugin ajoute deux entrées principales à la navigation Moodle :
 
-#### Accéder au Dashboard
+### 1. Menu "Student Monitor" (superviseurs/administrateurs)
 
-1. Allez dans **Navigation > Student Monitor**
-2. Visualisez les KPI en temps réel :
-   - Étudiants à risque (CRITIQUE + ÉLEVÉ)
-   - Notifications envoyées (semaine)
-   - Interventions nécessaires
-   - Taux de lecture des notifications
-3. **Nouveau :** Widget d'état des alertes automatiques (administrateurs uniquement)
+Visible pour les utilisateurs disposant de la capability `viewdashboard`. Organisé en sections :
 
-#### Configurer les Alertes Automatiques (Administrateurs)
+#### 📊 Tableaux de bord
+- **Dashboard** (`dashboard.php`) - KPI en temps réel, widgets de configuration, accès rapides
+- **Rapport hebdomadaire** (`weekly_report.php`) - synthèse hebdomadaire automatique
 
-1. Dashboard > **⚙️ Configurer les alertes**
-2. **Activer/Désactiver** le système :
-   - Bouton unique pour activer/désactiver
-   - Confirmation obligatoire avant désactivation
-3. **Configurer les seuils d'inactivité** :
-   - Niveau 1 : Nombre de jours (défaut : 3)
-   - Niveau 2 : Nombre de jours (défaut : 7)
-   - Niveau 3 : Nombre de jours (défaut : 14)
-4. **Sélectionner les canaux** pour alertes automatiques :
-   - Email (recommandé)
-   - Notifications Moodle (recommandé)
-   - SMS (si configuré)
-   - WhatsApp (si configuré)
-5. **Enregistrer** - Les modifications sont appliquées immédiatement
+#### 👥 Gestion des étudiants
+- **Étudiants à risque** (`students_at_risk.php`) - vue filtrable/triable par niveau de risque
+- **Actions en masse** (`bulk_actions.php`) - assigner/désassigner un superviseur, ajouter une note, notifier plusieurs étudiants (capability `intervene`)
 
-#### Consulter les Étudiants à Risque
+#### 📧 Alertes & Notifications (capability `sendmanual`)
+- **Créer une alerte** (`create_alert.php`) - alertes manuelles (examen, devoir, événement, annonce) avec aperçu (`preview_alert.php`)
+- **Voir les alertes** (`view_alerts.php`) - historique des alertes envoyées
+- **Configurer les alertes automatiques** (`configure_automatic_alerts.php`, capability `managesettings`) - activation, seuils, canaux
 
-1. Dashboard > **⚠️ Étudiants à risque**
-2. **Vue d'ensemble** :
-   - 4 cartes statistiques cliquables (CRITIQUE, ÉLEVÉ, MOYEN, FAIBLE)
-   - Nombre d'étudiants par niveau en temps réel
-3. **Filtrage et tri** :
-   - Cliquer sur une carte pour filtrer par niveau
-   - Trier par nom, email, risque, inactivité, devoirs, notifications
-   - Choisir ordre croissant/décroissant
-   - Effacer les filtres en un clic
-4. **Pagination** :
-   - 25, 50, 100 ou 200 étudiants par page
-   - Navigation entre les pages
-5. **Actions rapides** :
-   - **Voir le profil** : Ouvre le profil dans un nouvel onglet
-   - **📧 Envoyer notification** : Accès direct au formulaire d'alerte
-6. **Export** : Exporter la liste filtrée en CSV
+#### 📈 Rapports & Analytics (capability `viewreports`)
+- **Rapports avancés** (`reports.php`) - graphiques Chart.js, KPI, exports CSV
+- **Analyse prédictive** (`predictions.php`) - alertes précoces et prédictions de risque (3/7/14/30 jours)
+- **Rapports d'efficacité** (`effectiveness.php`) - mesure de l'impact des interventions/notifications
+- **Planification de rapports** (`report_schedules.php`) - rapports automatiques périodiques (PDF/CSV/HTML)
 
-#### Créer une alerte manuelle
+#### 📧 Campagnes Email (capability `sendmanual`)
+- **Campagnes email** (`campaigns.php`) - création, ciblage, tests A/B, planification
+- **Statistiques de campagnes** (`campaign_stats.php`) - taux d'ouverture/clic/conversion, comparaison A/B
 
-1. Dashboard > **Créer une alerte**
-2. Choisir le type (Examen, Devoir, Annonce, Événement)
-3. Remplir les détails (titre, date, description, lieu)
-4. **Sélectionner les destinataires** - OPTIONS ÉTENDUES :
+#### 💬 Communication (capability `viewreports`)
+- **Statistiques de communication** (`communication_stats.php`) - suivi SMS/WhatsApp, coûts, budgets
+- **Éditeur de templates** (`template_editor.php`, capability `managetemplates`) - personnalisation des messages
 
-   **Option 1 : Tous les étudiants**
-   - Envoie à tous les étudiants du système
+#### ⚙️ Gestion (capability `intervene`)
+- **Gestion des parents/tuteurs** (`parent_management.php`)
+- **Gestion des tâches** (`tasks.php`)
 
-   **Option 2 : Par niveau d'inactivité / risque** ⭐ NOUVEAU
-   - **Niveau 1** : Étudiants inactifs 3+ jours
-   - **Niveau 2** : Étudiants inactifs 7+ jours
-   - **Niveau 3** : Étudiants inactifs 14+ jours
-   - **Risque CRITIQUE** : (nombre affiché)
-   - **Risque ÉLEVÉ** : (nombre affiché)
-   - **Risque MOYEN** : (nombre affiché)
-   - Visualisation du nombre d'étudiants concernés
+### 2. Menu "Mon espace étudiant" (tous les utilisateurs authentifiés)
 
-   **Option 3 : Par catégorie**
-   - Sélectionner une catégorie de cours
-   - Tous les étudiants inscrits dans la catégorie
+- **Tableau de bord étudiant** (`student_dashboard.php`) - risque, gamification, recommandations IA, progression
+- **Mes objectifs** (`my_goals.php`) - création et suivi d'objectifs personnels
+- **Comparaison entre pairs** (`peer_comparison.php`) - comparaison anonyme (radar chart)
+- **Classement** (`leaderboard.php`) - leaderboard de gamification (points, niveaux, podium)
+- **Préférences de notification** (`preferences.php`) - choix des canaux et historique
 
-   **Option 4 : Par cours**
-   - Sélectionner un cours spécifique
-   - Tous les étudiants du cours
+### 3. Paramètres par cours
 
-   **Option 5 : Par groupe**
-   - Sélectionner d'abord un cours
-   - Puis sélectionner un groupe du cours
-
-   **Option 6 : Sélection manuelle**
-   - Chercher et sélectionner des étudiants individuellement
-   - Autocomplete avec nom et email
-
-   **Option 7 : Import CSV**
-   - Uploader un fichier CSV avec emails/usernames/IDs
-   - Voir `examples/CSV_IMPORT_README.md` pour le format
-
-5. Choisir les canaux de diffusion
-6. Activer les rappels automatiques (J-7, J-3, J-1 - optionnel)
-7. **Envoyer** - L'alerte est envoyée immédiatement
-
-#### Suivi des étudiants
-
-Le tableau de bord affiche :
-- **Niveau de risque** : Badge coloré par étudiant
-- **Jours d'inactivité** : Depuis la dernière connexion
-- **Devoirs manquants** : Nombre de devoirs non rendus
-- **Notifications envoyées** : Historique
-
-#### Actions disponibles
-
-- **Assigner à un superviseur** : Affecter un étudiant à un conseiller
-- **Ajouter des notes** : Documenter les interventions
-- **Voir l'historique** : Consulter toutes les notifications envoyées
-- **Exporter CSV** : Export des données pour analyse
-- **Actions en masse** : Effectuer des actions sur plusieurs étudiants simultanément
-
-#### Filtres avancés (v1.3.0)
-
-Le dashboard inclut maintenant des filtres avancés pour affiner la liste des étudiants :
-
-1. **Recherche** - Chercher par nom ou email
-2. **Niveau de risque** - Filtrer par FAIBLE, MOYEN, ÉLEVÉ, CRITIQUE
-3. **Jours d'inactivité** - Seuil minimum de jours
-4. **Devoirs manquants** - Nombre minimum de devoirs
-5. **Assignation** - Filtrer assignés/non assignés
-
-#### Rapports avancés (v1.3.0)
-
-Accédez à la page **Rapports avancés** pour visualiser :
-
-1. **Graphiques Chart.js** :
-   - Répartition des risques (donut chart)
-   - Tendances des notifications (line chart)
-   - Types de notifications (bar chart)
-   - Interventions par risque (horizontal bar)
-
-2. **KPI visuels** :
-   - Total étudiants
-   - Notifications (30 derniers jours)
-   - Étudiants à risque
-   - Taux de lecture
-
-3. **Export de données** :
-   - Export CSV étudiants
-   - Export CSV notifications
-
-#### Actions en masse (v1.3.0)
-
-La page **Actions en masse** permet de :
-
-1. **Assigner à un superviseur** - Affecter plusieurs étudiants à un superviseur
-2. **Retirer l'assignation** - Désassigner plusieurs étudiants
-3. **Ajouter une note** - Ajouter la même note à plusieurs étudiants
-4. **Envoyer une notification** - Notifier plusieurs étudiants simultanément
-
-Avec confirmation avant exécution et rapport de succès/échec.
-
-#### Éditeur de templates (v1.3.0)
-
-Personnalisez les templates de notification :
-
-1. Dashboard > **Éditeur de templates**
-2. Modifiez le sujet et le corps des messages
-3. Utilisez les placeholders pour personnalisation
-4. Réinitialisez aux valeurs par défaut si nécessaire
-
-Templates disponibles :
-- Inactivité niveau 1, 2, 3
-- Nouveau contenu
-- Rappel de devoir
-- Annonce institutionnelle
-
-### Pour les enseignants
-
-Les enseignants peuvent :
-- Créer des alertes pour leurs cours
-- Voir les étudiants à risque dans leurs cours
-- Consulter les statistiques de leur cours
-- **Configurer Student Monitor pour leur cours** : Accéder aux paramètres spécifiques via le menu du cours
-
-#### Configurer les paramètres du cours
-
-1. Dans votre cours > **Plus** > **Student Monitor Settings**
-2. Paramètres disponibles :
-   - Activer/désactiver Student Monitor pour ce cours
-   - Choisir les types d'activités à surveiller (devoirs, tests, forums, etc.)
-   - Configurer les rappels de devoirs personnalisés
-   - Définir un seuil d'inactivité personnalisé
-   - Assigner un superviseur par défaut
-   - Activer les résumés périodiques (quotidien, hebdomadaire, mensuel)
-
-### Pour les étudiants
-
-Les étudiants reçoivent automatiquement :
-- Notifications d'inactivité si absence prolongée
-- Alertes de nouveau contenu dans leurs cours
-- Rappels de devoirs à rendre
-- Annonces institutionnelles importantes
-
-#### Gérer ses préférences de notification
-
-Les étudiants peuvent personnaliser leurs canaux de réception :
-
-1. **Navigation** > **Student Monitor** > **Préférences**
-2. Choisir les canaux souhaités :
-   - ✉️ Email
-   - 🔔 Notifications Moodle
-   - 📱 SMS (si activé)
-   - 💬 WhatsApp (si activé)
-3. Consulter l'historique de leurs notifications
+Dans un cours > **Plus** > **Student Monitor Settings** (`course_settings.php`, capability `managesettings`) :
+- Activer/désactiver Student Monitor pour ce cours
+- Choisir les types d'activités à surveiller
+- Configurer les rappels de devoirs et le seuil d'inactivité personnalisés
+- Assigner un superviseur par défaut
+- Activer des résumés périodiques (quotidien, hebdomadaire, mensuel)
 
 ---
 
@@ -357,10 +251,10 @@ Le plugin utilise 6 tâches planifiées :
 
 | Tâche | Fréquence | Description |
 |-------|-----------|-------------|
-| **check_inactivity** | Toutes les 6h | Détecte les étudiants inactifs |
-| **check_assignments_due** | Quotidien (1h) | Vérifie les devoirs à échéance |
+| **check_inactivity** | Toutes les 6h | Détecte les étudiants inactifs et met à jour leur niveau de risque |
+| **check_assignments_due** | Quotidien (1h) | Vérifie les devoirs/activités à échéance et envoie les rappels |
 | **send_scheduled_notifications** | Toutes les 15min | Envoie les notifications en attente |
-| **update_student_tracking** | Quotidien (2h30) | Met à jour les données de suivi |
+| **update_student_tracking** | Quotidien (2h30) | Met à jour les données de suivi (activités, risques) |
 | **generate_weekly_report** | Hebdo (Lundi 8h) | Génère le rapport hebdomadaire |
 | **cleanup_old_logs** | Mensuel (1er à 3h) | Nettoie les anciens logs |
 
@@ -378,22 +272,35 @@ php admin/cli/scheduled_task.php --execute='\local_student_monitor\task\check_in
 
 ## 🗄️ Structure de la base de données
 
-Le plugin crée 5 tables :
+Le plugin crée **16 tables** :
 
-1. **local_sm_notifications** - Stocke toutes les notifications
-2. **local_sm_student_tracking** - Données de suivi et risques
-3. **local_sm_config** - Configuration par cours
-4. **local_sm_logs** - Logs des actions
-5. **local_sm_templates** - Modèles de messages
+| Table | Description |
+|-------|-------------|
+| `local_sm_notifications` | Historique de toutes les notifications envoyées |
+| `local_sm_student_tracking` | Données de suivi (risque, inactivité, activités manquantes, superviseur, notes) |
+| `local_sm_config` | Configuration par cours |
+| `local_sm_logs` | Logs des actions |
+| `local_sm_templates` | Modèles de messages (sujet/corps, par langue et par type) |
+| `local_sm_report_schedules` | Planification des rapports automatiques |
+| `local_sm_campaigns` | Campagnes email (incl. tests A/B) |
+| `local_sm_campaign_recipients` | Destinataires et suivi par campagne |
+| `local_sm_parents` | Parents/tuteurs liés aux étudiants |
+| `local_sm_tasks` | Tâches de suivi/intervention |
+| `local_sm_achievements` | Réalisations/badges de gamification |
+| `local_sm_gamification` | Points, niveaux, séries (streaks) des étudiants |
+| `local_sm_interventions` | Historique des interventions auprès des étudiants |
+| `local_sm_sms_costs` | Suivi des coûts SMS et du budget mensuel |
+| `local_sm_goals` | Objectifs personnels des étudiants |
+| `local_sm_custom_reports` | Rapports personnalisés générés |
 
 ---
 
 ## 🎨 Personnalisation des templates
 
-Les templates par défaut sont en français. Pour les modifier :
+Les templates par défaut peuvent être édités via l'**Éditeur de templates** (`template_editor.php`) ou directement en base :
 
-1. Allez dans la base de données : `mdl_local_sm_templates`
-2. Modifiez le champ `body` et `subject`
+1. Allez dans la table : `mdl_local_sm_templates`
+2. Modifiez les champs `subject` et `body` (selon la colonne `type` et `language`)
 3. Utilisez les placeholders disponibles :
 
 ### Placeholders globaux
@@ -407,10 +314,10 @@ Les templates par défaut sont en français. Pour les modifier :
 **Inactivité :**
 - `{days}` - Nombre de jours d'inactivité
 - `{lastaccess}` - Date du dernier accès
-- `{riskLevel}` - Niveau de risque
+- `{riskLevel}` - Niveau de risque (LOW / MEDIUM / HIGH / CRITICAL)
 
-**Devoirs :**
-- `{assignmentname}` - Nom du devoir
+**Devoirs / activités :**
+- `{assignmentname}` - Nom du devoir/activité
 - `{duedate}` - Date limite
 - `{submissionlink}` - Lien de soumission
 
@@ -419,33 +326,36 @@ Les templates par défaut sont en français. Pour les modifier :
 - `{modulename}` - Nom du module
 - `{modulelink}` - Lien vers le module
 
+Types de templates disponibles : inactivité (niveau 1, 2, 3), nouveau contenu, rappel de devoir, annonce institutionnelle, alerte manuelle.
+
 ---
 
 ## 🔒 Sécurité et RGPD
 
 Le plugin respecte la réglementation RGPD :
 
-- ✅ **Privacy API** implémenté
+- ✅ **Privacy API** implémenté (`classes/privacy/provider.php`)
 - ✅ Export des données personnelles
 - ✅ Suppression des données utilisateur
 - ✅ Logs d'actions traçables
-- ✅ Nettoyage automatique des anciennes données
+- ✅ Nettoyage automatique des anciennes données (`cleanup_old_logs`)
 
 ### Permissions (capabilities)
 
-- `local/student_monitor:viewdashboard` - Voir le dashboard
-- `local/student_monitor:managesettings` - Gérer les paramètres
-- `local/student_monitor:sendmanual` - Envoyer des alertes manuelles
-- `local/student_monitor:viewreports` - Voir les rapports
-- `local/student_monitor:viewstudentdata` - Voir les données étudiants
-- `local/student_monitor:intervene` - Intervenir (assigner, notes)
+- `local/student_monitor:viewdashboard` - Voir le dashboard et les tableaux de bord
+- `local/student_monitor:managesettings` - Gérer les paramètres (plugin, cours, alertes automatiques)
+- `local/student_monitor:sendmanual` - Envoyer des alertes manuelles et gérer les campagnes
+- `local/student_monitor:viewreports` - Voir les rapports et analytics
+- `local/student_monitor:viewstudentdata` - Voir les données de suivi des étudiants
+- `local/student_monitor:intervene` - Intervenir (assigner, notes, actions en masse, tâches, parents)
 - `local/student_monitor:exportdata` - Exporter les données
+- `local/student_monitor:managetemplates` - Gérer les templates de notification
 
 ---
 
 ## 🧪 Tests
 
-Le plugin inclut des tests unitaires complets pour les fonctionnalités principales :
+Le plugin inclut des tests unitaires pour les fonctionnalités principales :
 
 ### Tests disponibles
 
@@ -457,7 +367,7 @@ Le plugin inclut des tests unitaires complets pour les fonctionnalités principa
 
 - **student_tracker_test.php** - Tests du suivi étudiant
   - Mise à jour du suivi
-  - Calcul des niveaux de risque (4 niveaux)
+  - Calcul des niveaux de risque (LOW/MEDIUM/HIGH/CRITICAL, basé sur `risk_level::from_criteria()`)
   - Attribution aux superviseurs
   - Ajout de notes
   - Récupération des étudiants à risque
@@ -524,9 +434,7 @@ SELECT * FROM mdl_local_sm_logs ORDER BY timecreated DESC LIMIT 100;
 
 Pour toute question ou problème :
 
-- **Email** : support-dev@unchk.edu.sn
-- **Documentation** : https://docs.unchk.edu.sn/student-monitor
-- **Issues** : https://github.com/unchk/student_monitor/issues
+- **Issues** : https://github.com/kriimoohh/local_student_monitor/issues
 
 ---
 
@@ -534,147 +442,41 @@ Pour toute question ou problème :
 
 Voir [CHANGELOG.md](CHANGELOG.md) pour la documentation complète des versions.
 
-### Version 2.1.0 (2025-11-19) - Configuration et Ciblage
+### Version 3.0.x (2026-02) - Stabilisation et simplification du risque
 
-**Nouvelles fonctionnalités majeures :**
-- ✅ Page de configuration des alertes automatiques
-- ✅ Activation/désactivation graphique des alertes
-- ✅ Configuration des seuils d'inactivité (3, 7, 14 jours)
-- ✅ Sélection des canaux pour alertes automatiques
-- ✅ Sélection de destinataires par niveau d'inactivité (3+, 7+, 14+ jours)
-- ✅ Sélection de destinataires par niveau de risque (CRITIQUE, ÉLEVÉ, MOYEN)
+- ✅ **Risque simplifié** : 4 niveaux en anglais (LOW, MEDIUM, HIGH, CRITICAL), calcul "le critère le plus élevé l'emporte" entre inactivité et activités manquantes
+- ✅ Suivi de toutes les activités du cours (achèvement, devoirs, quiz), pas seulement les devoirs
+- ✅ Migration automatique des anciennes valeurs de risque françaises
+- ✅ Suppression du module Business Intelligence (`bi_dashboard.php`, `bi_analytics_engine.php`)
+- ✅ Ajout de 11 tables manquantes au schéma (campagnes, gamification, objectifs, parents, tâches, interventions, coûts SMS, rapports planifiés, rapports personnalisés)
+- ✅ Nombreux correctifs de fiabilité (`fullname()`, colonnes manquantes, doublons de prédictions, traductions)
+
+### Version 2.1.0 (2025-11-19) - Configuration et ciblage des alertes
+
+- ✅ Page de configuration des alertes automatiques (activation, seuils, canaux)
+- ✅ Sélection de destinataires par niveau d'inactivité ou de risque
 - ✅ Widget de statut sur le dashboard
-- ✅ 68 nouvelles chaînes de langue (FR/EN)
-
-**Fichiers ajoutés :**
-- configure_automatic_alerts.php (319 lignes)
-
-**Impact utilisateur :**
-- Aucun code nécessaire pour configurer les alertes
-- Envoi ciblé aux étudiants spécifiques
-- Contrôle complet depuis l'interface
 
 ### Version 2.0.0 (2025-11-19) - Page Étudiants à Risque
 
-**Nouvelles fonctionnalités majeures :**
-- ✅ Page dédiée pour consulter les étudiants à risque
-- ✅ Statistiques interactives par niveau (CRITIQUE, ÉLEVÉ, MOYEN, FAIBLE)
-- ✅ Filtrage avancé par niveau de risque
-- ✅ Tri multi-critères (nom, email, risque, inactivité, devoirs, notifications)
-- ✅ Pagination flexible (25, 50, 100, 200 par page)
-- ✅ Indicateurs visuels avec icônes de criticité
-- ✅ Actions rapides (profil, notification)
-- ✅ Export CSV avec filtres appliqués
-- ✅ 16 nouvelles chaînes de langue (FR/EN)
+- ✅ Page dédiée avec statistiques interactives, filtrage, tri multi-critères, pagination et export CSV
 
-**Fichiers ajoutés :**
-- students_at_risk.php (370 lignes)
+### Version 1.7.0 - 1.9.0 (2025-11-17) - Engagement, BI et self-service
 
-**Impact utilisateur :**
-- Accès rapide aux étudiants par niveau
-- Meilleure visibilité sur la criticité
-- Actions directes depuis la liste
+- ✅ Gamification (points, niveaux, séries, réalisations, classement)
+- ✅ Campagnes email avec tests A/B
+- ✅ API mobile (web services)
+- ✅ Tableau de bord étudiant, objectifs personnels, comparaison entre pairs, recommandations IA
+- ✅ Suivi de progression et historique
 
-### Version 1.9.0 (2025-11-17) - Business Intelligence
+### Version 1.0.0 - 1.6.0 (2025-11-17) - Fondations
 
-**Fonctionnalités :**
-- Dashboard BI pour administrateurs
-- Analyse de cohortes et rétention
-- Performance des superviseurs
-- Planificateur de rapports automatiques
-- 60+ nouvelles chaînes de langue
-
-### Version 1.4.0 (2025-11-17) - Export et Communication
-
-**Phase 5 - Export PDF & Gestion des communications**
-
-- ✅ Export PDF des rapports (étudiants, détaillé, notifications)
-- ✅ Tracking des coûts SMS avec statistiques
-- ✅ Support des templates WhatsApp Business
-- ✅ Page de statistiques de communication
-- ✅ Graphique des coûts SMS quotidiens
-- ✅ Gestion du budget mensuel SMS
-- ✅ 35+ nouvelles chaînes de langue (FR/EN)
-
-**Nouvelles fonctionnalités :**
-- **Export PDF** : Rapports professionnels en PDF (liste étudiants, rapport détaillé, historique notifications)
-- **Tracking SMS** : Suivi automatique des coûts SMS, calcul des parties, budget mensuel
-- **WhatsApp Templates** : Support des messages pré-approuvés WhatsApp Business API
-- **Statistiques communication** : Page dédiée aux stats SMS/WhatsApp avec graphiques
-- **Gestion budget** : Alertes de dépassement de budget SMS, blocage automatique si limite atteinte
-- **Coûts par type** : Répartition des coûts SMS par type de notification
-
-### Version 1.3.0 (2025-11-17)
-
-**Phase 4 - Visualisation & Reporting avancé**
-
-- ✅ Intégration Chart.js pour graphiques interactifs
-- ✅ Filtres avancés dans la liste des étudiants
-- ✅ Actions en masse (bulk actions)
-- ✅ Page de rapports avancés avec 4 graphiques
-- ✅ Éditeur de templates de notification
-- ✅ 60+ nouvelles chaînes de langue (FR/EN)
-
-**Nouvelles fonctionnalités :**
-- **Graphiques Chart.js** : Répartition des risques, tendances des notifications, types de notifications, interventions par risque
-- **Filtres avancés** : Recherche par nom/email, filtres par risque, inactivité, devoirs, assignation
-- **Actions en masse** : Assigner/désassigner, ajouter notes, notifier plusieurs étudiants simultanément
-- **Rapports avancés** : Page dédiée avec KPI visuels et graphiques interactifs
-- **Éditeur de templates** : Personnaliser les messages avec réinitialisation aux valeurs par défaut
-
-### Version 1.2.0 (2025-11-17)
-
-**Phase 3 - Configuration & Testing**
-
-- ✅ Paramètres spécifiques par cours (course_settings.php)
-- ✅ Préférences de notification pour les étudiants (preferences.php)
-- ✅ Templates Mustache réutilisables (kpi_card, student_row)
-- ✅ Tests unitaires (notification_manager, student_tracker)
-- ✅ 50+ nouvelles chaînes de langue (FR/EN)
-- ✅ Améliorations de la personnalisation
-
-**Nouvelles fonctionnalités :**
-- Configuration granulaire par cours (activation, types d'activités, seuils personnalisés)
-- Résumés périodiques pour enseignants (quotidien, hebdomadaire, mensuel)
-- Préférences de canaux pour les étudiants
-- Historique des notifications pour les étudiants
-- Tests unitaires complets pour les managers principaux
-
-### Version 1.1.0 (2025-11-17)
-
-**Phase 2 - Interface & Alertes manuelles**
-
-- ✅ Dashboard interactif avec KPI et statistiques
-- ✅ Système d'alertes manuelles complet
-- ✅ Historique et suivi des alertes
-- ✅ Export CSV avec encodage UTF-8
-- ✅ Styles CSS responsive (300+ lignes)
-- ✅ Module JavaScript AMD pour interactivité
-- ✅ Fournisseurs de messages Moodle
-
-**Nouvelles fonctionnalités :**
-- Interface utilisateur complète et moderne
-- Création d'alertes personnalisées (examens, devoirs, événements)
-- Filtrage des étudiants par niveau de risque
-- Actions rapides depuis le dashboard
-- Rappels automatiques (J-7, J-3, J-1)
-
-### Version 1.0.0 (2025-11-17)
-
-**Phase 1 - Infrastructure & Notifications automatiques**
-
-- ✅ Implémentation initiale
-- ✅ Détection d'inactivité (3 niveaux : 72h, 7j, 14j)
-- ✅ Notifications de nouveau contenu
-- ✅ Rappels de devoirs automatiques
-- ✅ Annonces institutionnelles
-- ✅ Multi-canaux (Email, Moodle, SMS, WhatsApp)
-- ✅ Système d'évaluation des risques (4 niveaux)
-- ✅ Conformité RGPD/Privacy API
-- ✅ 6 tâches CRON planifiées
-- ✅ 6 observateurs d'événements
-- ✅ Base de données (5 tables)
-- ✅ 8 permissions (capabilities)
+- ✅ Détection d'inactivité multi-niveaux et notifications automatiques (contenu, devoirs, annonces)
+- ✅ Dashboard interactif, alertes manuelles, export CSV, modules AMD
+- ✅ Configuration par cours, préférences étudiants, templates Mustache, tests unitaires
+- ✅ Filtres avancés, actions en masse, rapports avec Chart.js, éditeur de templates
+- ✅ Export PDF, suivi des coûts SMS, templates WhatsApp Business
+- ✅ Conformité RGPD/Privacy API, 6 tâches CRON, observateurs d'événements, 8 permissions
 
 ---
 
