@@ -1007,31 +1007,29 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-### Planned for Future Versions
-- [ ] JavaScript charts integration (Chart.js)
-- [ ] Advanced filtering and search in student list
-- [ ] Bulk actions for students
-- [ ] Email template editor in admin interface
-- [ ] PDF export
-- [ ] SMS cost tracking
-- [ ] WhatsApp template messages support
-
 ### Ideas for Future Releases
 - Chatbot integration for student support
-- AI-powered risk prediction
-- Integration with student information systems
-- Custom report builder
-- Email campaign manager
-- A/B testing for notification effectiveness
-- Gamification for student engagement
 - SMS two-way communication
 - WhatsApp chatbot for FAQs
 - Integration with video conferencing platforms
+- Integration with student information systems
 
 ---
 
 ## Version History
 
+- **v3.0.6** (2026-02-11) - Fix `template_type` property references in template editor
+- **v3.0.5** (2026-02-11) - Add 11 missing database tables and lang strings
+- **v3.0.4** (2026-02-09) - Fix `fullname` usage in bulk actions and PDF manager
+- **v3.0.3** (2026-02-09) - Fix remaining `fullname()` issues, localize weekly report and CSV exports
+- **v3.0.2** (2026-02-07) - Fix `fullname()` "missing name fields" warnings across the plugin
+- **v3.0.1** (2026-02-07) - Fix duplicate userid errors on the Predictions page
+- **v3.0.0** (2026-02-07) - Simplified risk calculation (LOW/MEDIUM/HIGH/CRITICAL), tracks all course activities, removes BI module
+- **v2.1.0** (2025-11-19) - Automatic alerts configuration & targeted recipient selection
+- **v2.0.0** (2025-11-19) - Dedicated Students at Risk page
+- **v1.9.0** (2025-11-17) - Business Intelligence dashboard & report scheduler (removed in v3.0.0)
+- **v1.8.0** (2025-11-17) - Student self-service dashboard, AI recommendations, peer comparison, goals
+- **v1.7.0** (2025-11-17) - Email campaigns, gamification, mobile API
 - **v1.6.0** (2025-11-17) - Predictive Analytics & Parent Notifications
 - **v1.5.0** (2025-11-17) - Workflow Automation & Task Management
 - **v1.4.0** (2025-11-17) - PDF Export & Communication Management
