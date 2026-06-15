@@ -44,7 +44,6 @@ $PAGE->requires->js_call_amd('local_student_monitor/dashboard', 'init');
 
 // Get filter parameters.
 $risklevel = optional_param('risk', '', PARAM_TEXT);
-$courseid = optional_param('course', 0, PARAM_INT);
 $search = optional_param('search', '', PARAM_TEXT);
 
 // Validate risk level to prevent SQL injection and ensure only valid values.
@@ -253,26 +252,11 @@ if (has_capability('local/student_monitor:viewreports', $context)) {
     echo html_writer::end_tag('li');
 }
 
-// Management menu
+// Management menu.
 if (has_capability('local/student_monitor:intervene', $context)) {
-    echo html_writer::start_tag('li', ['class' => 'nav-item dropdown']);
-    echo html_writer::start_tag('a', [
-        'class' => 'nav-link dropdown-toggle',
-        'href' => '#',
-        'id' => 'managementDropdown',
-        'role' => 'button',
-        'data-toggle' => 'dropdown',
-        'aria-haspopup' => 'true',
-        'aria-expanded' => 'false'
-    ]);
-    echo '⚙️ Gestion';
-    echo html_writer::end_tag('a');
-    echo html_writer::start_div('dropdown-menu', ['aria-labelledby' => 'managementDropdown']);
-    $parentsurl = new moodle_url('/local/student_monitor/manage_parents.php');
-    echo html_writer::link($parentsurl, 'Gestion des parents/tuteurs', ['class' => 'dropdown-item']);
-    $tasksurl = new moodle_url('/local/student_monitor/manage_tasks.php');
-    echo html_writer::link($tasksurl, 'Gestion des tâches', ['class' => 'dropdown-item']);
-    echo html_writer::end_div();
+    echo html_writer::start_tag('li', ['class' => 'nav-item']);
+    $tasksurl = new moodle_url('/local/student_monitor/tasks.php');
+    echo html_writer::link($tasksurl, '⚙️ ' . get_string('taskmanagement', 'local_student_monitor'), ['class' => 'nav-link']);
     echo html_writer::end_tag('li');
 }
 
@@ -306,7 +290,7 @@ echo html_writer::start_div('card kpi-card bg-primary text-white');
 echo html_writer::start_div('card-body');
 echo html_writer::tag('h5', get_string('notificationssent', 'local_student_monitor'), ['class' => 'card-title']);
 echo html_writer::tag('div', $notificationsstats->sent, ['class' => 'kpi-number']);
-echo html_writer::tag('small', get_string('weeklyreport', 'local_student_monitor'));
+echo html_writer::tag('small', get_string('thisweek', 'local_student_monitor'));
 echo html_writer::end_div();
 echo html_writer::end_div();
 echo html_writer::end_div();
