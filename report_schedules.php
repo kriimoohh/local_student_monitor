@@ -54,7 +54,7 @@ $schedules = $scheduler->get_all_schedules();
 
 echo $OUTPUT->header();
 
-echo html_writer::tag('h2', get_string('reportschedules', 'local_student_monitor'));
+echo html_writer::tag('h2', '🗓️ ' . get_string('reportschedules', 'local_student_monitor'), ['class' => 'sm-page-title']);
 
 // Create new schedule button.
 echo html_writer::link(

@@ -94,7 +94,7 @@ if ($automaticalerts > 0) {
 echo $OUTPUT->header();
 
 // Page title with icon.
-echo html_writer::tag('h2', get_string('weeklyreport', 'local_student_monitor'));
+echo html_writer::tag('h2', '🗞️ ' . get_string('weeklyreport', 'local_student_monitor'), ['class' => 'sm-page-title']);
 
 // Overview cards.
 echo html_writer::start_div('row mb-4');

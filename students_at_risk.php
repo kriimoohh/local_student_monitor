@@ -33,6 +33,8 @@ require_capability('local/student_monitor:viewdashboard', $context);
 
 // Get filter parameters.
 $risklevel = optional_param('risk', '', PARAM_TEXT);
+$mininactivity = optional_param('mininactivity', -1, PARAM_INT);
+$minmissing = optional_param('minmissing', -1, PARAM_INT);
 $page = optional_param('page', 0, PARAM_INT);
 $perpage = optional_param('perpage', 25, PARAM_INT);
 $sort = optional_param('sort', 'risk', PARAM_ALPHA);
@@ -43,8 +45,18 @@ if ($risklevel && !in_array($risklevel, ['CRITICAL', 'HIGH', 'MEDIUM', 'LOW'])) 
     $risklevel = '';
 }
 
+// Negative values mean "no filter applied".
+if ($mininactivity < 0) {
+    $mininactivity = -1;
+}
+if ($minmissing < 0) {
+    $minmissing = -1;
+}
+
 $PAGE->set_url(new moodle_url('/local/student_monitor/students_at_risk.php', [
     'risk' => $risklevel,
+    'mininactivity' => $mininactivity,
+    'minmissing' => $minmissing,
     'page' => $page,
     'perpage' => $perpage,
     'sort' => $sort,
@@ -87,6 +99,18 @@ if ($risklevel) {
     $countsql .= " AND st.risk_level IN ('MEDIUM', 'HIGH', 'CRITICAL')";
 }
 
+if ($mininactivity >= 0) {
+    $sql .= " AND st.inactivity_days >= :mininactivity";
+    $countsql .= " AND st.inactivity_days >= :mininactivity";
+    $params['mininactivity'] = $mininactivity;
+}
+
+if ($minmissing >= 0) {
+    $sql .= " AND st.missing_activities >= :minmissing";
+    $countsql .= " AND st.missing_activities >= :minmissing";
+    $params['minmissing'] = $minmissing;
+}
+
 // Add sorting.
 switch ($sort) {
     case 'name':
@@ -127,7 +151,7 @@ $students = $DB->get_records_sql($sql, $params, $page * $perpage, $perpage);
 echo $OUTPUT->header();
 
 // Page title with icon.
-echo html_writer::tag('h2', '⚠️ ' . get_string('studentsatrisk', 'local_student_monitor'));
+echo html_writer::tag('h2', '⚠️ ' . get_string('studentsatrisk', 'local_student_monitor'), ['class' => 'sm-page-title']);
 
 // Statistics Overview Cards.
 echo html_writer::start_div('row mb-4');
@@ -182,16 +206,79 @@ echo html_writer::end_div();
 
 echo html_writer::end_div(); // row.
 
+// Criteria filters (inactivity days / missing activities).
+echo html_writer::start_div('card mb-3');
+echo html_writer::start_div('card-body');
+echo html_writer::start_tag('form', [
+    'method' => 'get',
+    'action' => new moodle_url('/local/student_monitor/students_at_risk.php'),
+    'class' => 'form-inline',
+]);
+echo html_writer::empty_tag('input', ['type' => 'hidden', 'name' => 'risk', 'value' => $risklevel]);
+echo html_writer::empty_tag('input', ['type' => 'hidden', 'name' => 'sort', 'value' => $sort]);
+echo html_writer::empty_tag('input', ['type' => 'hidden', 'name' => 'dir', 'value' => $dir]);
+echo html_writer::empty_tag('input', ['type' => 'hidden', 'name' => 'perpage', 'value' => $perpage]);
+
+echo html_writer::tag('label', get_string('filterbyinactivity', 'local_student_monitor'), [
+    'for' => 'mininactivity', 'class' => 'mr-2',
+]);
+echo html_writer::empty_tag('input', [
+    'type' => 'number',
+    'name' => 'mininactivity',
+    'id' => 'mininactivity',
+    'class' => 'form-control mr-3',
+    'min' => '0',
+    'style' => 'width: 100px;',
+    'value' => $mininactivity >= 0 ? $mininactivity : '',
+]);
+
+echo html_writer::tag('label', get_string('filterbymissingassignments', 'local_student_monitor'), [
+    'for' => 'minmissing', 'class' => 'mr-2',
+]);
+echo html_writer::empty_tag('input', [
+    'type' => 'number',
+    'name' => 'minmissing',
+    'id' => 'minmissing',
+    'class' => 'form-control mr-3',
+    'min' => '0',
+    'style' => 'width: 100px;',
+    'value' => $minmissing >= 0 ? $minmissing : '',
+]);
+
+echo html_writer::tag('button', get_string('apply', 'local_student_monitor'), [
+    'type' => 'submit',
+    'class' => 'btn btn-primary mr-2',
+]);
+
+$clearallurl = new moodle_url('/local/student_monitor/students_at_risk.php');
+echo html_writer::link($clearallurl, get_string('clearfilters', 'local_student_monitor'), ['class' => 'btn btn-secondary']);
+
+echo html_writer::end_tag('form');
+echo html_writer::end_div();
+echo html_writer::end_div();
+
 // Current filter display.
 echo html_writer::start_div('alert alert-info mb-3');
+$activefilters = [];
 if ($risklevel) {
-    echo html_writer::tag('strong', get_string('currentfilter', 'local_student_monitor') . ': ');
     // Normalize risk level for translation (remove accents).
     $riskkey = mb_strtolower($risklevel, 'UTF-8');
     $riskkey = str_replace(['é', 'è', 'ê', 'ë'], 'e', $riskkey);
-    echo get_string('risk_' . $riskkey, 'local_student_monitor');
+    $activefilters[] = get_string('risklevel', 'local_student_monitor') . ': ' .
+        get_string('risk_' . $riskkey, 'local_student_monitor');
+}
+if ($mininactivity >= 0) {
+    $activefilters[] = get_string('inactivitydays', 'local_student_monitor') . ' >= ' . $mininactivity;
+}
+if ($minmissing >= 0) {
+    $activefilters[] = get_string('missingassignments', 'local_student_monitor') . ' >= ' . $minmissing;
+}
+
+if (!empty($activefilters)) {
+    echo html_writer::tag('strong', get_string('currentfilter', 'local_student_monitor') . ': ');
+    echo implode(', ', $activefilters);
     echo ' (' . $totalcount . ' ' . get_string('student', 'local_student_monitor') . ') ';
-    $clearurl = new moodle_url($PAGE->url, ['risk' => '']);
+    $clearurl = new moodle_url('/local/student_monitor/students_at_risk.php');
     echo html_writer::link($clearurl, get_string('clearfilter', 'local_student_monitor'),
         ['class' => 'btn btn-sm btn-secondary ml-2']);
 } else {
@@ -286,6 +373,7 @@ if (!empty($students)) {
         $nameheader,
         $emailheader,
         $riskheader,
+        get_string('triggercriterion', 'local_student_monitor'),
         get_string('lastactivity', 'local_student_monitor'),
         $inactivityheader,
         $assignmentsheader,
@@ -313,6 +401,14 @@ if (!empty($students)) {
                 $riskclass .= 'badge-success';
         }
         $riskbadge = html_writer::tag('span', $student->risk_level, ['class' => $riskclass]);
+
+        // Triggering criterion (which factor drives the current risk level).
+        $trigger = \local_student_monitor\risk_level::get_trigger_criterion(
+            $student->inactivity_days,
+            $student->missing_activities
+        );
+        $triggerbadge = html_writer::tag('span', get_string('trigger_' . $trigger, 'local_student_monitor'),
+            ['class' => 'badge badge-secondary']);
 
         // Last activity.
         $lastactivity = $student->last_activity ? userdate($student->last_activity, get_string('strftimedatetime')) : '-';
@@ -352,6 +448,7 @@ if (!empty($students)) {
             fullname($student),
             $student->email,
             $riskbadge,
+            $triggerbadge,
             $lastactivity,
             $inactivitytext,
             $assignmentstext,

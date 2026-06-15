@@ -275,5 +275,38 @@ function xmldb_local_student_monitor_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2026020707, 'local', 'student_monitor');
     }
 
+    if ($oldversion < 2026020709) {
+        // Drop unused table: local_sm_custom_reports (custom_report_builder feature was never wired up).
+        $table = new xmldb_table('local_sm_custom_reports');
+        if ($dbman->table_exists($table)) {
+            $dbman->drop_table($table);
+        }
+
+        upgrade_plugin_savepoint(true, 2026020709, 'local', 'student_monitor');
+    }
+
+    if ($oldversion < 2026021000) {
+        // Remove tables for features removed to align with the cahier des charges:
+        // email campaigns (A/B testing), parent/guardian notifications, and the
+        // student self-service space (gamification, goals, peer comparison).
+        $tables = [
+            'local_sm_campaigns',
+            'local_sm_campaign_recipients',
+            'local_sm_parents',
+            'local_sm_gamification',
+            'local_sm_achievements',
+            'local_sm_goals',
+        ];
+
+        foreach ($tables as $tablename) {
+            $table = new xmldb_table($tablename);
+            if ($dbman->table_exists($table)) {
+                $dbman->drop_table($table);
+            }
+        }
+
+        upgrade_plugin_savepoint(true, 2026021000, 'local', 'student_monitor');
+    }
+
     return true;
 }

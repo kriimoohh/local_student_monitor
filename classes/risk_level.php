@@ -318,36 +318,75 @@ class risk_level {
      * @return string Risk level constant
      */
     public static function from_criteria(int $inactivitydays, int $missingactivities): string {
-        $inactthresholds = self::get_inactivity_thresholds();
-        $actthresholds = self::get_missing_activities_thresholds();
-
-        // Determine inactivity-based risk level.
-        if ($inactivitydays >= $inactthresholds['level3']) {
-            $inactivityrisk = self::CRITICAL;
-        } else if ($inactivitydays >= $inactthresholds['level2']) {
-            $inactivityrisk = self::HIGH;
-        } else if ($inactivitydays >= $inactthresholds['level1']) {
-            $inactivityrisk = self::MEDIUM;
-        } else {
-            $inactivityrisk = self::LOW;
-        }
-
-        // Determine activity-based risk level.
-        if ($missingactivities >= $actthresholds['level3']) {
-            $activityrisk = self::CRITICAL;
-        } else if ($missingactivities >= $actthresholds['level2']) {
-            $activityrisk = self::HIGH;
-        } else if ($missingactivities >= $actthresholds['level1']) {
-            $activityrisk = self::MEDIUM;
-        } else {
-            $activityrisk = self::LOW;
-        }
+        $inactivityrisk = self::get_inactivity_risk_level($inactivitydays);
+        $activityrisk = self::get_activity_risk_level($missingactivities);
 
         // Highest wins.
         if (self::get_hierarchy_value($inactivityrisk) >= self::get_hierarchy_value($activityrisk)) {
             return $inactivityrisk;
         }
         return $activityrisk;
+    }
+
+    /**
+     * Determine which criterion (or both) is responsible for the current risk level.
+     *
+     * @param int $inactivitydays Days of inactivity
+     * @param int $missingactivities Number of missing/incomplete activities
+     * @return string One of 'inactivity', 'activities', or 'both'
+     */
+    public static function get_trigger_criterion(int $inactivitydays, int $missingactivities): string {
+        $inactivityrisk = self::get_inactivity_risk_level($inactivitydays);
+        $activityrisk = self::get_activity_risk_level($missingactivities);
+
+        $inactivityvalue = self::get_hierarchy_value($inactivityrisk);
+        $activityvalue = self::get_hierarchy_value($activityrisk);
+
+        if ($inactivityvalue > $activityvalue) {
+            return 'inactivity';
+        }
+        if ($activityvalue > $inactivityvalue) {
+            return 'activities';
+        }
+        return 'both';
+    }
+
+    /**
+     * Determine the risk level based solely on inactivity days.
+     *
+     * @param int $inactivitydays Days of inactivity
+     * @return string Risk level constant
+     */
+    private static function get_inactivity_risk_level(int $inactivitydays): string {
+        $thresholds = self::get_inactivity_thresholds();
+
+        if ($inactivitydays >= $thresholds['level3']) {
+            return self::CRITICAL;
+        } else if ($inactivitydays >= $thresholds['level2']) {
+            return self::HIGH;
+        } else if ($inactivitydays >= $thresholds['level1']) {
+            return self::MEDIUM;
+        }
+        return self::LOW;
+    }
+
+    /**
+     * Determine the risk level based solely on missing activities.
+     *
+     * @param int $missingactivities Number of missing/incomplete activities
+     * @return string Risk level constant
+     */
+    private static function get_activity_risk_level(int $missingactivities): string {
+        $thresholds = self::get_missing_activities_thresholds();
+
+        if ($missingactivities >= $thresholds['level3']) {
+            return self::CRITICAL;
+        } else if ($missingactivities >= $thresholds['level2']) {
+            return self::HIGH;
+        } else if ($missingactivities >= $thresholds['level1']) {
+            return self::MEDIUM;
+        }
+        return self::LOW;
     }
 
     /**

@@ -102,7 +102,7 @@ $description = $data->description['text'];
 // Output starts here.
 echo $OUTPUT->header();
 
-echo html_writer::tag('h2', get_string('previewalert', 'local_student_monitor'));
+echo html_writer::tag('h2', '👁️ ' . get_string('previewalert', 'local_student_monitor'), ['class' => 'sm-page-title']);
 
 echo html_writer::tag('p', get_string('previewalertdesc', 'local_student_monitor'), ['class' => 'alert alert-info']);
 
@@ -119,13 +119,13 @@ echo html_writer::end_div();
 // Subject/Title.
 echo html_writer::start_div('mb-3');
 echo html_writer::tag('strong', get_string('subject', 'local_student_monitor') . ': ');
-echo html_writer::tag('span', $data->title, ['class' => 'h5']);
+echo html_writer::tag('span', s($data->title), ['class' => 'h5']);
 echo html_writer::end_div();
 
 // Sender.
 echo html_writer::start_div('mb-3');
 echo html_writer::tag('strong', get_string('sender', 'local_student_monitor') . ': ');
-echo fullname($sender) . ' (' . $sender->email . ')';
+echo s(fullname($sender) . ' (' . $sender->email . ')');
 echo html_writer::end_div();
 
 // Event date (if applicable).
@@ -140,7 +140,7 @@ if (!empty($data->eventdate)) {
 if (!empty($data->location)) {
     echo html_writer::start_div('mb-3');
     echo html_writer::tag('strong', get_string('location') . ': ');
-    echo $data->location;
+    echo s($data->location);
     echo html_writer::end_div();
 }
 

@@ -164,7 +164,7 @@ $PAGE->requires->js_call_amd('local_student_monitor/effectiveness_charts', 'init
 
 echo $OUTPUT->header();
 
-echo html_writer::tag('h2', get_string('effectivenessreports', 'local_student_monitor'));
+echo html_writer::tag('h2', '📈 ' . get_string('effectivenessreports', 'local_student_monitor'), ['class' => 'sm-page-title']);
 
 // Period and supervisor filters.
 echo html_writer::start_div('row mb-3');

@@ -1,6 +1,6 @@
 # Student Monitor - Plugin Moodle
 
-**Version:** 3.0.6
+**Version:** 3.2.0
 **Compatible Moodle:** 4.0+
 **PHP:** 8.0+
 **Licence:** GNU GPL v3
@@ -14,7 +14,7 @@ Student Monitor est un plugin Moodle complet développé initialement pour l'**U
 
 > **🌍 Plugin universel** : Bien que conçu pour l'UNCHK, ce plugin est entièrement adaptable et utilisable par **toute autre institution éducative** (universités, écoles, centres de formation) souhaitant améliorer le suivi et la rétention de ses étudiants.
 
-Il améliore la rétention des étudiants grâce à un système automatisé de suivi, d'analyse, de prédiction et de notifications multicanaux, ainsi qu'à un espace de self-service (gamification, objectifs, comparaison entre pairs, recommandations IA) pour les étudiants eux-mêmes.
+Il améliore la rétention des étudiants grâce à un système automatisé de suivi, d'analyse et de notifications multicanaux.
 
 ### Fonctionnalités principales
 
@@ -62,30 +62,15 @@ Il améliore la rétention des étudiants grâce à un système automatisé de s
 - WhatsApp Business (templates pré-approuvés)
 - Configuration par canal pour les alertes automatiques
 
-✅ **Analytics, prédictions et rapports avancés :**
+✅ **Rapports avancés :**
 - Graphiques Chart.js (répartition des risques, tendances, types de notifications, interventions)
-- **Analyse prédictive** (`predictions.php`) : alertes précoces et prédictions à 3, 7, 14, 30 jours
 - **Rapports d'efficacité** (`effectiveness.php`) : impact des interventions et notifications
-- **Générateur de rapports personnalisés** et **planificateur de rapports** (PDF/CSV/HTML, envoi par email programmé)
+- **Planificateur de rapports** (PDF/CSV/HTML, envoi par email programmé)
 - Export PDF (liste étudiants, rapport détaillé, historique des notifications)
 - Rapport hebdomadaire automatique (`weekly_report.php`)
 
-✅ **Espace étudiant (self-service) :**
-- **Tableau de bord étudiant** personnalisé (`student_dashboard.php`)
-- **Gamification** : points, niveaux, séries (streaks), badges/réalisations, classement (`leaderboard.php`)
-- **Mes objectifs** (`my_goals.php`) : objectifs personnels (notes, présence, devoirs, engagement, personnalisés) avec suivi de progression
-- **Comparaison anonyme entre pairs** (`peer_comparison.php`) : graphique radar, percentiles sur 4 métriques
-- **Recommandations personnalisées par IA** intégrées au tableau de bord étudiant
-- **Préférences de notification** (`preferences.php`) : choix des canaux et historique
-
-✅ **Campagnes email & engagement :**
-- Création et gestion de campagnes email ciblées (`campaigns.php`)
-- Tests A/B avec répartition automatique des destinataires
-- Statistiques de campagne (taux d'ouverture, de clic, de conversion) (`campaign_stats.php`)
-
-✅ **Gestion des parents/tuteurs :**
-- Page de gestion des parents/tuteurs (`parent_management.php`)
-- Notifications aux parents sur le suivi de leurs enfants
+✅ **Préférences de notification :**
+- **Préférences de notification** (`preferences.php`) : choix des canaux et historique, accessible à tous les utilisateurs (conformité RGPD)
 
 ✅ **Suivi des interventions et tâches :**
 - Suivi des interventions auprès des étudiants (assignation, notes, historique)
@@ -94,9 +79,6 @@ Il améliore la rétention des étudiants grâce à un système automatisé de s
 
 ✅ **API mobile (Web Services) :**
 - `local_student_monitor_get_student_stats` - statistiques de suivi d'un étudiant
-- `local_student_monitor_get_gamification_data` - points, niveau, séries, réalisations
-- `local_student_monitor_get_leaderboard` - classement gamification
-- `local_student_monitor_get_campaign_stats` - statistiques de campagnes (admin)
 - `local_student_monitor_search_users` - recherche d'utilisateurs pour les alertes
 
 ✅ **RGPD et sécurité :**
@@ -171,6 +153,10 @@ git clone https://github.com/kriimoohh/local_student_monitor.git student_monitor
 
 7. **Email/téléphone de support** : utilisés dans les placeholders `{supportemail}` / `{supportphone}`
 
+8. **Expéditeur des emails** :
+   - Adresse email d'expédition (optionnelle, sinon l'adresse no-reply de Moodle est utilisée)
+   - Nom de l'expéditeur (optionnel, appliqué seulement si une adresse est définie)
+
 ### Configuration SMS (optionnelle)
 
 Pour activer les SMS, configurez :
@@ -210,29 +196,19 @@ Visible pour les utilisateurs disposant de la capability `viewdashboard`. Organi
 
 #### 📈 Rapports & Analytics (capability `viewreports`)
 - **Rapports avancés** (`reports.php`) - graphiques Chart.js, KPI, exports CSV
-- **Analyse prédictive** (`predictions.php`) - alertes précoces et prédictions de risque (3/7/14/30 jours)
 - **Rapports d'efficacité** (`effectiveness.php`) - mesure de l'impact des interventions/notifications
 - **Planification de rapports** (`report_schedules.php`) - rapports automatiques périodiques (PDF/CSV/HTML)
-
-#### 📧 Campagnes Email (capability `sendmanual`)
-- **Campagnes email** (`campaigns.php`) - création, ciblage, tests A/B, planification
-- **Statistiques de campagnes** (`campaign_stats.php`) - taux d'ouverture/clic/conversion, comparaison A/B
 
 #### 💬 Communication (capability `viewreports`)
 - **Statistiques de communication** (`communication_stats.php`) - suivi SMS/WhatsApp, coûts, budgets
 - **Éditeur de templates** (`template_editor.php`, capability `managetemplates`) - personnalisation des messages
 
 #### ⚙️ Gestion (capability `intervene`)
-- **Gestion des parents/tuteurs** (`parent_management.php`)
 - **Gestion des tâches** (`tasks.php`)
 
-### 2. Menu "Mon espace étudiant" (tous les utilisateurs authentifiés)
+### 2. Préférences de notification (tous les utilisateurs authentifiés)
 
-- **Tableau de bord étudiant** (`student_dashboard.php`) - risque, gamification, recommandations IA, progression
-- **Mes objectifs** (`my_goals.php`) - création et suivi d'objectifs personnels
-- **Comparaison entre pairs** (`peer_comparison.php`) - comparaison anonyme (radar chart)
-- **Classement** (`leaderboard.php`) - leaderboard de gamification (points, niveaux, podium)
-- **Préférences de notification** (`preferences.php`) - choix des canaux et historique
+- **Préférences de notification** (`preferences.php`) - choix des canaux et historique, accessible directement depuis la navigation principale (conformité RGPD)
 
 ### 3. Paramètres par cours
 
@@ -272,7 +248,7 @@ php admin/cli/scheduled_task.php --execute='\local_student_monitor\task\check_in
 
 ## 🗄️ Structure de la base de données
 
-Le plugin crée **16 tables** :
+Le plugin crée **9 tables** :
 
 | Table | Description |
 |-------|-------------|
@@ -282,16 +258,9 @@ Le plugin crée **16 tables** :
 | `local_sm_logs` | Logs des actions |
 | `local_sm_templates` | Modèles de messages (sujet/corps, par langue et par type) |
 | `local_sm_report_schedules` | Planification des rapports automatiques |
-| `local_sm_campaigns` | Campagnes email (incl. tests A/B) |
-| `local_sm_campaign_recipients` | Destinataires et suivi par campagne |
-| `local_sm_parents` | Parents/tuteurs liés aux étudiants |
 | `local_sm_tasks` | Tâches de suivi/intervention |
-| `local_sm_achievements` | Réalisations/badges de gamification |
-| `local_sm_gamification` | Points, niveaux, séries (streaks) des étudiants |
 | `local_sm_interventions` | Historique des interventions auprès des étudiants |
 | `local_sm_sms_costs` | Suivi des coûts SMS et du budget mensuel |
-| `local_sm_goals` | Objectifs personnels des étudiants |
-| `local_sm_custom_reports` | Rapports personnalisés générés |
 
 ---
 
@@ -441,6 +410,21 @@ Pour toute question ou problème :
 ## 📝 Changelog (Résumé)
 
 Voir [CHANGELOG.md](CHANGELOG.md) pour la documentation complète des versions.
+
+### Version 3.2.0 (2026-06) - Filtres de critères, sécurité et refonte visuelle
+
+- ✅ Page "Étudiants à risque" : filtres séparés pour le nombre minimum de jours d'inactivité et d'activités manquantes, en complément du filtre par niveau de risque
+- ✅ Nouvelle colonne "Critère déclencheur" indiquant si le niveau de risque est dû à l'inactivité, aux activités manquantes, ou aux deux
+- ✅ Corrections de sécurité : erreur fatale dans les préférences de notification, échappement des sorties HTML dans l'éditeur de templates et l'aperçu d'alerte (XSS)
+- ✅ Refonte visuelle : nouveau style de titre de page, cartes/tableaux/badges/boutons/formulaires modernisés sur l'ensemble du plugin
+
+### Version 3.1.0 (2026-02) - Simplification du périmètre (cahier des charges)
+
+- ✅ Suppression des campagnes email avec tests A/B, de la gestion des parents/tuteurs et de l'espace self-service étudiant (tableau de bord, gamification, objectifs, comparaison entre pairs, recommandations IA, analyse prédictive)
+- ✅ Ajout d'une adresse/nom d'expéditeur configurable pour les emails automatiques
+- ✅ Correction de l'éditeur de templates (`template_editor.php`) : la réinitialisation aux valeurs par défaut était cassée pour tous les types de templates
+- ✅ Migration de la base de données : suppression de 6 tables (`local_sm_campaigns`, `local_sm_campaign_recipients`, `local_sm_parents`, `local_sm_gamification`, `local_sm_achievements`, `local_sm_goals`)
+- ✅ Les canaux SMS/WhatsApp et les préférences de notification (RGPD) sont conservés
 
 ### Version 3.0.x (2026-02) - Stabilisation et simplification du risque
 

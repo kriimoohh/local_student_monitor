@@ -118,7 +118,7 @@ if ($channelmoodle === false) {
 // Output starts here.
 echo $OUTPUT->header();
 
-echo html_writer::tag('h2', '⚙️ ' . get_string('configureautomaticalerts', 'local_student_monitor'));
+echo html_writer::tag('h2', '⚙️ ' . get_string('configureautomaticalerts', 'local_student_monitor'), ['class' => 'sm-page-title']);
 
 echo html_writer::tag('p', get_string('configureautomaticalertsdesc', 'local_student_monitor'),
     ['class' => 'alert alert-info']);

@@ -95,6 +95,14 @@ $string['whatsappphoneid_desc'] = 'ID du numéro de téléphone WhatsApp Busines
 $string['whatsapptoken'] = 'Token d\'accès WhatsApp';
 $string['whatsapptoken_desc'] = 'Token d\'accès pour l\'API WhatsApp Business';
 
+// Email sender settings.
+$string['emailsendersettings'] = 'Expéditeur des emails';
+$string['emailsendersettingsdesc'] = 'Configurer l\'adresse et le nom de l\'expéditeur utilisés pour l\'envoi automatique des notifications par email';
+$string['notificationfromemail'] = 'Adresse email d\'expédition';
+$string['notificationfromemail_desc'] = 'Adresse email utilisée comme expéditeur pour les notifications automatiques. Laisser vide pour utiliser l\'adresse no-reply de Moodle';
+$string['notificationfromname'] = 'Nom de l\'expéditeur';
+$string['notificationfromname_desc'] = 'Nom affiché comme expéditeur des notifications automatiques (appliqué uniquement si une adresse email d\'expédition est définie)';
+
 // Support settings.
 $string['supportsettings'] = 'Contact support';
 $string['supportsettingsdesc'] = 'Informations de contact du support';
@@ -126,6 +134,10 @@ $string['risk_low'] = 'Low';
 $string['risk_medium'] = 'Medium';
 $string['risk_high'] = 'High';
 $string['risk_critical'] = 'Critical';
+$string['triggercriterion'] = 'Critère déclencheur';
+$string['trigger_inactivity'] = 'Inactivité';
+$string['trigger_activities'] = 'Activités manquantes';
+$string['trigger_both'] = 'Inactivité et activités';
 
 // Paramètres de l\'institution.
 $string['institutionname'] = 'Nom de l\'institution';
@@ -142,6 +154,9 @@ $string['institutionalannouncement'] = 'Annonce institutionnelle';
 $string['manualalert'] = 'Alerte manuelle';
 $string['manual_alert'] = 'Alerte manuelle';
 $string['assignment_reminder'] = 'Rappel de devoir';
+$string['assignment_reminder_7days'] = 'Rappel de devoir (J-7)';
+$string['assignment_reminder_1day'] = 'Rappel de devoir (J-1)';
+$string['institutional_announcement'] = 'Annonce institutionnelle';
 $string['new_content'] = 'Nouveau contenu';
 $string['forum_announcement'] = 'Annonce de forum';
 
@@ -376,6 +391,7 @@ $string['searchplaceholder'] = 'Nom ou email...';
 $string['filterbyinactivity'] = 'Filtrer par inactivité';
 $string['filterbymissingassignments'] = 'Filtrer par activités manquantes';
 $string['filterbyassigned'] = 'Filtrer par assignation';
+$string['apply'] = 'Appliquer';
 $string['assigned'] = 'Assigné';
 $string['unassigned'] = 'Non assigné';
 $string['clearfilters'] = 'Effacer les filtres';
@@ -533,348 +549,13 @@ $string['coordinatoremail_desc'] = 'Email du coordinateur académique pour les e
 // Type labels.
 $string['type'] = 'Type';
 
-// Predictive analytics (Phase 7).
-$string['predictiveanalytics'] = 'Analytics prédictifs';
-$string['predictionhorizon'] = 'Horizon de prédiction';
-$string['totalpredictions'] = 'Total prédictions';
-$string['earlywarnings'] = 'Alertes précoces';
-$string['atriskpredicted'] = 'à risque prédits';
-$string['avgconfidence'] = 'Confiance moyenne';
-$string['deterioratingtrend'] = 'Tendance détériorée';
-$string['ofstudents'] = 'des étudiants';
-$string['predictedriskdistribution'] = 'Distribution du risque prédit';
-$string['trenddirection'] = 'Direction de tendance';
-$string['currentrisk'] = 'Risque actuel';
-$string['predictedrisk'] = 'Risque prédit';
-$string['confidence'] = 'Confiance';
-$string['probability'] = 'Probabilité';
-$string['trend'] = 'Tendance';
-$string['keyfactors'] = 'Facteurs clés';
-$string['noearlywarnings'] = 'Aucune alerte précoce détectée';
-$string['predictiondetails'] = 'Détails de prédiction';
-$string['predictionhorizoninfo'] = 'Prédictions pour les {$a} prochains jours';
-$string['predictiondateinfo'] = 'Date de prédiction: {$a}';
-$string['predictionmethodinfo'] = 'Méthode: Régression linéaire sur données historiques';
-$string['predictionconfidenceinfo'] = 'Confiance basée sur qualité et quantité des données';
-$string['days'] = 'jours';
-$string['daysago'] = 'jours';
-
-// Parent/Guardian management (Phase 7).
-$string['parentmanagement'] = 'Gestion des parents/tuteurs';
-$string['registeredparents'] = 'Parents enregistrés';
-$string['notificationsthismonth'] = 'Notifications ce mois';
-$string['uniqueparentsnotified'] = 'Parents uniques notifiés';
-$string['addparent'] = 'Ajouter un parent/tuteur';
-$string['parentname'] = 'Nom du parent';
-$string['parentemail'] = 'Email du parent';
-$string['parentphone'] = 'Téléphone du parent';
-$string['relationship'] = 'Relation';
-$string['parent'] = 'Parent';
-$string['guardian'] = 'Tuteur';
-$string['tutor'] = 'Tuteur académique';
-$string['selectstudent'] = 'Sélectionner un étudiant';
-$string['parentadded'] = 'Parent/tuteur ajouté avec succès';
-$string['parentdeleted'] = 'Parent/tuteur supprimé';
-$string['parentsnotified'] = 'parents/tuteurs notifiés';
-$string['studentswitparents'] = 'Étudiants avec parents enregistrés';
-$string['noparentsregistered'] = 'Aucun parent/tuteur enregistré';
-$string['notifyparents'] = 'Notifier les parents';
-$string['parentnotificationsubject'] = 'Information importante concernant votre enfant';
-$string['parentnotificationtemplate'] = 'Bonjour {$a->parentname},\n\nNous vous contactons concernant {$a->studentname}.\n\nNiveau de risque: {$a->risklevel}\nJours d\'inactivité: {$a->inactivitydays}\nActivités manquantes: {$a->missingassignments}\n\nContact support: {$a->supportemail} / {$a->supportphone}';
-$string['recommendations'] = 'Recommandations';
-$string['recommendcontactstudent'] = 'Contacter votre enfant pour comprendre la situation';
-$string['recommendassignmenthelp'] = 'Aider avec les devoirs en retard';
-$string['recommendurgencontact'] = 'Contacter immédiatement votre enfant';
-$string['recommendcontactsupervisor'] = 'Contacter le superviseur académique';
-$string['recommendencouragement'] = 'Encourager la persévérance';
-$string['parentsmstemplate'] = 'ALERTE: {$a->studentname} - Niveau: {$a->risklevel}. Contactez le support.';
-$string['weeklydigestsubject'] = 'Résumé hebdomadaire';
-$string['weeklydigestintro'] = 'Bonjour {$a->parentname},\n\nVoici le résumé hebdomadaire pour {$a->studentname}:';
-$string['weeklyactivitysummary'] = 'Résumé d\'activité';
-$string['lastlogin'] = 'Dernière connexion';
-
-// Custom report builder (Phase 7).
-$string['customreportbuilder'] = 'Constructeur de rapports';
-$string['createcustomreport'] = 'Créer un rapport personnalisé';
-$string['savedreports'] = 'Rapports sauvegardés';
-$string['selectcolumns'] = 'Sélectionner les colonnes';
-$string['selectfilters'] = 'Sélectionner les filtres';
-$string['reportname'] = 'Nom du rapport';
-$string['savereport'] = 'Sauvegarder le rapport';
-$string['runreport'] = 'Exécuter le rapport';
-$string['deletereport'] = 'Supprimer le rapport';
-$string['exportreport'] = 'Exporter le rapport';
-$string['reportstatistics'] = 'Statistiques du rapport';
-$string['column_student_name'] = 'Nom étudiant';
-$string['column_student_email'] = 'Email étudiant';
-$string['column_risk_level'] = 'Niveau de risque';
-$string['column_inactivity_days'] = 'Jours d\'inactivité';
-$string['column_missing_activities'] = 'Activités manquantes';
-$string['column_notification_count'] = 'Notifications envoyées';
-$string['column_last_login'] = 'Dernière connexion';
-$string['column_assigned_to'] = 'Superviseur assigné';
-$string['column_intervention_count'] = 'Interventions';
-$string['column_last_intervention'] = 'Dernière intervention';
-$string['column_grade_average'] = 'Moyenne générale';
-$string['column_course_count'] = 'Cours inscrits';
-$string['column_predicted_risk'] = 'Risque prédit';
-
-// Email campaigns (Phase 8).
-$string['emailcampaigns'] = 'Campagnes email';
-$string['createnewcampaign'] = 'Créer une nouvelle campagne';
-$string['campaignname'] = 'Nom de campagne';
-$string['subject'] = 'Sujet';
-$string['message'] = 'Message';
-$string['targetaudience'] = 'Audience cible';
-$string['scheduledtime'] = 'Heure programmée';
-$string['abtesting'] = 'Test A/B';
-$string['recipients'] = 'Destinataires';
-$string['campaignsent'] = 'Campagne envoyée: {$a->sent} réussis, {$a->failed} échoués';
-$string['campaigndeleted'] = 'Campagne supprimée';
-$string['totalcampaigns'] = 'Total campagnes';
-$string['campaignssent'] = 'Campagnes envoyées';
-$string['drafts'] = 'Brouillons';
-$string['scheduled'] = 'Programmées';
-$string['status_draft'] = 'Brouillon';
-$string['status_scheduled'] = 'Programmée';
-$string['status_sending'] = 'Envoi en cours';
-$string['status_sent'] = 'Envoyée';
-$string['send'] = 'Envoyer';
-$string['viewstats'] = 'Voir les stats';
-$string['confirmdeletecampaign'] = 'Êtes-vous sûr de vouloir supprimer cette campagne?';
-$string['nocampaigns'] = 'Aucune campagne créée';
-$string['backtocampaigns'] = 'Retour aux campagnes';
-
-// Campaign statistics (Phase 8).
-$string['campaignstatistics'] = 'Statistiques de campagne';
-$string['totalsent'] = 'Total envoyé';
-$string['openrate'] = 'Taux d\'ouverture';
-$string['clickrate'] = 'Taux de clics';
-$string['conversionrate'] = 'Taux de conversion';
-$string['opens'] = 'ouvertures';
-$string['clicks'] = 'clics';
-$string['conversions'] = 'conversions';
-$string['senttime'] = 'Date d\'envoi';
-$string['abtestingresults'] = 'Résultats du test A/B';
-$string['variant'] = 'Variante';
-$string['sent'] = 'Envoyé';
-$string['opened'] = 'Ouvert';
-$string['clicked'] = 'Cliqué';
-$string['converted'] = 'Converti';
-$string['winner'] = 'Gagnant';
-$string['tie'] = 'Égalité';
-$string['performancedifference'] = 'Différence de performance: {$a->difference}%';
-$string['performancecharts'] = 'Graphiques de performance';
-$string['conversionfunnel'] = 'Entonnoir de conversion';
-$string['abcomparison'] = 'Comparaison A/B';
-$string['recipientbreakdown'] = 'Détails des destinataires';
-$string['recipient'] = 'Destinataire';
-$string['exportoptions'] = 'Options d\'export';
-$string['exporttocsv'] = 'Exporter en CSV';
-$string['norecipients'] = 'Aucun destinataire';
-
 // Alert types and statuses.
 $string['manual'] = 'Manuelle';
 $string['automatic'] = 'Automatique';
 $string['system'] = 'Système';
 $string['failed'] = 'Échec';
-
-// Gamification (Phase 8).
-$string['gamification'] = 'Gamification';
-$string['leaderboard'] = 'Classement';
-$string['points'] = 'Points';
-$string['level'] = 'Niveau';
-$string['achievements'] = 'Succès';
-$string['currentstreak'] = 'Série actuelle';
-$string['longeststreak'] = 'Meilleure série';
-$string['yourstats'] = 'Vos statistiques';
-$string['progresstonextlevel'] = 'Progression vers le niveau suivant';
-$string['pointstonextlevel'] = '{$a->current} / {$a->needed} points';
-$string['topleaders'] = 'Top classement';
-$string['rank'] = 'Rang';
-$string['student'] = 'Étudiant';
-$string['streak'] = 'Série';
-$string['you'] = 'Vous';
-$string['leveln'] = 'Niveau {$a->level}';
-$string['recentachievements'] = 'Succès récents';
-$string['noachievements'] = 'Aucun succès récent';
-$string['noleaderboarddata'] = 'Aucune donnée de classement';
-$string['earned'] = 'a gagné';
-$string['period_all'] = 'Tout';
-$string['period_month'] = 'Ce mois';
-$string['period_week'] = 'Cette semaine';
-
-// Achievement names (Phase 8).
-$string['achievement_first_login'] = 'Premier pas';
-$string['achievement_week_streak'] = 'Semaine assidue';
-$string['achievement_month_streak'] = 'Mois complet';
-$string['achievement_all_assignments'] = 'Tous les devoirs';
-$string['achievement_early_submitter'] = 'Soumission anticipée';
-$string['achievement_helper'] = 'Bon camarade';
-$string['achievement_improvement'] = 'Amélioration notable';
-$string['achievement_risk_recovery'] = 'Remontée spectaculaire';
-
-// Mobile API (Phase 8).
-$string['mobileapi'] = 'API mobile';
-$string['apienabled'] = 'API activée';
-$string['apikey'] = 'Clé API';
-$string['apidocumentation'] = 'Documentation API';
-$string['endpoints'] = 'Points d\'accès';
-$string['endpoint_getstats'] = 'Obtenir les statistiques étudiant';
-$string['endpoint_getgamification'] = 'Obtenir les données de gamification';
-$string['endpoint_getleaderboard'] = 'Obtenir le classement';
-$string['endpoint_getcampaignstats'] = 'Obtenir les statistiques de campagne';
-
-// Additional strings (Phase 8).
-$string['backtodashboard'] = 'Retour au tableau de bord';
-$string['filter_risklevel'] = 'Niveau de risque';
-$string['filter_inactivitydays'] = 'Jours d\'inactivité';
-$string['filter_missingassignments'] = 'Activités manquantes';
-$string['filter_lastlogin'] = 'Dernière connexion';
-$string['filter_supervisor'] = 'Superviseur';
-$string['filter_course'] = 'Cours';
-$string['campaign_create'] = 'Créer une campagne';
-$string['campaign_edit'] = 'Modifier la campagne';
-$string['campaign_delete'] = 'Supprimer la campagne';
-$string['variant_a'] = 'Variante A';
-$string['variant_b'] = 'Variante B';
-$string['enable_abtesting'] = 'Activer le test A/B';
-$string['abtest_splitratio'] = 'Ratio de division';
-$string['target_all'] = 'Tous les étudiants';
-$string['target_atrisk'] = 'Étudiants à risque';
-$string['target_critical'] = 'Risque critique';
-$string['target_high'] = 'Risque élevé';
-$string['target_medium'] = 'Risque moyen';
-$string['target_low'] = 'Risque faible';
-$string['send_immediately'] = 'Envoyer immédiatement';
-$string['schedule_later'] = 'Programmer pour plus tard';
-$string['campaign_scheduled'] = 'Campagne programmée avec succès';
-$string['campaign_created'] = 'Campagne créée avec succès';
-$string['pointsawarded'] = '{$a} points attribués';
-$string['levelup'] = 'Niveau augmenté! Nouveau niveau: {$a}';
-$string['streakbonus'] = 'Bonus de série: +{$a} points';
-$string['achievementunlocked'] = 'Succès débloqué: {$a}';
-
-// Student Self-Service Portal & AI Recommendations (Phase 9).
-$string['studentdashboard'] = 'Tableau de bord étudiant';
-$string['welcomeback'] = 'Bienvenue {$a}!';
-$string['yourrisk'] = 'Votre niveau de risque';
-$string['yourpoints'] = 'Vos points';
-$string['yourstreak'] = 'Votre série';
-$string['noriskdata'] = 'Aucune donnée de risque disponible';
-$string['personalizedrecommendations'] = 'Recommandations personnalisées';
-$string['norecommendations'] = 'Aucune recommandation pour le moment';
-$string['keepupgoodwork'] = 'Continuez votre excellent travail!';
-$string['impact'] = 'Impact';
-$string['takeaction'] = 'Passer à l\'action';
-$string['yourprogress'] = 'Votre progression';
-$string['activitythisweek'] = 'Activité cette semaine';
-$string['performancetrend'] = 'Tendance de performance';
-$string['quickactions'] = 'Actions rapides';
-$string['viewleaderboard'] = 'Voir le classement';
-$string['viewcalendar'] = 'Voir le calendrier';
-$string['viewcourses'] = 'Voir mes cours';
-$string['goto'] = 'Accéder';
-$string['noachievementsyet'] = 'Pas encore de succès. Commencez à apprendre!';
-$string['tipsandmotivation'] = 'Conseils et motivation';
-$string['missing'] = 'manquant(s)';
-
-// AI Recommendations.
-$string['rec_increase_login'] = 'Augmentez votre fréquence de connexion';
-$string['rec_increase_login_desc'] = 'Vous vous êtes connecté {$a->current} fois ce mois. Essayez d\'atteindre {$a->target} connexions pour rester engagé.';
-$string['rec_study_consistency'] = 'Améliorez la régularité de vos études';
-$string['rec_study_consistency_desc'] = 'Essayez de vous connecter plus régulièrement (au moins tous les 2 jours) pour maintenir un rythme d\'apprentissage constant.';
-$string['rec_optimal_study_time'] = 'Optimisez votre horaire d\'étude';
-$string['rec_optimal_study_time_desc'] = 'Envisagez d\'étudier pendant les heures de jour (8h-22h) pour une meilleure concentration.';
-$string['rec_urgent_assignment'] = 'Devoir urgent à soumettre';
-$string['rec_urgent_assignment_desc'] = '{$a->name} dans {$a->course} est dû le {$a->duedate}. Ne manquez pas cette échéance!';
-$string['rec_explore_resources'] = 'Explorez les ressources non consultées';
-$string['rec_explore_resources_desc'] = 'Vous avez {$a->count} ressources non consultées. Explorer ces contenus pourrait améliorer votre compréhension.';
-$string['rec_forum_participation'] = 'Participez aux discussions de forum';
-$string['rec_forum_participation_desc'] = 'Rejoignez les discussions pour apprendre de vos pairs et partager vos connaissances.';
-$string['rec_help_peers'] = 'Aidez vos camarades';
-$string['rec_help_peers_desc'] = 'Avec votre bonne performance, vous pouvez aider d\'autres étudiants dans les forums. C\'est bon pour l\'apprentissage!';
-$string['rec_catch_up_plan'] = 'Plan de rattrapage nécessaire';
-$string['rec_catch_up_plan_desc'] = 'Vous avez {$a->count} devoirs en retard. Créez un plan pour les rattraper progressivement.';
-$string['rec_use_calendar'] = 'Utilisez le calendrier Moodle';
-$string['rec_use_calendar_desc'] = 'Le calendrier vous aide à rester organisé et à ne manquer aucune échéance.';
-$string['rec_increase_engagement'] = 'Augmentez votre engagement';
-$string['rec_increase_engagement_desc'] = 'Votre activité hebdomadaire est de {$a->current}. Essayez d\'atteindre {$a->target} activités par semaine.';
-$string['rec_check_leaderboard'] = 'Consultez le classement';
-$string['rec_check_leaderboard_desc'] = 'Vous êtes actif! Vérifiez votre position dans le classement et gagnez plus de points.';
-
-// Peer comparison.
-$string['peercomparison'] = 'Comparaison avec les pairs';
-$string['peercomparison_desc'] = 'Comparez anonymement vos performances avec d\'autres étudiants de vos cours.';
-$string['yourperformance'] = 'Votre performance';
-$string['percentile'] = 'e percentile';
-$string['comparedto'] = 'Comparé à {$a} autres étudiants de vos cours';
-$string['performanceradar'] = 'Radar de performance';
-$string['detailedmetrics'] = 'Métriques détaillées';
-$string['loginfrequency'] = 'Fréquence de connexion';
-$string['assignmentcompletion'] = 'Completion des devoirs';
-$string['engagement'] = 'Engagement';
-$string['gradeperformance'] = 'Performance notes';
-$string['yourvalue'] = 'Votre valeur';
-$string['peeraverage'] = 'Moyenne des pairs';
-$string['percentileposition'] = 'Position percentile';
-$string['logins'] = 'connexions';
-$string['activities'] = 'activités';
-$string['insights'] = 'Analyses';
-$string['category_top'] = 'Performance exceptionnelle';
-$string['category_above_average'] = 'Au-dessus de la moyenne';
-$string['category_average'] = 'Performance moyenne';
-$string['category_below_average'] = 'En dessous de la moyenne';
-$string['category_needs_improvement'] = 'Nécessite amélioration';
-$string['insight_top_performer'] = 'Félicitations! Vous êtes dans le top 25% de vos pairs. Excellent travail!';
-$string['insight_above_average'] = 'Vous êtes au-dessus de la moyenne. Continuez comme ça!';
-$string['insight_room_for_improvement'] = 'Vous avez de la marge pour progresser. Consultez les recommandations personnalisées.';
-$string['insight_needs_boost'] = 'Il est temps de donner un coup de fouet à vos études! Commencez par les recommandations ci-dessus.';
-$string['improvement_suggestion_login'] = 'Conseil: Connectez-vous plus régulièrement pour rester à jour avec vos cours.';
-$string['improvement_suggestion_assignment'] = 'Conseil: Concentrez-vous sur la completion de vos devoirs à temps.';
-$string['improvement_suggestion_engagement'] = 'Conseil: Participez plus activement aux activités de cours.';
-$string['improvement_suggestion_grade'] = 'Conseil: Demandez de l\'aide à vos enseignants ou pairs pour améliorer vos notes.';
-$string['privacy_note'] = 'Toutes les comparaisons sont anonymes. Vos pairs ne peuvent pas voir vos données individuelles.';
-
-// Goals and progress tracking.
-$string['mygoals'] = 'Mes objectifs';
-$string['totalgoals'] = 'Total objectifs';
-$string['activegoals'] = 'Objectifs actifs';
-$string['completedgoals'] = 'Objectifs completés';
-$string['completionrate'] = 'Taux de completion';
-$string['suggestedgoals'] = 'Objectifs suggérés';
-$string['createthisgoal'] = 'Créer cet objectif';
-$string['noactivegoals'] = 'Aucun objectif actif. Créez-en un pour suivre votre progression!';
-$string['daysremaining'] = 'jours restants';
-$string['progress'] = 'Progression';
-$string['completedon'] = 'Completé le {$a}';
-$string['createcustomgoal'] = 'Créer un objectif personnalisé';
-$string['customgoal_desc'] = 'Définissez vos propres objectifs pour rester motivé et suivre votre progression.';
-$string['goaltitle'] = 'Titre de l\'objectif';
-$string['goaldescription'] = 'Description';
-$string['targetvalue'] = 'Valeur cible';
-$string['deadline'] = 'Échéance';
-$string['creategoal'] = 'Créer l\'objectif';
-$string['goalcreated'] = 'Objectif créé avec succès!';
-$string['goal_complete_assignments'] = 'Rattraper les devoirs en retard';
-$string['goal_complete_assignments_desc'] = 'Completez toutes vos activités manquantes pour améliorer votre performance.';
-$string['goal_increase_logins'] = 'Augmenter la fréquence de connexion';
-$string['goal_increase_logins_desc'] = 'Connectez-vous plus régulièrement pour rester engagé dans vos cours.';
-$string['goal_completed'] = 'Objectif completé: {$a}';
-
-// Risk explanations.
-$string['riskexplanation_faible'] = 'Vous êtes sur la bonne voie! Continuez ainsi.';
-$string['riskexplanation_moyen'] = 'Attention à maintenir votre engagement.';
-$string['riskexplanation_élevé'] = 'Besoin d\'amélioration. Consultez les recommandations.';
-$string['riskexplanation_critique'] = 'Action immédiate requise. Contactez votre superviseur.';
-
-// Tips for students.
-$string['tip1'] = '💡 Conseil: Connectez-vous quotidiennement pendant 15 minutes pour rester à jour.';
-$string['tip2'] = '📚 Astuce: Créez un planning d\'étude hebdomadaire et respectez-le.';
-$string['tip3'] = '🎯 Motivation: Chaque petit progrès compte. Célébrez vos victoires!';
-$string['tip4'] = '🤝 Conseil: N\'hésitez pas à demander de l\'aide à vos camarades ou enseignants.';
-$string['tip5'] = '⏰ Rappel: Gérez votre temps efficacement en priorisant les tâches importantes.';
-
+$string['sent'] = 'Envoyé';
+$string['message'] = 'Message';
 
 // Report Scheduler.
 $string['reportschedules'] = 'Planifications de rapports';

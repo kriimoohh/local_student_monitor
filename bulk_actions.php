@@ -52,7 +52,7 @@ if ($action && !empty($userids) && confirm_sesskey()) {
         $usercount = count($userids);
         $actionstring = get_string('bulkaction_' . $action, 'local_student_monitor');
 
-        echo html_writer::tag('h2', get_string('confirmaction', 'local_student_monitor'));
+        echo html_writer::tag('h2', '⚠️ ' . get_string('confirmaction', 'local_student_monitor'), ['class' => 'sm-page-title']);
         echo html_writer::tag('p', get_string('confirmactionmsg', 'local_student_monitor',
             ['action' => $actionstring, 'count' => $usercount]), ['class' => 'alert alert-warning']);
 
@@ -165,7 +165,7 @@ if ($action && !empty($userids) && confirm_sesskey()) {
 // Display bulk actions form.
 echo $OUTPUT->header();
 
-echo html_writer::tag('h2', get_string('bulkactions', 'local_student_monitor'));
+echo html_writer::tag('h2', '🛠️ ' . get_string('bulkactions', 'local_student_monitor'), ['class' => 'sm-page-title']);
 echo html_writer::tag('p', get_string('bulkactionsdesc', 'local_student_monitor'), ['class' => 'alert alert-info']);
 
 // Get all supervisors.

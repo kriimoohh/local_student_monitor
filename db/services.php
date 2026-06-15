@@ -36,38 +36,6 @@ $functions = [
         'services' => [MOODLE_OFFICIAL_MOBILE_SERVICE]
     ],
 
-    'local_student_monitor_get_gamification_data' => [
-        'classname' => 'local_student_monitor\external\get_gamification_data',
-        'methodname' => 'execute',
-        'classpath' => '',
-        'description' => 'Get user gamification data including points, level, and achievements',
-        'type' => 'read',
-        'ajax' => true,
-        'capabilities' => '',
-        'services' => [MOODLE_OFFICIAL_MOBILE_SERVICE]
-    ],
-
-    'local_student_monitor_get_leaderboard' => [
-        'classname' => 'local_student_monitor\external\get_leaderboard',
-        'methodname' => 'execute',
-        'classpath' => '',
-        'description' => 'Get gamification leaderboard',
-        'type' => 'read',
-        'ajax' => true,
-        'capabilities' => '',
-        'services' => [MOODLE_OFFICIAL_MOBILE_SERVICE]
-    ],
-
-    'local_student_monitor_get_campaign_stats' => [
-        'classname' => 'local_student_monitor\external\get_campaign_stats',
-        'methodname' => 'execute',
-        'classpath' => '',
-        'description' => 'Get email campaign statistics',
-        'type' => 'read',
-        'ajax' => true,
-        'capabilities' => 'local/student_monitor:managesettings'
-    ],
-
     'local_student_monitor_search_users' => [
         'classname' => 'local_student_monitor\external\search_users',
         'methodname' => 'execute',
@@ -82,9 +50,7 @@ $functions = [
 $services = [
     'Student Monitor API' => [
         'functions' => [
-            'local_student_monitor_get_student_stats',
-            'local_student_monitor_get_gamification_data',
-            'local_student_monitor_get_leaderboard'
+            'local_student_monitor_get_student_stats'
         ],
         'restrictedusers' => 0,
         'enabled' => 1,

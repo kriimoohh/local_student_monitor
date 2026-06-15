@@ -122,7 +122,7 @@ $PAGE->requires->js_call_amd('local_student_monitor/task_manager', 'init');
 
 echo $OUTPUT->header();
 
-echo html_writer::tag('h2', get_string('taskmanagement', 'local_student_monitor'));
+echo html_writer::tag('h2', '✅ ' . get_string('taskmanagement', 'local_student_monitor'), ['class' => 'sm-page-title']);
 
 // Status filter.
 echo html_writer::start_div('mb-3');

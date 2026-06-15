@@ -6,7 +6,23 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-/* Navigation Menu */
+/* ==========================================================================
+   Page title
+   ========================================================================== */
+.sm-page-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid #e9ecef;
+    font-weight: 700;
+    color: #2c3e50;
+}
+
+/* ==========================================================================
+   Navigation Menu
+   ========================================================================== */
 .student-monitor-nav-menu {
     margin-bottom: 20px;
 }
@@ -64,22 +80,26 @@
     color: white;
 }
 
-/* Dashboard Container */
+/* ==========================================================================
+   Dashboard Container
+   ========================================================================== */
 .student-monitor-dashboard {
     margin: 20px 0;
 }
 
-/* KPI Cards */
+/* ==========================================================================
+   KPI Cards
+   ========================================================================== */
 .kpi-card {
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
     transition: transform 0.2s, box-shadow 0.2s;
     min-height: 150px;
 }
 
 .kpi-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    transform: translateY(-3px);
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.12);
 }
 
 .kpi-card .card-body {
@@ -87,11 +107,12 @@
 }
 
 .kpi-card .card-title {
-    font-size: 14px;
-    font-weight: 600;
+    font-size: 13px;
+    font-weight: 700;
     text-transform: uppercase;
+    letter-spacing: 0.04em;
     margin-bottom: 15px;
-    opacity: 0.9;
+    opacity: 0.85;
 }
 
 .kpi-number {
@@ -106,9 +127,19 @@
     font-size: 12px;
 }
 
-/* Risk Level Badges */
+/* ==========================================================================
+   Badges - Risk levels and statuses
+   ========================================================================== */
+.badge {
+    border-radius: 4px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    padding: 0.4em 0.7em;
+}
+
 .badge-danger {
     background-color: #dc3545 !important;
+    color: #fff !important;
 }
 
 .badge-warning {
@@ -118,13 +149,25 @@
 
 .badge-info {
     background-color: #17a2b8 !important;
+    color: #fff !important;
 }
 
 .badge-success {
     background-color: #28a745 !important;
+    color: #fff !important;
 }
 
-/* Risk Class Colors */
+.badge-dark {
+    background-color: #343a40 !important;
+    color: #fff !important;
+}
+
+.badge-secondary {
+    background-color: #6c757d !important;
+    color: #fff !important;
+}
+
+/* Risk class colors (text) */
 .risk-low {
     color: #28a745;
 }
@@ -141,103 +184,164 @@
     color: #dc3545;
 }
 
-/* Student Table */
-.student-monitor-dashboard .table {
-    background: white;
-    border-radius: 4px;
+/* ==========================================================================
+   Tables
+   ========================================================================== */
+.table {
+    background: #fff;
+    border-radius: 6px;
+    overflow: hidden;
 }
 
-.student-monitor-dashboard .table th {
-    background-color: #f8f9fa;
-    font-weight: 600;
+.table th {
+    background-color: #f1f3f5;
+    font-weight: 700;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    color: #495057;
     border-top: none;
     padding: 12px;
 }
 
-.student-monitor-dashboard .table td {
+.table th a {
+    color: #495057;
+    text-decoration: none;
+}
+
+.table th a:hover {
+    color: #007bff;
+}
+
+.table td {
     vertical-align: middle;
     padding: 12px;
 }
 
-.student-monitor-dashboard .table tr:hover {
-    background-color: #f8f9fa;
+.table-hover tbody tr:hover {
+    background-color: #f5f9ff;
 }
 
-/* Alert Boxes */
-.student-monitor-dashboard .alert-danger {
-    border-left: 4px solid #dc3545;
-}
-
-.student-monitor-dashboard .alert-info {
-    border-left: 4px solid #17a2b8;
-}
-
-.student-monitor-dashboard .alert-warning {
-    border-left: 4px solid #ffc107;
-}
-
-/* Cards */
-.student-monitor-dashboard .card {
+/* ==========================================================================
+   Alert boxes
+   ========================================================================== */
+.alert {
     border-radius: 8px;
-    border: 1px solid #e0e0e0;
+    border: none;
+}
+
+.alert-danger {
+    border-left: 4px solid #dc3545;
+    background-color: #fdeeee;
+}
+
+.alert-info {
+    border-left: 4px solid #17a2b8;
+    background-color: #eaf7f9;
+}
+
+.alert-warning {
+    border-left: 4px solid #ffc107;
+    background-color: #fff9e6;
+}
+
+.alert-success {
+    border-left: 4px solid #28a745;
+    background-color: #eaf7ed;
+}
+
+/* ==========================================================================
+   Cards
+   ========================================================================== */
+.card {
+    border-radius: 10px;
+    border: 1px solid #e9ecef;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
-.student-monitor-dashboard .card-header {
+.card-header {
     background-color: #f8f9fa;
-    border-bottom: 1px solid #e0e0e0;
-    font-weight: 600;
+    border-bottom: 1px solid #e9ecef;
+    font-weight: 700;
+    border-radius: 10px 10px 0 0;
 }
 
-/* Buttons */
-.student-monitor-dashboard .btn {
-    border-radius: 4px;
+/* ==========================================================================
+   Buttons
+   ========================================================================== */
+.btn {
+    border-radius: 6px;
     padding: 8px 16px;
     font-weight: 500;
-    transition: all 0.2s;
+    transition: all 0.15s ease-in-out;
 }
 
-.student-monitor-dashboard .btn:hover {
+.btn:hover {
     transform: translateY(-1px);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.12);
 }
 
-.student-monitor-dashboard .btn-sm {
-    padding: 4px 8px;
+.btn-sm {
+    padding: 4px 10px;
     font-size: 12px;
 }
 
-/* Form Elements */
-.student-monitor-dashboard .form-inline .custom-select {
+/* ==========================================================================
+   Forms / Filters
+   ========================================================================== */
+.form-control {
+    border-radius: 6px;
+}
+
+.form-inline .form-control,
+.form-inline .custom-select {
     margin-right: 10px;
+    margin-bottom: 5px;
+}
+
+.form-inline .custom-select {
     min-width: 200px;
 }
 
-/* Responsive adjustments */
+.form-inline label {
+    font-weight: 600;
+    color: #495057;
+}
+
+/* ==========================================================================
+   Responsive adjustments
+   ========================================================================== */
 @media (max-width: 768px) {
     .kpi-number {
         font-size: 36px;
     }
 
-    .student-monitor-dashboard .col-md-3 {
+    .col-md-3 {
         margin-bottom: 15px;
     }
 
-    .student-monitor-dashboard .table {
+    .table {
         font-size: 14px;
     }
 
-    .student-monitor-dashboard .form-inline {
+    .form-inline {
         display: block;
     }
 
-    .student-monitor-dashboard .form-inline .custom-select {
+    .form-inline .custom-select,
+    .form-inline .form-control {
         width: 100%;
         margin-bottom: 10px;
     }
+
+    .sm-page-title {
+        font-size: 1.4rem;
+    }
 }
 
-/* Loading Spinner */
+/* ==========================================================================
+   Loading spinner
+   ========================================================================== */
 .student-monitor-loading {
     text-align: center;
     padding: 40px;
@@ -259,7 +363,9 @@
     100% { transform: rotate(360deg); }
 }
 
-/* Empty State */
+/* ==========================================================================
+   Empty state
+   ========================================================================== */
 .student-monitor-empty {
     text-align: center;
     padding: 60px 20px;
@@ -271,7 +377,9 @@
     margin-bottom: 20px;
 }
 
-/* Statistics Section */
+/* ==========================================================================
+   Statistics section
+   ========================================================================== */
 .student-monitor-stats {
     background: #f8f9fa;
     padding: 20px;
@@ -305,7 +413,9 @@
     color: #333;
 }
 
-/* Charts Container */
+/* ==========================================================================
+   Charts container
+   ========================================================================== */
 .student-monitor-charts {
     margin: 30px 0;
 }
@@ -316,10 +426,12 @@
     margin-bottom: 30px;
 }
 
-/* Print Styles */
+/* ==========================================================================
+   Print styles
+   ========================================================================== */
 @media print {
-    .student-monitor-dashboard .btn,
-    .student-monitor-dashboard .form-inline {
+    .btn,
+    .form-inline {
         display: none;
     }
 

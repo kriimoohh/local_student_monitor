@@ -168,15 +168,6 @@ function local_student_monitor_extend_navigation(global_navigation $navigation) 
             );
 
             $reportsnode->add(
-                get_string('predictiveanalytics', 'local_student_monitor'),
-                new moodle_url('/local/student_monitor/predictions.php'),
-                navigation_node::TYPE_CUSTOM,
-                null,
-                'sm_predictions',
-                new pix_icon('i/report', '')
-            );
-
-            $reportsnode->add(
                 get_string('effectivenessreports', 'local_student_monitor'),
                 new moodle_url('/local/student_monitor/effectiveness.php'),
                 navigation_node::TYPE_CUSTOM,
@@ -192,36 +183,6 @@ function local_student_monitor_extend_navigation(global_navigation $navigation) 
                 null,
                 'sm_report_schedules',
                 new pix_icon('i/scheduled', '')
-            );
-        }
-
-        // === CAMPAGNES EMAIL ===
-        if (has_capability('local/student_monitor:sendmanual', $context)) {
-            $campaignsnode = $node->add(
-                '📧 Campagnes Email',
-                null,
-                navigation_node::TYPE_CONTAINER,
-                null,
-                'sm_campaigns'
-            );
-            $campaignsnode->showinflatnavigation = true;
-
-            $campaignsnode->add(
-                get_string('emailcampaigns', 'local_student_monitor'),
-                new moodle_url('/local/student_monitor/campaigns.php'),
-                navigation_node::TYPE_CUSTOM,
-                null,
-                'sm_campaigns_list',
-                new pix_icon('i/email', '')
-            );
-
-            $campaignsnode->add(
-                get_string('campaignstatistics', 'local_student_monitor'),
-                new moodle_url('/local/student_monitor/campaign_stats.php'),
-                navigation_node::TYPE_CUSTOM,
-                null,
-                'sm_campaign_stats',
-                new pix_icon('i/report', '')
             );
         }
 
@@ -269,15 +230,6 @@ function local_student_monitor_extend_navigation(global_navigation $navigation) 
             $managementnode->showinflatnavigation = true;
 
             $managementnode->add(
-                get_string('parentmanagement', 'local_student_monitor'),
-                new moodle_url('/local/student_monitor/parent_management.php'),
-                navigation_node::TYPE_CUSTOM,
-                null,
-                'sm_parents',
-                new pix_icon('i/users', '')
-            );
-
-            $managementnode->add(
                 get_string('taskmanagement', 'local_student_monitor'),
                 new moodle_url('/local/student_monitor/tasks.php'),
                 navigation_node::TYPE_CUSTOM,
@@ -288,55 +240,9 @@ function local_student_monitor_extend_navigation(global_navigation $navigation) 
         }
     }
 
-    // === ESPACE ÉTUDIANT ===
-    // Visible pour tous les utilisateurs authentifiés.
-    $studentnode = $navigation->add(
-        '👨‍🎓 Mon espace étudiant',
-        new moodle_url('/local/student_monitor/student_dashboard.php'),
-        navigation_node::TYPE_CUSTOM,
-        null,
-        'sm_student_space',
-        new pix_icon('i/user', '')
-    );
-    $studentnode->showinflatnavigation = true;
-
-    $studentnode->add(
-        get_string('studentdashboard', 'local_student_monitor'),
-        new moodle_url('/local/student_monitor/student_dashboard.php'),
-        navigation_node::TYPE_CUSTOM,
-        null,
-        'sm_student_dashboard',
-        new pix_icon('i/dashboard', '')
-    );
-
-    $studentnode->add(
-        get_string('mygoals', 'local_student_monitor'),
-        new moodle_url('/local/student_monitor/my_goals.php'),
-        navigation_node::TYPE_CUSTOM,
-        null,
-        'sm_my_goals',
-        new pix_icon('i/checked', '')
-    );
-
-    $studentnode->add(
-        get_string('peercomparison', 'local_student_monitor'),
-        new moodle_url('/local/student_monitor/peer_comparison.php'),
-        navigation_node::TYPE_CUSTOM,
-        null,
-        'sm_peer_comparison',
-        new pix_icon('i/report', '')
-    );
-
-    $studentnode->add(
-        get_string('leaderboard', 'local_student_monitor'),
-        new moodle_url('/local/student_monitor/leaderboard.php'),
-        navigation_node::TYPE_CUSTOM,
-        null,
-        'sm_leaderboard',
-        new pix_icon('i/badge', '')
-    );
-
-    $studentnode->add(
+    // === PRÉFÉRENCES DE NOTIFICATION ===
+    // Visible pour tous les utilisateurs authentifiés (RGPD - gestion du consentement).
+    $preferencesnode = $navigation->add(
         get_string('notificationpreferences', 'local_student_monitor'),
         new moodle_url('/local/student_monitor/preferences.php'),
         navigation_node::TYPE_CUSTOM,
@@ -344,6 +250,7 @@ function local_student_monitor_extend_navigation(global_navigation $navigation) 
         'sm_preferences',
         new pix_icon('i/settings', '')
     );
+    $preferencesnode->showinflatnavigation = true;
 }
 
 /**

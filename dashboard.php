@@ -220,35 +220,10 @@ if (has_capability('local/student_monitor:viewreports', $context)) {
     echo html_writer::start_div('dropdown-menu', ['aria-labelledby' => 'reportsDropdown']);
     $advancedreportsurl = new moodle_url('/local/student_monitor/reports.php');
     echo html_writer::link($advancedreportsurl, 'Rapports avancés', ['class' => 'dropdown-item']);
-    $analyticsurl = new moodle_url('/local/student_monitor/predictions.php');
-    echo html_writer::link($analyticsurl, 'Analytics prédictifs', ['class' => 'dropdown-item']);
     $efficiencyurl = new moodle_url('/local/student_monitor/effectiveness.php');
     echo html_writer::link($efficiencyurl, 'Rapports d\'efficacité', ['class' => 'dropdown-item']);
     $scheduledurl = new moodle_url('/local/student_monitor/report_schedules.php');
     echo html_writer::link($scheduledurl, 'Planifications de rapports', ['class' => 'dropdown-item']);
-    echo html_writer::end_div();
-    echo html_writer::end_tag('li');
-}
-
-// Email campaigns menu
-if (has_capability('local/student_monitor:sendmanual', $context)) {
-    echo html_writer::start_tag('li', ['class' => 'nav-item dropdown']);
-    echo html_writer::start_tag('a', [
-        'class' => 'nav-link dropdown-toggle',
-        'href' => '#',
-        'id' => 'campaignsDropdown',
-        'role' => 'button',
-        'data-toggle' => 'dropdown',
-        'aria-haspopup' => 'true',
-        'aria-expanded' => 'false'
-    ]);
-    echo '📧 Campagnes Email';
-    echo html_writer::end_tag('a');
-    echo html_writer::start_div('dropdown-menu', ['aria-labelledby' => 'campaignsDropdown']);
-    $managecampaignsurl = new moodle_url('/local/student_monitor/manage_campaigns.php');
-    echo html_writer::link($managecampaignsurl, 'Gestion des campagnes', ['class' => 'dropdown-item']);
-    $campaignstatsurl = new moodle_url('/local/student_monitor/campaign_stats.php');
-    echo html_writer::link($campaignstatsurl, 'Statistiques de campagnes', ['class' => 'dropdown-item']);
     echo html_writer::end_div();
     echo html_writer::end_tag('li');
 }

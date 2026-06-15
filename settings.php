@@ -232,6 +232,31 @@ if ($hassiteconfig) {
         ''
     ));
 
+    // Email Sender Settings.
+    $settings->add(new admin_setting_heading(
+        'local_student_monitor/emailsendersettings',
+        get_string('emailsendersettings', 'local_student_monitor'),
+        get_string('emailsendersettingsdesc', 'local_student_monitor')
+    ));
+
+    // From email address.
+    $settings->add(new admin_setting_configtext(
+        'local_student_monitor/notification_from_email',
+        get_string('notificationfromemail', 'local_student_monitor'),
+        get_string('notificationfromemail_desc', 'local_student_monitor'),
+        '',
+        PARAM_EMAIL
+    ));
+
+    // From name.
+    $settings->add(new admin_setting_configtext(
+        'local_student_monitor/notification_from_name',
+        get_string('notificationfromname', 'local_student_monitor'),
+        get_string('notificationfromname_desc', 'local_student_monitor'),
+        '',
+        PARAM_TEXT
+    ));
+
     // Support Contact Settings.
     $settings->add(new admin_setting_heading(
         'local_student_monitor/supportsettings',

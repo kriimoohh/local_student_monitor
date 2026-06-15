@@ -98,7 +98,7 @@ $PAGE->requires->js_call_amd('local_student_monitor/communication_charts', 'init
 
 echo $OUTPUT->header();
 
-echo html_writer::tag('h2', get_string('communicationstats', 'local_student_monitor'));
+echo html_writer::tag('h2', '📊 ' . get_string('communicationstats', 'local_student_monitor'), ['class' => 'sm-page-title']);
 
 // Period selector.
 echo html_writer::start_div('mb-3');

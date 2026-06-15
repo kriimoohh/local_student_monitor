@@ -26,7 +26,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'local_student_monitor';
-$plugin->version = 2026020708;  // YYYYMMDDXX - Fix template_type property references
+$plugin->version = 2026061500;  // YYYYMMDDXX - Risk criteria filters/trigger display, security fixes, UI refresh
 $plugin->requires = 2022041900; // Moodle 4.0
 $plugin->maturity = MATURITY_STABLE;
-$plugin->release = 'v3.0.6';
+$plugin->release = 'v3.2.0';

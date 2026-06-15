@@ -74,33 +74,37 @@ if ($action === 'reset' && $templateid && confirm_sesskey()) {
 
     // Reset to default French templates (you can enhance this to support other languages).
     $defaulttemplates = [
-        'inactivitylevel1' => [
-            'subject' => 'Rappel - Absence remarquée sur Moodle',
+        'inactivity_level1' => [
+            'subject' => 'Nous n\'avons pas de nouvelles de vous depuis {days} jours',
             'body' => 'Bonjour {firstname},
 
-Nous avons remarqué que vous n\'avez pas accédé à la plateforme Moodle depuis {days} jours.
+Nous avons remarqué que vous n\'avez pas accédé à votre espace UNCHK depuis {days} jours.
 
-Nous vous encourageons à vous reconnecter régulièrement pour suivre vos cours et ne manquer aucune information importante.
+Votre dernier accès remonte au {lastaccess}.
 
-En cas de difficulté, n\'hésitez pas à contacter le support : {supportemail}
+Nous vous encourageons à vous reconnecter pour ne rien manquer de vos cours et activités pédagogiques.
+
+Si vous rencontrez des difficultés, n\'hésitez pas à nous contacter : {supportemail}
 
 Cordialement,
 L\'équipe UNCHK'
         ],
-        'inactivitylevel2' => [
-            'subject' => 'Alerte - Absence prolongée sur Moodle',
+        'inactivity_level2' => [
+            'subject' => '⚠️ Votre absence nous inquiète',
             'body' => 'Bonjour {firstname},
 
-Votre absence sur la plateforme Moodle se prolonge ({days} jours sans connexion).
+Nous constatons que vous n\'avez pas accédé à vos cours depuis {days} jours.
 
-Cela pourrait impacter votre réussite dans vos cours. Nous vous invitons à vous reconnecter au plus vite et à contacter votre enseignant si vous rencontrez des difficultés.
+📊 Votre niveau de risque actuel: {riskLevel}
 
-Support : {supportemail} - {supportphone}
+Cette absence prolongée peut compromettre votre réussite académique. Nous vous encourageons vivement à reprendre vos activités pédagogiques dès que possible.
+
+Si vous rencontrez des difficultés (techniques, personnelles, pédagogiques), notre équipe est là pour vous aider : {supportemail} - {supportphone}
 
 Cordialement,
 L\'équipe UNCHK'
         ],
-        'inactivitylevel3' => [
+        'inactivity_level3' => [
             'subject' => 'URGENT - Absence critique sur Moodle',
             'body' => 'Bonjour {firstname},
 
@@ -114,47 +118,57 @@ Support urgent : {supportemail} - {supportphone}
 
 L\'équipe UNCHK'
         ],
-        'newcontent' => [
-            'subject' => 'Nouveau contenu disponible - {coursename}',
+        'new_content' => [
+            'subject' => '📚 Nouveau contenu disponible: {modulename}',
             'body' => 'Bonjour {firstname},
 
-Du nouveau contenu pédagogique a été ajouté dans votre cours : {coursename}
+Un nouveau contenu pédagogique vient d\'être ajouté dans votre cours "{coursename}":
 
-Module : {modulename}
-Lien : {modulelink}
+📖 {modulename}
 
-Connectez-vous pour découvrir ce nouveau contenu.
+🔗 Accéder au contenu: {modulelink}
 
-Bonne formation !
-L\'équipe UNCHK'
+Bon apprentissage!
+L\'équipe pédagogique'
         ],
-        'assignmentreminder' => [
-            'subject' => 'Rappel - Devoir à rendre : {assignmentname}',
+        'assignment_reminder_7days' => [
+            'subject' => '📝 Rappel - Devoir à rendre dans 7 jours',
             'body' => 'Bonjour {firstname},
 
-Ce message est un rappel pour le devoir suivant :
+Rappel: le devoir "{assignmentname}" est à rendre dans 7 jours.
 
-Titre : {assignmentname}
-Date limite : {duedate}
-Lien de soumission : {submissionlink}
+📅 Date limite: {duedate}
+📚 Cours: {coursename}
+🔗 Déposer votre travail: {submissionlink}
 
-N\'oubliez pas de soumettre votre travail avant la date limite.
+Prenez de l\'avance pour ne pas être pris au dépourvu!
 
-Bon courage !
-L\'équipe UNCHK'
+Bon courage,
+L\'équipe pédagogique'
         ],
-        'institutionalannouncement' => [
-            'subject' => 'Annonce institutionnelle - UNCHK',
+        'assignment_reminder_1day' => [
+            'subject' => '⚠️ URGENT - Devoir à rendre DEMAIN!',
             'body' => 'Bonjour {firstname},
 
-Une nouvelle annonce importante a été publiée par l\'UNCHK :
+Le devoir "{assignmentname}" est à rendre DEMAIN!
 
-{announcementcontent}
+📅 Date limite: {duedate}
+🔗 Déposer MAINTENANT: {submissionlink}
 
-Pour plus de détails, consultez le forum des annonces institutionnelles.
+Ne laissez pas passer la deadline!
 
-Cordialement,
-L\'équipe UNCHK'
+Bon courage,
+L\'équipe pédagogique'
+        ],
+        'institutional_announcement' => [
+            'subject' => '📢 Annonce UNCHK: {title}',
+            'body' => 'Bonjour {firstname},
+
+{message}
+
+Pour plus d\'informations, consultez le forum institutionnel.
+
+L\'administration UNCHK'
         ]
     ];
 
@@ -177,7 +191,7 @@ L\'équipe UNCHK'
 
 echo $OUTPUT->header();
 
-echo html_writer::tag('h2', get_string('templateeditor', 'local_student_monitor'));
+echo html_writer::tag('h2', '✉️ ' . get_string('templateeditor', 'local_student_monitor'), ['class' => 'sm-page-title']);
 
 if ($action === 'edit' && $templateid) {
     // Edit template form.
@@ -212,7 +226,7 @@ if ($action === 'edit' && $templateid) {
     // Body field.
     echo html_writer::start_div('form-group');
     echo html_writer::tag('label', get_string('body', 'local_student_monitor'), ['for' => 'body']);
-    echo html_writer::tag('textarea', $template->body, [
+    echo html_writer::tag('textarea', s($template->body), [
         'name' => 'body',
         'id' => 'body',
         'class' => 'form-control',
@@ -235,10 +249,12 @@ if ($action === 'edit' && $templateid) {
     // Template-specific placeholders.
     if (strpos($template->type, 'inactivity') !== false) {
         $placeholders = array_merge($placeholders, ['{days}', '{lastaccess}', '{riskLevel}']);
-    } else if ($template->type === 'assignmentreminder') {
-        $placeholders = array_merge($placeholders, ['{assignmentname}', '{duedate}', '{submissionlink}']);
-    } else if ($template->type === 'newcontent') {
+    } else if (strpos($template->type, 'assignment_reminder') !== false) {
+        $placeholders = array_merge($placeholders, ['{assignmentname}', '{duedate}', '{submissionlink}', '{coursename}']);
+    } else if ($template->type === 'new_content') {
         $placeholders = array_merge($placeholders, ['{coursename}', '{modulename}', '{modulelink}']);
+    } else if ($template->type === 'institutional_announcement') {
+        $placeholders = array_merge($placeholders, ['{title}', '{message}']);
     }
 
     foreach ($placeholders as $placeholder) {
@@ -291,7 +307,7 @@ if ($action === 'edit' && $templateid) {
         foreach ($templates as $template) {
             echo html_writer::start_tag('tr');
             echo html_writer::tag('td', get_string($template->type, 'local_student_monitor'));
-            echo html_writer::tag('td', $template->subject);
+            echo html_writer::tag('td', s($template->subject));
             echo html_writer::tag('td', userdate($template->timemodified));
 
             echo html_writer::start_tag('td');

@@ -268,8 +268,19 @@ class channel_manager {
      */
     public function send_email($user, $subject, $message) {
         try {
-            // Get the from user (noreply).
+            // Use the configured sender address/name if set, otherwise fall back to noreply.
             $from = \core_user::get_noreply_user();
+
+            $fromemail = get_config('local_student_monitor', 'notification_from_email');
+            if (!empty($fromemail)) {
+                $from->email = $fromemail;
+
+                $fromname = get_config('local_student_monitor', 'notification_from_name');
+                if (!empty($fromname)) {
+                    $from->firstname = $fromname;
+                    $from->lastname = '';
+                }
+            }
 
             // Convert plain text message to HTML.
             $messagehtml = text_to_html($message);

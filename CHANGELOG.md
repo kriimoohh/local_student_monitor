@@ -5,6 +5,45 @@ All notable changes to the Student Monitor plugin will be documented in this fil
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.2.0] - 2026-06-15
+
+### Added
+- `students_at_risk.php`: separate filters for minimum inactivity days (`mininactivity`) and minimum missing activities (`minmissing`), independent of the existing risk level filter
+- `students_at_risk.php`: new "Triggering criterion" column showing whether each student's risk level is driven by inactivity, missing activities, or both, via `risk_level::get_trigger_criterion()`
+- `classes/risk_level.php`: new `get_trigger_criterion()` helper, refactored `from_criteria()` to share threshold-comparison logic via `get_inactivity_risk_level()` / `get_activity_risk_level()`
+- New lang strings: `apply`, `triggercriterion`, `trigger_inactivity`, `trigger_activities`, `trigger_both`
+
+### Security
+- Fix fatal error in `preferences.php` (`html_writer->end_div()` invalid object access, should be `html_writer::end_div()`)
+- Fix reflected/stored XSS: escape `$template->subject` and `$template->body` output in `template_editor.php`, escape `$data->title`, sender name/email, and `$data->location` in `preview_alert.php`, escape notification subject in `preferences.php`'s notification history table
+
+### Changed
+- Refresh the visual design across the whole plugin: new shared page title style (`.sm-page-title`), modernized cards/tables/badges/buttons/alerts/forms in `styles/styles.css`, applied consistently to every plugin page
+
+---
+
+## [3.1.0] - 2026-02-10
+
+### Removed
+- Remove email campaigns with A/B testing (`campaigns.php`, `campaign_stats.php`, `email_campaign_manager`, `get_campaign_stats` web service, `campaign_charts` AMD module)
+- Remove parent/guardian management and notifications (`parent_management.php`, `parent_guardian_manager`)
+- Remove the entire student self-service space: dashboard, gamification, goals, peer comparison, leaderboard, predictive analytics (`student_dashboard.php`, `my_goals.php`, `peer_comparison.php`, `leaderboard.php`, `predictions.php`, `gamification_manager`, `progress_tracker`, `recommendation_engine`, `predictive_analytics`, `get_gamification_data`/`get_leaderboard` web services, related AMD modules)
+- Drop database tables: `local_sm_campaigns`, `local_sm_campaign_recipients`, `local_sm_parents`, `local_sm_gamification`, `local_sm_achievements`, `local_sm_goals`
+- Remove orphaned lang strings for all the above features
+
+### Added
+- Configurable sender email address and display name for automatic email notifications (`notification_from_email`, `notification_from_name` settings, used by `channel_manager::send_email()`)
+
+### Fixed
+- Fix `template_editor.php` "reset to default" action, which was broken for all 7 templates due to a key naming mismatch (`inactivitylevel1` vs `inactivity_level1`, etc.) between the default-templates lookup table and the actual seeded `type` values
+- Fix missing lang strings (`assignment_reminder_7days`, `assignment_reminder_1day`, `institutional_announcement`) used by `get_string($template->type, ...)` in the template editor
+- Fix placeholder detection in the template editor for assignment reminder, new content, and institutional announcement templates
+
+### Changed
+- Navigation: replace the removed "Mon espace étudiant" menu with a top-level "Préférences de notification" link, kept accessible to all authenticated users for RGPD consent management
+
+---
+
 ## [3.0.6] - 2026-02-11
 
 ### Fixed

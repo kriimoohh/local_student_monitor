@@ -61,7 +61,7 @@ if (optional_param('save', false, PARAM_BOOL) && confirm_sesskey()) {
 // Output starts here.
 echo $OUTPUT->header();
 
-echo html_writer::tag('h2', get_string('notificationpreferences', 'local_student_monitor'));
+echo html_writer::tag('h2', '🔔 ' . get_string('notificationpreferences', 'local_student_monitor'), ['class' => 'sm-page-title']);
 
 echo html_writer::tag('p', get_string('preferencesdesc', 'local_student_monitor'), ['class' => 'alert alert-info']);
 
@@ -189,7 +189,7 @@ if (!empty($notifications)) {
     foreach ($notifications as $notif) {
         $row = [
             local_student_monitor_get_notification_type_name($notif->type),
-            $notif->subject,
+            s($notif->subject),
             get_string('status_' . $notif->status, 'local_student_monitor'),
             userdate($notif->timecreated, get_string('strftimedatetime')),
         ];
@@ -201,6 +201,6 @@ if (!empty($notifications)) {
     echo html_writer::tag('p', get_string('nonotifications', 'local_student_monitor'), ['class' => 'alert alert-info']);
 }
 
-echo html_writer->end_div();
+echo html_writer::end_div();
 
 echo $OUTPUT->footer();

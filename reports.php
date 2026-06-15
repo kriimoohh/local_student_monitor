@@ -144,7 +144,7 @@ $PAGE->requires->js_call_amd('local_student_monitor/charts', 'init', [$chartsdat
 
 echo $OUTPUT->header();
 
-echo html_writer::tag('h2', get_string('advancedreports', 'local_student_monitor'));
+echo html_writer::tag('h2', '📋 ' . get_string('advancedreports', 'local_student_monitor'), ['class' => 'sm-page-title']);
 
 // Summary statistics.
 echo html_writer::start_div('row mb-4');
