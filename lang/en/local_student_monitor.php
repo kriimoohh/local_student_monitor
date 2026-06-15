@@ -220,8 +220,7 @@ $string['task_cleanup_old_logs'] = 'Cleanup old logs';
 // Messages.
 $string['alertcreated'] = 'Alert created successfully';
 $string['alertsent'] = 'Alert sent successfully';
-$string['alertssent'] = '{$a} alert(s) sent successfully';
-$string['alertsfailed'] = '{$a} alert(s) failed to send';
+$string['alertsqueued'] = '{$a} alert(s) queued for background delivery.';
 $string['notificationsent'] = 'Notification sent';
 $string['dataexported'] = 'Data exported successfully';
 $string['settingssaved'] = 'Settings saved';

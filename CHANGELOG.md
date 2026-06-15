@@ -5,6 +5,17 @@ All notable changes to the Student Monitor plugin will be documented in this fil
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.2.3] - 2026-06-15
+
+### Changed
+- `alert_manager::create_manual_alert()`: manual alerts no longer send emails/SMS/WhatsApp synchronously for every recipient during the request. Notifications are created immediately and a new adhoc task (`send_manual_alert_notifications`) delivers them in the background, picked up by the next cron run. This fixes slow/blocking responses on `create_alert.php` and `preview_alert.php` when alerting many recipients at once.
+- `create_alert.php` / `preview_alert.php`: confirmation message now indicates the alert(s) were queued for background delivery instead of reporting immediate sent/failed counts
+
+### Removed
+- Unused lang strings `alertssent` and `alertsfailed`, replaced by `alertsqueued`
+
+---
+
 ## [3.2.2] - 2026-06-15
 
 ### Changed

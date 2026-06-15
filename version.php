@@ -26,7 +26,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'local_student_monitor';
-$plugin->version = 2026061502;  // YYYYMMDDXX - Dashboard navbar redesign for simpler navigation
+$plugin->version = 2026061503;  // YYYYMMDDXX - Send manual alert notifications via background task
 $plugin->requires = 2022041900; // Moodle 4.0
 $plugin->maturity = MATURITY_STABLE;
-$plugin->release = 'v3.2.2';
+$plugin->release = 'v3.2.3';

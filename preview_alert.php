@@ -59,21 +59,15 @@ if ($action && confirm_sesskey()) {
         unset($SESSION->$sessionkey);
 
         if ($result['count'] > 0) {
-            $message = get_string('alertcreated', 'local_student_monitor') . ' ';
-            if ($result['success'] > 0) {
-                $message .= get_string('alertssent', 'local_student_monitor', $result['success']);
-            }
-            if ($result['failed'] > 0) {
-                $message .= ' - ' . get_string('alertsfailed', 'local_student_monitor', $result['failed']);
-            }
-
-            $notifytype = ($result['failed'] > 0) ? \core\output\notification::NOTIFY_WARNING : \core\output\notification::NOTIFY_SUCCESS;
+            // The notifications are sent in the background; let the user know they're queued.
+            $message = get_string('alertcreated', 'local_student_monitor') . ' ' .
+                get_string('alertsqueued', 'local_student_monitor', $result['count']);
 
             redirect(
                 new moodle_url('/local/student_monitor/dashboard.php'),
                 $message,
                 null,
-                $notifytype
+                \core\output\notification::NOTIFY_SUCCESS
             );
         } else {
             redirect(

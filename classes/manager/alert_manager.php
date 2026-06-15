@@ -37,7 +37,7 @@ class alert_manager {
      * Create a manual alert.
      *
      * @param \stdClass $data Alert data from form
-     * @return array Array with 'count', 'success', and 'failed' keys
+     * @return array|false Array with 'count' and 'queued' keys, or false if there are no recipients
      */
     public function create_manual_alert($data) {
         global $DB, $USER;
@@ -85,11 +85,8 @@ class alert_manager {
             $channels = ['email'];
         }
 
-        // Create and immediately send notifications for each recipient.
-        $channelmanager = new channel_manager();
+        // Create notifications for each recipient (status 'pending').
         $notificationids = [];
-        $successcount = 0;
-        $failcount = 0;
 
         foreach ($recipients as $recipient) {
             $metadata = [
@@ -110,43 +107,15 @@ class alert_manager {
 
             if ($notificationid) {
                 $notificationids[] = $notificationid;
-
-                // Send immediately for manual alerts.
-                $notification = $DB->get_record('local_sm_notifications', ['id' => $notificationid]);
-                if ($notification) {
-                    $results = $channelmanager->send_notification($notification, $recipient);
-
-                    // Check if at least one channel succeeded.
-                    $success = false;
-                    foreach ($results as $result) {
-                        if ($result) {
-                            $success = true;
-                            break;
-                        }
-                    }
-
-                    // Update notification status.
-                    if ($success) {
-                        $notificationmanager->update_notification_status($notificationid, 'sent');
-                        $successcount++;
-                    } else {
-                        $notificationmanager->update_notification_status($notificationid, 'failed');
-                        $failcount++;
-                    }
-
-                    // Trigger notification sent event.
-                    $event = \local_student_monitor\event\notification_sent::create([
-                        'objectid' => $notificationid,
-                        'context' => \context_system::instance(),
-                        'userid' => $recipient->id,
-                        'other' => [
-                            'type' => 'manual_alert',
-                            'success' => $success,
-                        ],
-                    ]);
-                    $event->trigger();
-                }
             }
+        }
+
+        // Queue a background task to send the notifications, so the request doesn't
+        // block on SMTP/SMS/WhatsApp calls for every recipient.
+        if (!empty($notificationids)) {
+            $task = new \local_student_monitor\task\send_manual_alert_notifications();
+            $task->set_custom_data(['notificationids' => $notificationids]);
+            \core\task\manager::queue_adhoc_task($task);
         }
 
         // Schedule reminders if requested.
@@ -162,16 +131,13 @@ class alert_manager {
             'other' => [
                 'alerttype' => $data->alerttype,
                 'recipients' => count($recipients),
-                'success' => $successcount,
-                'failed' => $failcount,
             ],
         ]);
         $event->trigger();
 
         return [
             'count' => count($notificationids),
-            'success' => $successcount,
-            'failed' => $failcount,
+            'queued' => !empty($notificationids),
         ];
     }
 
