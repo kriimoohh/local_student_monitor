@@ -5,6 +5,18 @@ All notable changes to the Student Monitor plugin will be documented in this fil
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.2.1] - 2026-06-15
+
+### Fixed
+- `dashboard.php`: fix broken navbar links left over from the v3.1.0 feature removals (dead link to non-existent `manage_parents.php`, mistyped `manage_tasks.php` instead of `tasks.php`), now pointing directly to `tasks.php`
+- `dashboard.php`: correct the "Notifications sent this week" KPI caption, which used the unrelated `weeklyreport` string instead of `thisweek`
+
+### Removed
+- `dashboard.php`: remove unused `$courseid` request parameter
+- `db/access.php`: remove the unused `local/student_monitor:viewstudentdata` capability, which was never checked anywhere in the codebase
+
+---
+
 ## [3.2.0] - 2026-06-15
 
 ### Added

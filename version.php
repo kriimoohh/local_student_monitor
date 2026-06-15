@@ -26,7 +26,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'local_student_monitor';
-$plugin->version = 2026061500;  // YYYYMMDDXX - Risk criteria filters/trigger display, security fixes, UI refresh
+$plugin->version = 2026061501;  // YYYYMMDDXX - Dashboard cleanup, remove dead links and unused capability
 $plugin->requires = 2022041900; // Moodle 4.0
 $plugin->maturity = MATURITY_STABLE;
-$plugin->release = 'v3.2.0';
+$plugin->release = 'v3.2.1';
