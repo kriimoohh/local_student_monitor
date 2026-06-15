@@ -5,6 +5,13 @@ All notable changes to the Student Monitor plugin will be documented in this fil
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.2.2] - 2026-06-15
+
+### Changed
+- `dashboard.php`: redesign the navbar for simpler, more accessible navigation — reduced from 6 to 5 top-level items by merging "Alertes & Notifications", "Rapports & Analytics" and "Communication" into unified "Communication" and "Rapports" groups, made "Tableau de bord" a direct highlighted link to the current page, and added icons to every menu entry for quicker scanning
+
+---
+
 ## [3.2.1] - 2026-06-15
 
 ### Fixed
